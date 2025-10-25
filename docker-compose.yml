@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  BatterySync_Frontend:
-  build: .
-  ports:
-    - 443:443
+  batterysync-frontend:
+    build: .
+    ports:
+      - '443:443'
