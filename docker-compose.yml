@@ -4,4 +4,4 @@ services:
   BatterySync_Frontend:
   build: .
   ports:
-    - '443:443'
+    - 443:443
