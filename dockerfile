@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:22.13.1-alpine
 
 RUN apk update
 RUN apk add --update nodejs npm
@@ -9,7 +9,7 @@ RUN npm install -g @quasar/cli
 
 RUN npm install -g express
 
-COPY package*.json ./
+COPY package*.json .
 
 RUN npm install
 
