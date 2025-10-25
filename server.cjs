@@ -4,7 +4,7 @@ const app = express()
 const fs = require('fs')
 
 const DIST_DIR = path.join(__dirname, 'dist/spa')
-const INDEX_FILE = path.join(__dirname, 'index.html')
+const INDEX_FILE = path.join(DIST_DIR, 'index.html')
 
 const certPath = '/etc/ssl/batterysync'
 
@@ -45,7 +45,7 @@ function customCacheControl(res, file) {
 
 const PORT = 443
 
-app.use('/{*any}', (req, res) => {
+app.get('/{*any}', (req, res) => {
   //res.set('Cache-Control', 'no-store')
   res.sendFile(INDEX_FILE)
 })

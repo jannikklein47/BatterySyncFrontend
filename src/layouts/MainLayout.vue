@@ -2,6 +2,7 @@
   <q-layout view="lHh Lpr lFf" class="layout">
     <q-header class="header" v-if="$route.name === 'login'">
       <q-toolbar class="toolbar">
+        {{ $route.name }}
         <img
           src="/icons/favicon-96x96.png"
           alt="Icon"
@@ -17,6 +18,7 @@
     </q-header>
     <q-header elevated class="header" v-else>
       <q-toolbar class="toolbar">
+        {{ $route.name }}
         <img
           src="/icons/favicon-96x96.png"
           alt="Icon"
