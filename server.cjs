@@ -45,8 +45,8 @@ function customCacheControl(res, file) {
 
 const PORT = 443
 
-app.get('/{*any}', (req, res) => {
-  res.set('Cache-Control', 'no-store')
+app.use('/{*any}', (req, res) => {
+  //res.set('Cache-Control', 'no-store')
   res.sendFile(INDEX_FILE)
 })
 
