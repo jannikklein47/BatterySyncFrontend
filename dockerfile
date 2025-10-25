@@ -4,10 +4,6 @@ FROM node:20-alpine AS build
 # Set working directory inside container
 WORKDIR /app
 
-RUN npm install -g @quasar/cli
-
-RUN npm install -g express
-
 # Copy only package files first for caching
 COPY package*.json ./
 
