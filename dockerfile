@@ -1,22 +1,34 @@
-FROM node:22.13.1-alpine
+# Stage 1: Build
+FROM node:20-alpine AS build
 
-RUN apk update
-RUN apk add --update nodejs npm
-
+# Set working directory inside container
 WORKDIR /app
 
 RUN npm install -g @quasar/cli
 
 RUN npm install -g express
 
-COPY package*.json .
+# Copy only package files first for caching
+COPY package*.json ./
 
+# Install dependencies
 RUN npm install
 
+# Now copy the rest of your project files
 COPY . .
 
-RUN quasar build
+# Build your Quasar app
+RUN npx quasar prepare
+RUN npx quasar build
+
+# Stage 2: Run
+FROM node:20-alpine AS runtime
+
+WORKDIR /app
+
+# Copy built files from previous stage
+COPY --from=build /app/dist /app/dist
 
 EXPOSE 443
 
-CMD [ "npm", "run", "start" ]
+CMD ["npm", "run", "start"]
