@@ -642,7 +642,12 @@ function generateRecommendations() {
   }
 
   // Devices that are empty?
-  for (const device of computedDevices.value.filter((device) => device.battery === 0)) {
+  for (const device of computedDevices.value.filter(
+    (device) =>
+      device.battery === 0 &&
+      device.predictedZeroAt &&
+      device.predictedZeroAt >= new Date(Date.now() + 2 * 60 * 60 * 1000),
+  )) {
     result.push({
       type: 'battery_empty',
       title: 'Dein ' + device.name + ' muss geladen werden.',
