@@ -35,14 +35,18 @@ export const useUserStore = defineStore('user', {
       }
     },
     async auth(token) {
-      const result = await api.get('/auth', { headers: { Authorization: token } })
+      try {
+        const result = await api.get('/login/auth', { headers: { Authorization: token } })
 
-      if (result.status === 200) {
-        const email = result.data
-        this.userObject = { email: email, token: token }
+        if (result.status === 200) {
+          const email = result.data
+          this.userObject = { email: email, token: token }
 
-        return true
-      } else {
+          return true
+        } else {
+          return false
+        }
+      } catch {
         return false
       }
     },
