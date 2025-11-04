@@ -223,7 +223,7 @@ html {
   //overflow-x: hidden;
 
   &:not(:has(.box-highlight, .text-gradient)) {
-    --main-bg-color: #222223;
+    --main-bg-color: #212126;
   }
   &:has(.box-highlight, .text-gradient) {
   }
