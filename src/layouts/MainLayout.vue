@@ -15,14 +15,14 @@
         <span class="text-gradient" style="font-size: 24px">BatterySync</span>
       </q-toolbar>
     </q-header>
-    <q-header elevated class="header" v-else>
+    <q-header class="header" v-else>
       <q-toolbar class="toolbar">
         <img
           src="/icons/favicon-96x96.png"
           alt="Icon"
           width="30px"
           style="margin-right: 10px"
-          class="cursor-pointer"
+          class="cursor-pointer grayscale"
           :class="{ 'box-highlight': $route.name === 'indexpage' }"
           @click="$router.push({ name: 'indexpage' })"
           tabindex="0"
@@ -83,6 +83,8 @@
     <q-page-container class="main-page-container">
       <router-view />
     </q-page-container>
+
+    <!--<footer class="footer">Was geht!</footer>-->
   </q-layout>
 </template>
 
@@ -164,8 +166,10 @@ function logout() {
 }
 
 .box-highlight {
-  border-radius: 50px;
-  box-shadow: 0 0 20px #ffffffbb;
+  filter: grayscale(0) !important;
+}
+.grayscale {
+  filter: grayscale(1);
 }
 
 .account-list {
@@ -208,6 +212,15 @@ function logout() {
   padding: 10px 12px;
 }
 
+.footer {
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--main-bg-color);
+}
+
 @media only screen and (max-width: 900px) {
   .layout {
     --std-pad: 12px;
@@ -222,10 +235,10 @@ html {
   --main-bg-color: black;
   //overflow-x: hidden;
 
-  &:not(:has(.box-highlight, .text-gradient)) {
+  &:not(:has(header .box-highlight, header .text-gradient)) {
     --main-bg-color: #212126;
   }
-  &:has(.box-highlight, .text-gradient) {
+  &:has(header .box-highlight, header .text-gradient) {
   }
 }
 </style>

@@ -37,6 +37,23 @@
             <q-btn label="Download" class="btn" flat />
           </div>
         </div>
+        <div>
+          <h2>
+            <span class="text-gradient">BatterySync</span> on WearOS
+            <span style="color: #ffffffaa; font-weight: 400">(Dev)</span>
+          </h2>
+          <q-expansion-item label="Mehr Erfahren" switch-toggle-side>
+            <p>
+              In Entwicklung: <br />
+              Mit der Android WearOS App stattest du deine Wearable mit dem BatterySync-Service aus,
+              sodass du auch Akku-Insights für deine Uhr bekommst.
+            </p>
+          </q-expansion-item>
+
+          <div class="actions">
+            <q-btn label="Download" class="btn" flat disable="" />
+          </div>
+        </div>
       </div>
     </div>
 
@@ -103,7 +120,9 @@
   </q-page>
 </template>
 <script setup>
-window.addEventListener('scroll', () => {
+import { onMounted, onUnmounted } from 'vue'
+
+function gradientShift() {
   const scrollProgress = window.scrollY / (document.body.scrollHeight - window.innerHeight)
   if (scrollProgress > 0.5) return
 
@@ -123,6 +142,14 @@ window.addEventListener('scroll', () => {
     radial-gradient(27% 55% at 66% 88%, hsl(${hue4}, 70%, 50%) 0%, transparent 100%),
     linear-gradient(125deg, #000000 1%, #000000 100%)
   `
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', gradientShift)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', gradientShift)
 })
 </script>
 <style lang="scss" scoped>

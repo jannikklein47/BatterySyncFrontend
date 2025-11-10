@@ -66,7 +66,16 @@
             </div>
           </div>
         </div>
-        <div class="recent-events">Keine Neuigkeiten</div>
+        <div class="recent-events nothing" v-if="news.length < 1">Keine Neuigkeiten</div>
+        <div class="recent-events" v-else>
+          <q-btn flat dense no-caps v-for="el in news" :key="el" @click="showNews(el)">
+            <div class="con">
+              <q-icon name="arrow_outward" size="md" class="see-more-icon-news" />
+              <h3>{{ el.title }}</h3>
+              <p>{{ el.caption }}</p>
+            </div>
+          </q-btn>
+        </div>
       </div>
     </div>
 
@@ -179,6 +188,19 @@
       </div>
     </q-dialog>
 
+    <q-dialog v-model="newsModel.show" backdrop-filter="blur(10px)">
+      <div
+        class="recommendation-popup news"
+        :style="'--gradient-start: #3e73b8' + ';--gradient-end: #7cde89'"
+      >
+        <div class="title">
+          <h1>{{ newsModel.data.title }}</h1>
+          <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
+        </div>
+        <div class="content inserted-article" :innerHTML="newsModel.data.text"></div>
+      </div>
+    </q-dialog>
+
     <div class="blocker" v-if="!computedUser.email">
       Melde Dich an, <br />
       um auf das Dashboard zuzugreifen!
@@ -206,6 +228,9 @@ const computedUser = computed(() => userStore.user)
 const recommendations = ref([])
 const batteryFlow = ref({ gained: 0, used: 0 })
 const recommendationModel = ref({ show: false, data: {}, loading: false, success: null })
+
+const news = ref([])
+const newsModel = ref({ data: {}, show: false })
 
 let recommendationGenerationInterval = null
 
@@ -239,7 +264,22 @@ onMounted(async () => {
 
   batteryFlow.value.gained = batteryGained
   batteryFlow.value.used = batteryUsed
+
+  news.value.push({
+    title: 'Neues Update',
+    caption: 'Wir haben einige neue Features hinzugefügt!',
+    text: `Mit der neuen BatterySync Version "Beta 0.2" aktualisieren wir folgende Funktionen:
+    <h2 class="test"><span class="text-gradient">BatterySync</span> Website</h2>
+    <p> - Angemeldet bleiben: Nutzer müssen sich nicht jedes Mal neu anmelden <br> - Neuigkeiten sind verfügbar<br> - Design: Hintergrundfarbe etwas bläulicher <br> - Design: Navigation-Bar überarbeitet <br> - Design: Neuigkeiten-Bereich verändert, wenn es Neuigkeiten gibt</p>
+    <h2>Neue App</h2>
+    <p>Zudem haben wir mit der Entwicklung einer Android WearOS-App gestartet, sodass bald auch Smartwatches in unsere App eingebunden werden können. Dazu gibt es zu einem späteren Zeitpunkt mehr.</p>`,
+  })
 })
+
+function showNews(data) {
+  newsModel.value.data = data
+  newsModel.value.show = true
+}
 
 onUnmounted(() => {
   clearInterval(recommendationGenerationInterval)
@@ -642,12 +682,7 @@ function generateRecommendations() {
   }
 
   // Devices that are empty?
-  for (const device of computedDevices.value.filter(
-    (device) =>
-      device.battery === 0 &&
-      device.predictedZeroAt &&
-      device.predictedZeroAt >= new Date(Date.now() + 2 * 60 * 60 * 1000),
-  )) {
+  for (const device of computedDevices.value.filter((device) => device.battery === 0)) {
     result.push({
       type: 'battery_empty',
       title: 'Dein ' + device.name + ' muss geladen werden.',
@@ -1005,15 +1040,52 @@ async function orderNotification(deviceId) {
     min-height: 100px;
   }
   .recent-events {
-    background-color: #ffffff10;
     border-radius: 12px;
     width: 50%;
     display: flex;
+    min-height: 100px;
+    font-size: 20px;
+  }
+  .recent-events.nothing {
     align-items: center;
     justify-content: center;
     color: #ffffff30;
-    min-height: 100px;
-    font-size: 20px;
+  }
+  .recent-events:not(.nothing) {
+    flex-direction: column;
+    > button {
+      background-color: #ffffff10;
+      //background-color: var(--main-bg-color);
+      border-radius: 12px;
+      padding: 12px;
+      background-image: linear-gradient(10deg, #3e73b821 0%, #28b0a510 53%, #7cde8921 100%);
+
+      div.con {
+        justify-content: start;
+        align-items: start;
+        text-align: left;
+        width: 100%;
+        height: 100%;
+        position: relative;
+
+        .see-more-icon-news {
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+
+        h3 {
+          margin: 0;
+          margin-bottom: 6px;
+          font-size: 30px;
+          line-height: 1em;
+        }
+        p {
+          margin: 0;
+          color: #ffffffbb;
+        }
+      }
+    }
   }
   .device-element-small {
     display: flex;
@@ -1280,6 +1352,10 @@ async function orderNotification(deviceId) {
       min-width: 250px;
     }
   }
+
+  &.news {
+    min-width: min(800px, 100vw);
+  }
 }
 
 @media only screen and (max-width: 900px) {
@@ -1340,5 +1416,20 @@ async function orderNotification(deviceId) {
   color: white;
   text-align: center;
   overflow: hidden;
+}
+</style>
+
+<style lang="scss">
+.inserted-article {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(100%, 800px);
+  h2 {
+    margin: 0;
+    margin-top: 12px;
+    font-weight: 500;
+    font-size: 48px;
+  }
 }
 </style>
