@@ -9,9 +9,9 @@ const routes = [
         name: 'dashboard',
       },
       {
-        path: 'settings',
-        component: () => import('src/pages/SettingsPage.vue'),
-        name: 'settings',
+        path: 'devices',
+        component: () => import('src/pages/DevicesPage.vue'),
+        name: 'devices',
       },
       {
         path: '',

@@ -40,9 +40,9 @@
             flat
             class="nav-btn"
             no-caps
-            label="Einstellungen"
-            :class="{ 'active-page': $route.name === 'settings' }"
-            to="settings"
+            label="Meine Geräte"
+            :class="{ 'active-page': $route.name === 'devices' }"
+            to="devices"
           />
         </div>
 
@@ -58,7 +58,7 @@
           <q-popup-proxy>
             <div class="account-list" v-if="computedUser.email">
               <div class="account-name">
-                <span class="profile-icon">J</span>
+                <span class="profile-icon">{{ (computedUser.email || '?').at(0) }}</span>
                 <div>{{ computedUser.email }}</div>
               </div>
               <q-separator />

@@ -5,6 +5,7 @@ export const useDeviceStore = defineStore('device', {
   state: () => ({
     deviceArray: [],
     deviceHistoryArray: [],
+    deviceWeekHistoryArray: [],
     interval: null,
     graphReloadTrigger: false,
   }),
@@ -15,6 +16,9 @@ export const useDeviceStore = defineStore('device', {
     },
     deviceHistory: (state) => {
       return state.deviceHistoryArray
+    },
+    deviceWeekHistory: (state) => {
+      return state.deviceWeekHistoryArray
     },
     watchGraphReloadTrigger: (state) => {
       return state.graphReloadTrigger
@@ -118,6 +122,16 @@ export const useDeviceStore = defineStore('device', {
       //await new Promise((r) => setTimeout(() => r(), 1000))
 
       this.deviceHistoryArray = result.data
+      return result.data
+    },
+    async loadWeekistory() {
+      if (this.deviceHistoryArray.length > 0) {
+        return this.deviceHistoryArray
+      }
+
+      const result = await api.get('/battery/history/all/week')
+
+      this.deviceWeekHistoryArray = result.data
       return result.data
     },
     setLocalHasOrderedNotification(deviceId) {

@@ -213,7 +213,6 @@ import { Chart, registerables } from 'chart.js'
 import 'chartjs-adapter-date-fns'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useDeviceStore } from 'src/stores/device-store'
-import downsampler from 'downsample-lttb'
 import { api } from 'src/boot/axios'
 import { useUserStore } from 'src/stores/user-store'
 
@@ -226,7 +225,6 @@ const computedDevices = computed(() => deviceStore.devices)
 const computedUser = computed(() => userStore.user)
 
 const recommendations = ref([])
-const batteryFlow = ref({ gained: 0, used: 0 })
 const recommendationModel = ref({ show: false, data: {}, loading: false, success: null })
 
 const news = ref([])
@@ -250,21 +248,6 @@ onMounted(async () => {
     console.log('generate recs')
   }, 5000)
 
-  let batteryGained = 0,
-    batteryUsed = 0
-
-  for (const device of computedDevices.value) {
-    const history = deviceStore.deviceHistory[device.id]
-    if (history) {
-      const { used, gained } = summarizeBatteryFlow(history)
-      batteryGained += gained
-      batteryUsed += used
-    }
-  }
-
-  batteryFlow.value.gained = batteryGained
-  batteryFlow.value.used = batteryUsed
-
   news.value.push({
     title: 'Neues Update',
     caption: 'Wir haben einige neue Features hinzugefügt!',
@@ -284,24 +267,6 @@ function showNews(data) {
 onUnmounted(() => {
   clearInterval(recommendationGenerationInterval)
 })
-
-function downsample(data) {
-  const mapped = data.map((entry) => ({
-    x: new Date(entry.createdAt).getTime(),
-    y: entry.battery * 100,
-    //charging: entry.chargingStatus,
-  }))
-
-  const standardized = mapped.map((entry) => [entry.x, entry.y])
-
-  const reduced = downsampler.processData(
-    standardized,
-    Math.floor(Math.sqrt(standardized.length) + 100 / (standardized.length + 10) + 10),
-    //20,
-  )
-
-  return reduced
-}
 
 async function setupGraph() {
   const rawData = deviceStore.deviceHistory
@@ -391,14 +356,7 @@ async function setupGraph() {
     for (const device of devices.filter((val) => val.isShown === true)) {
       //console.log(device)
       if (rawData[device.id]) {
-        dataset.push(
-          generateGraphDataset(
-            device.name,
-            downsample(rawData[device.id]),
-            device.color,
-            device.id,
-          ),
-        )
+        dataset.push(generateGraphDataset(device.name, rawData[device.id], device.color, device.id))
       }
     }
     //console.log('Processed data: ', dataset)
@@ -910,27 +868,6 @@ function analyzeSinceLastUnplug(log) {
   }
 }
   */
-function summarizeBatteryFlow(log) {
-  if (log.length < 2) return { used: 0, gained: 0 }
-
-  let used = 0
-  let gained = 0
-
-  // log is newest → oldest
-  for (let i = 0; i < log.length - 1; i++) {
-    const curr = log[i]
-    const next = log[i + 1] // older entry
-
-    const delta = curr.battery - next.battery
-
-    // charging → gain if battery increased
-    if (delta > 0) gained += delta
-    // discharging → usage if battery decreased
-    if (delta < 0) used += -delta
-  }
-
-  return { used, gained }
-}
 
 function openRecommendationWindow(recommendation) {
   recommendationModel.value.show = true
@@ -939,13 +876,7 @@ function openRecommendationWindow(recommendation) {
 
 async function orderNotification(deviceId) {
   recommendationModel.value.loading = true
-  const result = await api.post(
-    '/notification/new',
-    { deviceId: deviceId },
-    {
-      headers: { Authorization: '$2b$11$ZBvdt5hZkN6HS9x9VYvvkexTc3qxbn2dFHiBQxGq1Zq6quBLF.LNO' },
-    },
-  )
+  const result = await api.post('/notification/new', { deviceId: deviceId })
   recommendationModel.value.loading = false
   if (result.status === 200) {
     recommendationModel.value.success = true
