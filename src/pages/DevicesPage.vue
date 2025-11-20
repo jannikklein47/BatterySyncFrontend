@@ -48,10 +48,10 @@
             flat
             icon="favorite"
             no-caps
-            label="Favorit"
             :class="{ 'active-favorite': device.favorite }"
             @click="changeFavorite(device)"
-          />
+            ><span class="cont">Favorit</span></q-btn
+          >
         </div>
 
         <div class="battery-info">
@@ -102,7 +102,7 @@
         <div class="get-notification">
           <span>Erinnerung erhalten, wenn das Gerät in 2 Stunden leer ist?</span>
           <q-space />
-          <q-btn-group rounded flat>
+          <q-btn-group rounded flat class="reminder-buttons">
             <q-btn
               label="Aus"
               no-caps
@@ -974,6 +974,28 @@ async function deleteDevice(id) {
 
   &.news {
     min-width: min(800px, 100vw);
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .device-list {
+    display: none;
+  }
+
+  .favorite-button .cont {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .reminder-buttons {
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+
+    button {
+      border-radius: 0;
+    }
   }
 }
 </style>
