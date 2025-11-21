@@ -18,12 +18,13 @@
       </div>
 
       <div class="list">
+        <h2>Geräte</h2>
         <q-btn
           flat
           no-caps
           align="left"
           padding="12px"
-          v-for="device in computedDevices"
+          v-for="device in computedDevices.filter((dev) => !dev.favorite)"
           :key="device.id"
           @click="scrollToDevice(device.id)"
           :data-target="'device-setting-' + device.id"
@@ -53,6 +54,8 @@
             ><span class="cont">Favorit</span></q-btn
           >
         </div>
+
+        <q-separator dark style="margin-bottom: -10px" />
 
         <div class="battery-info">
           <h2>
@@ -739,11 +742,16 @@ async function deleteDevice(id) {
     border-radius: var(--std-pad);
     display: flex;
     flex-direction: column;
+    box-shadow:
+      0 2px 10px #00000055,
+      0 2px 2px #ffffff11 inset;
 
     h2 {
       margin: 0;
       line-height: 1em;
       font-size: 24px;
+      margin: 12px;
+      font-weight: 500;
     }
 
     button {
@@ -752,14 +760,6 @@ async function deleteDevice(id) {
       &.active {
         background-color: #ffffff10;
       }
-    }
-  }
-
-  .favorites {
-    padding: 12px;
-
-    h2 {
-      margin: 12px;
     }
   }
 }
@@ -774,6 +774,10 @@ async function deleteDevice(id) {
   gap: var(--std-pad);
 }
 
+::-webkit-scrollbar-track {
+  background-color: #00000000;
+}
+
 .device-setting {
   width: 100%;
   background-color: #ffffff10;
@@ -782,6 +786,9 @@ async function deleteDevice(id) {
   display: flex;
   flex-direction: column;
   gap: var(--std-pad);
+  box-shadow:
+    0 2px 10px #00000055,
+    0 2px 2px #ffffff11 inset;
 
   .heading {
     width: 100%;
