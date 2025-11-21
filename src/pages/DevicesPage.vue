@@ -198,6 +198,7 @@ import { computed, onMounted, ref } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import 'chartjs-adapter-date-fns'
 import { api } from 'src/boot/axios'
+import { useRouter } from 'vue-router'
 Chart.register(...registerables)
 
 const deviceStore = useDeviceStore()
@@ -207,6 +208,8 @@ const computedDevices = computed(() => deviceStore.devices)
 const computedUser = computed(() => userStore.user)
 
 const deleteDeviceWindow = ref({ show: false, data: null })
+
+const router = useRouter()
 
 onMounted(async () => {
   if (!computedUser.value.email) {
@@ -248,6 +251,10 @@ onMounted(async () => {
   for (const device of computedDevices.value) {
     setupDayGraph(device.id, device)
     setupWeekGraph(device.id, device)
+  }
+
+  if (!isNaN(router.currentRoute.value.query.id)) {
+    scrollToDevice(router.currentRoute.value.query.id)
   }
 })
 

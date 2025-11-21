@@ -12,6 +12,7 @@
             class="device-element-small"
             v-for="device in computedDevices.filter((device) => device.isShown)"
             :key="device.id"
+            @click="openSettings(device.id)"
           >
             <q-icon
               class="device-symbol normal"
@@ -215,6 +216,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useDeviceStore } from 'src/stores/device-store'
 import { api } from 'src/boot/axios'
 import { useUserStore } from 'src/stores/user-store'
+import { useRouter } from 'vue-router'
 
 Chart.register(...registerables)
 
@@ -231,6 +233,8 @@ const news = ref([])
 const newsModel = ref({ data: {}, show: false })
 
 let recommendationGenerationInterval = null
+
+const router = useRouter()
 
 onMounted(async () => {
   if (!computedUser.value.email) {
@@ -885,6 +889,10 @@ async function orderNotification(deviceId) {
   } else {
     recommendationModel.value.success = false
   }
+}
+
+function openSettings(deviceId) {
+  router.push({ name: 'devices', query: { id: deviceId } })
 }
 </script>
 
