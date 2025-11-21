@@ -23,6 +23,11 @@ const routes = [
         component: () => import('pages/LoginPage.vue'),
         name: 'login',
       },
+      {
+        path: 'admin',
+        component: () => import('pages/AdminPanel.vue'),
+        name: 'admin',
+      },
     ],
   },
 
