@@ -708,7 +708,7 @@ async function changeFavorite(device) {
 }
 
 async function deleteDevice(id) {
-  const result = await api.delete('/device', { deviceId: id })
+  const result = await api.delete('/device?deviceId=' + id)
 
   if (result.status === 200) {
     deleteDeviceWindow.value.show = false
