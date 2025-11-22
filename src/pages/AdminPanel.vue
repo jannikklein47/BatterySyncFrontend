@@ -131,7 +131,7 @@ function generateGraphs() {
       }
 
       if (!key.includes('/') && !routes) {
-        if (key === 'responseSizes') {
+        if (key === 'responseSizes' || key === 'requestSizes') {
           datasets.push({
             label: key,
             data: chartData[key],
