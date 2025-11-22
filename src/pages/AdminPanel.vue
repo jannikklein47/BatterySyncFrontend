@@ -59,10 +59,7 @@ function generateGraphs() {
     // Case 1: metrics grouped by method (GET / POST / PUT)
     if (newData[0] && newData[0].method) {
       newData.forEach((entry) => {
-        const time = new Date(entry.interval_start).toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        })
+        const time = new Date(entry.interval_start).toISOString()
 
         const datasetName = `${key}-${entry.method}`
 
@@ -78,10 +75,7 @@ function generateGraphs() {
       // Case 2: simple metric (one series per metric)
     } else {
       newData.forEach((entry) => {
-        const time = new Date(entry.interval_start).toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        })
+        const time = new Date(entry.interval_start).toISOString()
 
         if (!chartData[key]) {
           chartData[key] = {}
@@ -98,7 +92,17 @@ function generateGraphs() {
   // 2. Deduplicate + sort all labels
   //
   allLabels = Array.from(new Set(allLabels)).sort((a, b) => {
-    return new Date(`1970-01-01T${a}`) - new Date(`1970-01-01T${b}`)
+    return new Date(a) - new Date(b)
+  })
+
+  const displayLabels = allLabels.map((ts) => {
+    const d = new Date(ts)
+
+    // Option A: Always show date + time
+    return d.toLocaleString([], { hour: '2-digit', minute: '2-digit' })
+
+    // Option B: If multiple days → show day
+    // Option C: If <24h → show time only
   })
 
   //
@@ -154,7 +158,7 @@ function generateGraphs() {
   const stdChart = new Chart(chartCanvas, {
     type: 'line',
     data: {
-      labels: allLabels,
+      labels: displayLabels,
       datasets: createDatasets(false),
     },
     options: {
@@ -178,7 +182,7 @@ function generateGraphs() {
   const routeChart = new Chart(routeCanvas, {
     type: 'line',
     data: {
-      labels: allLabels,
+      labels: displayLabels,
       datasets: createDatasets(true),
     },
     options: {
