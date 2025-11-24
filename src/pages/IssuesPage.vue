@@ -49,15 +49,18 @@
         "
       ></div>
       <h2>
-        {{
-          issue.category === 0
-            ? 'Idee: '
-            : issue.category === 1
-              ? 'Bug: '
-              : issue.category === 2
-                ? 'Verbesserung: '
-                : ''
-        }}{{ issue.title }}<q-space />
+        <div class="category">
+          {{
+            issue.category === 0
+              ? 'Idee'
+              : issue.category === 1
+                ? 'Bug'
+                : issue.category === 2
+                  ? 'Verbesserung'
+                  : ''
+          }}
+        </div>
+        {{ issue.title }}<q-space />
         <div>
           <span>
             <q-icon name="add_comment" />
@@ -294,7 +297,15 @@ async function changeStatus(id, status, issue) {
     border-top-left-radius: var(--std-pad);
     border-bottom-left-radius: var(--std-pad);
   }
-
+  .category {
+    margin: 0;
+    margin-right: 12px;
+    background-color: #2e2e2e;
+    height: fit-content;
+    padding: 6px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
   h2 {
     line-height: 1.2em;
     margin: 0;
