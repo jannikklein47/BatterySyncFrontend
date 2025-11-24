@@ -4,6 +4,7 @@ import { api } from 'src/boot/axios'
 export const useUserStore = defineStore('user', {
   state: () => ({
     userObject: {},
+    admin: false,
   }),
 
   getters: {
@@ -12,6 +13,9 @@ export const useUserStore = defineStore('user', {
     },
     loggedIn: (state) => {
       return state.userObject.email ? true : false
+    },
+    isAdmin: (state) => {
+      return state.admin
     },
   },
 
@@ -26,6 +30,7 @@ export const useUserStore = defineStore('user', {
           localStorage.setItem('accessToken', token)
 
           this.userObject = { email: email, token: token }
+          await this.checkAdmin()
           return true
         } else {
           return result.status
@@ -50,9 +55,26 @@ export const useUserStore = defineStore('user', {
         return false
       }
     },
+    async checkAdmin() {
+      try {
+        const result = await api.get('/login/admin')
+
+        if (result.status === 200) {
+          const admin = result.data
+          this.admin = admin
+
+          return admin
+        } else {
+          return false
+        }
+      } catch {
+        return false
+      }
+    },
     logout() {
       localStorage.removeItem('accessToken')
       this.userObject = {}
+      this.admin = false
     },
   },
 })

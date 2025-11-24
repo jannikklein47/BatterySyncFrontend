@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf" class="layout">
+  <q-layout view="hHh lpr fFf" class="layout">
     <q-header class="header" v-if="$route.name === 'login'">
       <q-toolbar class="toolbar">
         <img
@@ -59,7 +59,7 @@
             <div class="account-list" v-if="computedUser.email">
               <div class="account-name">
                 <span class="profile-icon">{{ (computedUser.email || '?').at(0) }}</span>
-                <div>{{ computedUser.email }}</div>
+                <div>{{ computedUser.email }} {{ isAdmin ? ' - ADMIN ACCOUNT' : '' }}</div>
               </div>
               <q-separator />
               <q-btn flat no-caps align="left">Passwort ändern</q-btn>
@@ -84,14 +84,18 @@
       <router-view />
     </q-page-container>
 
-    <!--<footer class="footer">Was geht!</footer>-->
+    <div class="footer" v-if="['indexpage', 'impressum'].includes($route.name)">
+      <h2>Copyright © 2025 by Jannik Klein</h2>
+      <q-btn label="Feedback geben / Issues" no-caps flat to="issues" />
+      <q-btn label="Impressum" no-caps flat to="impressum" />
+    </div>
   </q-layout>
 </template>
 
 <script setup>
 import { useDeviceStore } from 'src/stores/device-store'
 import { useUserStore } from 'src/stores/user-store'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
@@ -100,6 +104,11 @@ const deviceStore = useDeviceStore()
 
 const computedUser = computed(() => userStore.user)
 const isLoggedIn = computed(() => userStore.loggedIn)
+const isAdmin = computed(() => userStore.isAdmin)
+
+onMounted(async () => {
+  await userStore.checkAdmin()
+})
 
 function logout() {
   userStore.logout()
@@ -213,12 +222,25 @@ function logout() {
 }
 
 .footer {
-  width: 100%;
-  min-height: 300px;
-  display: flex;
+  background-color: #131415;
+  color: white;
+  padding: var(--std-pad);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  justify-items: center;
   align-items: center;
-  justify-content: center;
-  background-color: var(--main-bg-color);
+  padding-top: 60px;
+  padding-bottom: 50px;
+
+  h2 {
+    grid-column: 1/-1;
+    font-weight: 500;
+    font-size: 24px;
+    margin: 0;
+    line-height: 1em;
+    margin-bottom: 50px;
+    text-align: center;
+  }
 }
 
 @media only screen and (max-width: 900px) {

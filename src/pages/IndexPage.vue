@@ -11,7 +11,10 @@
     <div class="platform-list">
       <div>
         <div>
-          <h2><span class="text-gradient">BatterySync</span> on MacOS</h2>
+          <h2>
+            <span class="text-gradient">BatterySync</span>
+            <span style="color: #ffffffaa; font-weight: 400">MacOS</span>
+          </h2>
           <q-expansion-item label="Mehr Erfahren" switch-toggle-side>
             <p>
               Mit der MacOS App erhälst du Widgets verschiedener Größen. Dort werden deine Geräte
@@ -25,7 +28,10 @@
           </div>
         </div>
         <div>
-          <h2><span class="text-gradient">BatterySync</span> on Android</h2>
+          <h2>
+            <span class="text-gradient">BatterySync</span>
+            <span style="color: #ffffffaa; font-weight: 400">Android</span>
+          </h2>
           <q-expansion-item label="Mehr Erfahren" switch-toggle-side>
             <p>
               Mit der Android App erhälst du ein Home&shy;screen-Widget, wo deine Geräte angezeigt
@@ -37,10 +43,29 @@
             <q-btn label="Download" class="btn" flat />
           </div>
         </div>
+
         <div>
           <h2>
-            <span class="text-gradient">BatterySync</span> on WearOS
-            <span style="color: #ffffffaa; font-weight: 400">(Dev)</span>
+            <span class="text-gradient">BatterySync</span> Lite
+            <span style="color: #ffffffaa; font-weight: 400">Any Desktop Platform</span>
+          </h2>
+          <q-expansion-item label="Mehr Erfahren" switch-toggle-side>
+            <p>
+              BatterySync Lite bietet einen Hintergrund-Service, basierend auf Python. Dadurch
+              kannst du den Akku deines Geräts tracken. Dieses Script funktioniert auf allen
+              Platformen, die Python und die psutil-Library unterstützen.
+            </p>
+          </q-expansion-item>
+
+          <div class="actions">
+            <q-btn label="Download" class="btn" flat disable="" />
+          </div>
+        </div>
+
+        <div>
+          <h2>
+            <span class="text-gradient">BatterySync</span>
+            <span style="color: #ffffffaa; font-weight: 400">WearOS</span>
           </h2>
           <q-expansion-item label="Mehr Erfahren" switch-toggle-side>
             <p>
@@ -61,7 +86,7 @@
       <div class="text">
         <h2>
           Unsere Server synchronisieren <br />
-          deine Geräte <span class="text-bold text-orange">24/7</span>
+          deine Geräte <span class="text-bold">24/7</span>
         </h2>
         <p>Davon merkst Du nichts - die Apps laufen einfach im Hintergrund.</p>
         <h2 class="text-gradient-eco">Sparsam und Datenfreundlich</h2>
@@ -120,6 +145,7 @@
   </q-page>
 </template>
 <script setup>
+/*
 import { onMounted, onUnmounted } from 'vue'
 
 function gradientShift() {
@@ -151,6 +177,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', gradientShift)
 })
+  */
 </script>
 <style lang="scss" scoped>
 .main-container {
@@ -165,11 +192,12 @@ onUnmounted(() => {
 
 .bg-1 {
   z-index: -1;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
+  position: absolute;
+  width: 100vw; //min(1200px, calc(100vw)
+
+  height: 100%;
   top: 0;
-  left: 0;
+  left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw);
   background-size: max(500px, 100%) 100%;
   background-position:
     0px 0px,
@@ -313,6 +341,15 @@ h1 {
       box-shadow: 0 0 24px #00000077;
     }
   }
+}
+
+.footer {
+  background-color: black;
+  width: 100vw;
+  min-height: 300px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 @media only screen and (max-width: 900px) {

@@ -28,6 +28,16 @@ const routes = [
         component: () => import('pages/AdminPanel.vue'),
         name: 'admin',
       },
+      {
+        path: 'impressum',
+        component: () => import('pages/ImpressumPage.vue'),
+        name: 'impressum',
+      },
+      {
+        path: 'issues',
+        component: () => import('pages/IssuesPage.vue'),
+        name: 'issues',
+      },
     ],
   },
 
