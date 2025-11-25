@@ -44,6 +44,14 @@
             :class="{ 'active-page': $route.name === 'devices' }"
             to="devices"
           />
+          <q-btn
+            flat
+            class="nav-btn"
+            no-caps
+            label="Community"
+            :class="{ 'active-page': $route.name === 'issues' }"
+            to="issues"
+          />
         </div>
 
         <q-space />
@@ -61,6 +69,16 @@
                 <span class="profile-icon">{{ (computedUser.email || '?').at(0) }}</span>
                 <div>{{ computedUser.email }} {{ isAdmin ? ' - ADMIN ACCOUNT' : '' }}</div>
               </div>
+              <q-separator />
+              <q-btn
+                flat
+                no-caps
+                align="left"
+                v-if="isAdmin"
+                @click="createNotificationModel.show = true"
+                >Benachrichtigungen versenden</q-btn
+              >
+
               <q-separator />
               <q-btn flat no-caps align="left">Passwort ändern</q-btn>
               <q-separator />
@@ -92,16 +110,61 @@
       <div>
         <q-btn label="Feedback geben / Issues" no-caps flat to="issues" />
         <q-btn label="Impressum" no-caps flat to="impressum" />
+        <q-btn label="API Usage Insights" no-caps flat to="admin" />
       </div>
     </div>
+
+    <q-dialog
+      v-model="createNotificationModel.show"
+      backdrop-filter="blur(10px)"
+      @before-hide="createNotificationModel.data = {}"
+      full-width
+    >
+      <div
+        class="recommendation-popup"
+        :style="'--gradient-start: ' + '#3e73b8' + ';--gradient-end:' + '#7cde89'"
+      >
+        <div class="title">
+          <h1>Benachrichtigung an Nutzer versenden</h1>
+          <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
+        </div>
+        <div class="content">
+          <q-input
+            color="white"
+            dark
+            filled
+            label="Titel"
+            v-model="createNotificationModel.data.title"
+          />
+          <q-input
+            color="white"
+            dark
+            filled
+            type="textarea"
+            label="Inhalt"
+            v-model="createNotificationModel.data.content"
+          />
+
+          <q-btn
+            label="Versenden
+            "
+            flat
+            class="confirm-button"
+            @click="sendNotificationToUsers()"
+          />
+        </div>
+      </div>
+    </q-dialog>
   </q-layout>
 </template>
 
 <script setup>
 import { useDeviceStore } from 'src/stores/device-store'
 import { useUserStore } from 'src/stores/user-store'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { api } from 'src/boot/axios'
+import { Notify } from 'quasar'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -110,6 +173,8 @@ const deviceStore = useDeviceStore()
 const computedUser = computed(() => userStore.user)
 const isLoggedIn = computed(() => userStore.loggedIn)
 const isAdmin = computed(() => userStore.isAdmin)
+
+const createNotificationModel = ref({ show: false, data: {} })
 
 onMounted(async () => {
   await userStore.checkAdmin()
@@ -120,6 +185,22 @@ function logout() {
   userStore.logout()
   deviceStore.stopInterval()
   router.push({ name: 'login' })
+}
+
+async function sendNotificationToUsers() {
+  const data = createNotificationModel.value.data
+
+  if (data.title && data.content) {
+    const result = await api.post('/notification/custom', data)
+
+    if (result.status === 200) {
+      createNotificationModel.value.data = {}
+    } else {
+      Notify.create({ message: 'Ein Fehler ist aufgetreten', type: 'negative' })
+    }
+  } else {
+    Notify.create({ message: 'Bitte fülle alle Felder aus', type: 'negative' })
+  }
 }
 </script>
 
@@ -249,6 +330,70 @@ function logout() {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     justify-items: center;
     align-items: center;
+  }
+}
+
+.recommendation-popup {
+  background-color: var(--main-bg-color);
+  color: #fff;
+  --gradient-start: #000000;
+  --gradient-end: #ffffff;
+  width: 100%;
+
+  > div {
+    padding: 24px 48px;
+  }
+
+  .title {
+    min-height: 100px;
+    background: linear-gradient(220deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    position: relative;
+
+    h1 {
+      margin: 0;
+      line-height: 1.2em;
+      font-size: 30px;
+      font-weight: 500;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 24px;
+      height: 24px;
+      border-radius: 12px;
+      background-color: #ffffff30;
+    }
+  }
+
+  .content {
+    font-size: 18px;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+    color: white;
+
+    > label {
+      width: 100%;
+    }
+
+    .confirm-button {
+      margin-top: 12px;
+      font-size: 18px;
+      background-color: #00d50b1b;
+      color: green;
+      min-width: 250px;
+    }
+  }
+
+  &.news {
+    min-width: min(800px, 100vw);
   }
 }
 
