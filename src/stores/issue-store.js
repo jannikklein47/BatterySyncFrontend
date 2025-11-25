@@ -36,7 +36,7 @@ export const useIssueStore = defineStore('issue', {
 
     async create(data) {
       const result = await api.post('/issue', data)
-      this.issuesArray.push(result.data)
+      this.issuesArray.unshift(result.data)
       return result
     },
 
