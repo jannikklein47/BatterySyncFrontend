@@ -60,7 +60,8 @@
                   : ''
           }}
         </div>
-        {{ issue.title }}<q-space />
+        <span class="text">{{ issue.title }}</span>
+        <q-space />
         <div>
           <span>
             <q-icon name="add_comment" />
@@ -75,7 +76,15 @@
       <q-separator dark />
       <p>
         Beschreibung <br />
-        <span v-for="p in issue.description.split('\n')" :key="p">{{ p }} <br /></span>
+        <span
+          v-show="issue.description.length < 400"
+          v-for="p in issue.description
+            .replace(/\n{2,}/g, '\n')
+            .replace(/ {2,}/g, ' ')
+            .split('\n')"
+          :key="p"
+          >{{ p }} <br
+        /></span>
       </p>
 
       <div class="admin-btns">
@@ -425,6 +434,14 @@ async function sendEdit() {
     font-size: 30px;
     flex-direction: row;
     display: flex;
+
+    .text {
+      max-width: calc(100% - 140px);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      height: 1.2em;
+      white-space: nowrap;
+    }
 
     > div {
       display: flex;
