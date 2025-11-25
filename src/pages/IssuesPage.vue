@@ -60,7 +60,13 @@
                   : ''
           }}
         </div>
-        <span class="text">{{ issue.title }}</span>
+        <span class="text"
+          >{{ issue.title }}
+
+          <q-tooltip>
+            {{ issue.title }}
+          </q-tooltip>
+        </span>
         <q-space />
         <div>
           <span>
