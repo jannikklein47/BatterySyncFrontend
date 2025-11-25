@@ -83,7 +83,6 @@
       <p>
         Beschreibung <br />
         <span
-          v-show="issue.description.length < 400"
           v-for="p in issue.description
             .replace(/\n{2,}/g, '\n')
             .replace(/ {2,}/g, ' ')
