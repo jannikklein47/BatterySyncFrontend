@@ -2,9 +2,10 @@
   <q-page class="main">
     <div class="main-element">
       <h1>Feedback & Issues</h1>
+      <p v-if="!userId">Anmelden, um Details zu sehen</p>
     </div>
 
-    <q-btn flat no-caps class="create-new" @click="createIssueModel.show = true">
+    <q-btn flat no-caps class="create-new" @click="createIssueModel.show = true" v-if="userId">
       <span>Neues Element erstellen</span>
       <q-space />
       <q-icon name="add" />
@@ -60,11 +61,11 @@
                   : ''
           }}
         </div>
-        <span class="time">
+        <span class="time" v-if="userId">
           <q-icon name="add_comment" />
           {{ new Date(issue.createdAt).toLocaleDateString('de-De') }}</span
         >
-        <span class="time">
+        <span class="time" v-if="userId">
           <q-icon name="update" />
           {{ new Date(issue.updatedAt).toLocaleDateString('de-De') }}</span
         >
@@ -80,7 +81,7 @@
         </span>
       </h2>
       <q-separator dark />
-      <p>
+      <p class="description">
         Beschreibung <br />
         <span
           v-for="p in issue.description
@@ -92,7 +93,7 @@
         /></span>
       </p>
 
-      <div class="admin-btns">
+      <div class="admin-btns" v-if="userId">
         <q-btn
           no-caps
           flat
@@ -361,6 +362,7 @@ async function sendEdit() {
 }
 
 .main-element {
+  color: black;
   background: #3e73b8;
   background: linear-gradient(220deg, #3e73b8 0%, rgba(40, 176, 165, 1) 53%, #7cde89 100%);
   padding: var(--std-pad);
@@ -469,6 +471,10 @@ async function sendEdit() {
     .user {
       font-weight: 500;
     }
+  }
+
+  .description {
+    word-wrap: break-word;
   }
 
   .admin-btns {

@@ -43,15 +43,17 @@
             label="Meine Geräte"
             :class="{ 'active-page': $route.name === 'devices' }"
             to="devices"
+            v-if="isLoggedIn"
           />
           <q-btn
             flat
             class="nav-btn"
             no-caps
-            label="Community"
             :class="{ 'active-page': $route.name === 'issues' }"
             to="issues"
-          />
+            ><div class="header-btn-label">Community</div>
+            <q-icon name="group" class="header-btn-icon"
+          /></q-btn>
         </div>
 
         <q-space />
@@ -397,9 +399,24 @@ async function sendNotificationToUsers() {
   }
 }
 
+.header-btn-icon {
+  display: none;
+}
+.header-btn-label {
+  display: inline;
+}
+
 @media only screen and (max-width: 900px) {
   .layout {
     --std-pad: 12px;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .header-btn-label {
+    display: none;
+  }
+  .header-btn-icon {
+    display: block;
   }
 }
 </style>
