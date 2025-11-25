@@ -23,6 +23,8 @@
             </p>
           </q-expansion-item>
 
+          <q-space />
+
           <div class="actions">
             <q-btn label="Download" class="btn" flat />
           </div>
@@ -38,6 +40,8 @@
               werden. Außerdem erhälst du Erinnerungen, wenn du deine Geräte anschließen musst.
             </p>
           </q-expansion-item>
+
+          <q-space />
 
           <div class="actions">
             <q-btn label="Download" class="btn" flat />
@@ -57,6 +61,8 @@
             </p>
           </q-expansion-item>
 
+          <q-space />
+
           <div class="actions">
             <q-btn label="Download" class="btn" flat disable="" />
           </div>
@@ -74,6 +80,8 @@
               sodass du auch Akku-Insights für deine Uhr bekommst.
             </p>
           </q-expansion-item>
+
+          <q-space />
 
           <div class="actions">
             <q-btn label="Download" class="btn" flat disable="" />
@@ -270,7 +278,9 @@ h1 {
     //backdrop-filter: blur(10px);
     max-width: 300px;
     min-width: 300px;
-    height: fit-content;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 
     h2 {
       width: 100%;
