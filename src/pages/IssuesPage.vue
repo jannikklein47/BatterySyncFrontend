@@ -74,7 +74,7 @@
       </h2>
       <q-separator dark />
       <p>
-        Erklärung <br />
+        Beschreibung <br />
         <span v-for="p in issue.description.split('\n')" :key="p">{{ p }} <br /></span>
       </p>
 
