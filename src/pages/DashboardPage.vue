@@ -567,7 +567,8 @@ function generateRecommendations() {
     computedDevices.value.filter(
       (device) =>
         ((device.predictedZeroAt &&
-          device.predictedZeroAt < new Date(Date.now() + 2 * 60 * 60 * 1000)) ||
+          device.predictedZeroAt < new Date(Date.now() + 2 * 60 * 60 * 1000) &&
+          device.predictedZeroAt > new Date(Date.now())) ||
           (device.battery <= 0.15 && device.battery > 0)) &&
         device.isPluggedIn === false,
     ) || []

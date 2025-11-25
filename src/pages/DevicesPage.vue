@@ -64,17 +64,25 @@
               {{
                 device.predictedZeroAt
                   ? ' - ' +
-                    ((d) => (
-                      (t = d - new Date()),
-                      [
-                        (D = Math.floor(t / 864e5)) ? `${D} d` : '',
-                        (H = Math.floor((t % 864e5) / 36e5)) ? `${H} h` : '',
-                        D < 1 ? `${Math.floor((t % 36e5) / 6e4)} m` : '',
+                    (() => {
+                      const d = device.predictedZeroAt
+
+                      const t = new Date(d) - new Date()
+                      if (t < 0) return 'Akku ist leer.'
+
+                      const D = Math.floor(t / 86400000)
+                      const H = Math.floor((t % 86400000) / 3600000)
+                      const M = Math.floor((t % 3600000) / 60000)
+
+                      return [
+                        D ? `${D} d` : '',
+                        H ? `${H} h` : '',
+                        D < 1 ? `${M} m` : '',
+                        ' verbleiben',
                       ]
                         .filter(Boolean)
                         .join(' ')
-                    ))(device.predictedZeroAt) +
-                    ' verbleiben'
+                    })()
                   : device.chargingStatus
                     ? ' - lädt'
                     : device.isPluggedIn
