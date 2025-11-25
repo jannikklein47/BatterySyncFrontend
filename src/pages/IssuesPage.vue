@@ -12,29 +12,6 @@
 
     <div class="element" v-for="issue in computedIssues" :key="issue.id">
       <div
-        class="prio-indicator"
-        :style="
-          'background-color:' +
-          (issue.priority === 0
-            ? '#777777'
-            : issue.priority === 1
-              ? 'orange'
-              : issue.priority === 2
-                ? 'RED'
-                : 'black')
-        "
-      >
-        {{
-          issue.priority === 0
-            ? 'Low'
-            : issue.priority === 1
-              ? 'High'
-              : issue.priority === 2
-                ? 'CRITICAL'
-                : '?'
-        }}
-      </div>
-      <div
         class="status-indicator"
         :style="
           'background-color:' +
@@ -49,6 +26,29 @@
         "
       ></div>
       <h2>
+        <div
+          class="prio-indicator"
+          :style="
+            'background-color:' +
+            (issue.priority === 0
+              ? '#777777'
+              : issue.priority === 1
+                ? 'orange'
+                : issue.priority === 2
+                  ? 'RED'
+                  : 'black')
+          "
+        >
+          {{
+            issue.priority === 0
+              ? 'Low'
+              : issue.priority === 1
+                ? 'High'
+                : issue.priority === 2
+                  ? 'CRITICAL'
+                  : '?'
+          }}
+        </div>
         <div class="category">
           {{
             issue.category === 0
@@ -60,6 +60,17 @@
                   : ''
           }}
         </div>
+        <span class="time">
+          <q-icon name="add_comment" />
+          {{ new Date(issue.createdAt).toLocaleDateString('de-De') }}</span
+        >
+        <span class="time">
+          <q-icon name="update" />
+          {{ new Date(issue.updatedAt).toLocaleDateString('de-De') }}</span
+        >
+        <span class="user"> @{{ issue.user?.email || 'unknown' }} </span>
+      </h2>
+      <h2>
         <span class="text"
           >{{ issue.title }}
 
@@ -67,17 +78,6 @@
             {{ issue.title }}
           </q-tooltip>
         </span>
-        <q-space />
-        <div>
-          <span>
-            <q-icon name="add_comment" />
-            {{ new Date(issue.createdAt).toLocaleDateString('de-De') }}</span
-          >
-          <span>
-            <q-icon name="update" />
-            {{ new Date(issue.updatedAt).toLocaleDateString('de-De') }}</span
-          >
-        </div>
       </h2>
       <q-separator dark />
       <p>
@@ -287,12 +287,21 @@ onMounted(async () => {
 })
 
 async function createIssue() {
-  const data = createIssueModel.value.data
+  let data
+  try {
+    data = createIssueModel.value.data
 
-  data.category = data.category.value
-  data.priority = data.priority.value
+    data.category = data.category.value
+    data.priority = data.priority.value
 
-  if (!data.title || !data.description) return
+    if (!data.title || !data.description) {
+      $q.notify({ type: 'negative', message: 'Bitte alle Felder ausfüllen!' })
+      return
+    }
+  } catch {
+    $q.notify({ type: 'negative', message: 'Bitte alle Felder ausfüllen!' })
+    return
+  }
 
   const result = await issueStore.create(data)
 
@@ -400,16 +409,12 @@ async function sendEdit() {
   }
 
   .prio-indicator {
-    position: absolute;
-    top: -12px;
-    right: -12px;
-    margin: 0;
-    z-index: 1;
     background-color: black;
     padding: 6px;
     border-radius: 12px;
-    min-width: 50px;
+    min-width: fit-content;
     text-align: center;
+    height: fit-content;
   }
 
   .status-indicator {
@@ -425,7 +430,6 @@ async function sendEdit() {
   }
   .category {
     margin: 0;
-    margin-right: 12px;
     background-color: #2e2e2e;
     height: fit-content;
     padding: 6px;
@@ -440,20 +444,31 @@ async function sendEdit() {
     font-size: 30px;
     flex-direction: row;
     display: flex;
+    gap: var(--std-pad);
 
     .text {
-      max-width: calc(100% - 140px);
+      max-width: 100%;
       text-overflow: ellipsis;
       overflow: hidden;
       height: 1.2em;
       white-space: nowrap;
     }
 
-    > div {
+    > div,
+    .time,
+    .user {
+      margin: 0;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       font-size: 15px;
       line-height: 1.2em;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user {
+      font-weight: 500;
     }
   }
 
