@@ -84,10 +84,15 @@
       <router-view />
     </q-page-container>
 
-    <div class="footer" v-if="['indexpage', 'impressum'].includes($route.name)">
+    <div
+      class="footer"
+      v-if="['indexpage', 'impressum', 'issues', 'profile'].includes($route.name)"
+    >
       <h2>Copyright © 2025 by Jannik Klein</h2>
-      <q-btn label="Feedback geben / Issues" no-caps flat to="issues" />
-      <q-btn label="Impressum" no-caps flat to="impressum" />
+      <div>
+        <q-btn label="Feedback geben / Issues" no-caps flat to="issues" />
+        <q-btn label="Impressum" no-caps flat to="impressum" />
+      </div>
     </div>
   </q-layout>
 </template>
@@ -108,6 +113,7 @@ const isAdmin = computed(() => userStore.isAdmin)
 
 onMounted(async () => {
   await userStore.checkAdmin()
+  await userStore.checkUserId()
 })
 
 function logout() {
@@ -225,10 +231,6 @@ function logout() {
   background-color: #131415;
   color: white;
   padding: var(--std-pad);
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  justify-items: center;
-  align-items: center;
   padding-top: 60px;
   padding-bottom: 50px;
 
@@ -240,6 +242,13 @@ function logout() {
     line-height: 1em;
     margin-bottom: 50px;
     text-align: center;
+  }
+
+  div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    justify-items: center;
+    align-items: center;
   }
 }
 

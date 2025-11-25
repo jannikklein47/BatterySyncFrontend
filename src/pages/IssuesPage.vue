@@ -75,16 +75,32 @@
       <q-separator dark />
       <p>
         Erklärung <br />
-        {{ issue.description }}
+        <span v-for="p in issue.description.split('\n')" :key="p">{{ p }} <br /></span>
       </p>
 
-      <div class="admin-btns" v-if="isAdmin">
-        <q-btn no-caps flat icon="delete" color="red" @click="deleteIssue(issue.id)" />
+      <div class="admin-btns">
+        <q-btn
+          no-caps
+          flat
+          icon="delete"
+          color="red"
+          @click="deleteIssue(issue.id)"
+          v-if="isAdmin || issue.userId === userId"
+        />
+        <q-btn
+          no-caps
+          flat
+          icon="edit"
+          color="blue"
+          @click="startEditIssue(issue)"
+          v-if="isAdmin || issue.userId === userId"
+        />
         <q-btn
           label="Nicht bearbeitet"
           no-caps
           flat
           icon="block"
+          v-if="isAdmin"
           @click="changeStatus(issue.id, 0, issue)"
         />
         <q-btn
@@ -92,6 +108,7 @@
           no-caps
           flat
           icon="edit"
+          v-if="isAdmin"
           @click="changeStatus(issue.id, 1, issue)"
         />
         <q-btn
@@ -99,6 +116,7 @@
           no-caps
           flat
           icon="done_all"
+          v-if="isAdmin"
           @click="changeStatus(issue.id, 2, issue)"
         />
       </div>
@@ -108,6 +126,7 @@
       v-model="createIssueModel.show"
       backdrop-filter="blur(10px)"
       @before-hide="createIssueModel.data = {}"
+      full-width
     >
       <div
         class="recommendation-popup"
@@ -162,6 +181,70 @@
         </div>
       </div>
     </q-dialog>
+
+    <q-dialog
+      v-model="editIssueModel.show"
+      backdrop-filter="blur(10px)"
+      @before-hide="editIssueModel.data = {}"
+      full-width
+    >
+      <div
+        class="recommendation-popup"
+        :style="'--gradient-start: ' + '#3e73b8' + ';--gradient-end:' + '#7cde89'"
+      >
+        <div class="title">
+          <h1>Issue Bearbeiten</h1>
+          <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
+        </div>
+        <div class="content">
+          <q-input color="white" dark filled label="Titel" v-model="editIssueModel.data.title" />
+          <q-input
+            color="white"
+            dark
+            filled
+            type="textarea"
+            label="Beschreibung"
+            v-model="editIssueModel.data.description"
+          />
+
+          <q-select
+            label="Kategorie"
+            dark
+            color="white"
+            :options="[
+              { label: 'Idee', value: 0 },
+              { label: 'Bug', value: 1 },
+              { label: 'Verbesserung', value: 2 },
+            ]"
+            v-model="editIssueModel.data.category"
+            map-options
+            emit-value
+          />
+
+          <q-select
+            label="Priorität"
+            dark
+            color="white"
+            :options="[
+              { label: 'Low', value: 0 },
+              { label: 'High', value: 1 },
+              { label: 'Critical', value: 2 },
+            ]"
+            v-model="editIssueModel.data.priority"
+            map-options
+            emit-value
+          />
+
+          <q-btn
+            label="Hochladen
+            "
+            flat
+            class="confirm-button"
+            @click="sendEdit()"
+          />
+        </div>
+      </div>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -179,8 +262,10 @@ const userStore = useUserStore()
 const computedIssues = computed(() => issueStore.issues)
 
 const createIssueModel = ref({ show: false, data: {} })
+const editIssueModel = ref({ show: false, data: {} })
 
 const isAdmin = computed(() => userStore.isAdmin)
+const userId = computed(() => userStore.userId)
 
 onMounted(async () => {
   await issueStore.loadIssues()
@@ -211,6 +296,28 @@ async function changeStatus(id, status, issue) {
   await issueStore.changeStatus(id, status)
   issue.status = status
 }
+
+function startEditIssue(issue) {
+  editIssueModel.value.data = issue
+  editIssueModel.value.show = true
+}
+
+async function sendEdit() {
+  const data = editIssueModel.value.data
+
+  data.category = data.category.value || data.category
+  data.priority = data.priority.value || data.priority
+
+  if (!data.title || !data.description) return
+
+  const result = await issueStore.update(data)
+
+  if (result.status !== 200) {
+    $q.notify({ type: 'negative', message: 'Something went wrong' })
+  } else {
+    editIssueModel.value.show = false
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -220,6 +327,7 @@ async function changeStatus(id, status, issue) {
   display: flex;
   flex-direction: column;
   gap: var(--std-pad);
+  align-items: center;
 
   h1 {
     font-size: 36px;
@@ -234,6 +342,7 @@ async function changeStatus(id, status, issue) {
   background: linear-gradient(220deg, #3e73b8 0%, rgba(40, 176, 165, 1) 53%, #7cde89 100%);
   padding: var(--std-pad);
   border-radius: var(--std-pad);
+  width: 100%;
   box-shadow:
     0 2px 4px inset #ffffff50,
     0 12px 12px #00000020;
@@ -253,6 +362,7 @@ async function changeStatus(id, status, issue) {
 }
 
 .create-new {
+  width: fit-content;
   background-color: #ffffff20;
   border-radius: var(--std-pad);
 }
@@ -268,8 +378,9 @@ async function changeStatus(id, status, issue) {
   display: flex;
   flex-direction: column;
   gap: var(--std-pad);
+  width: 100%;
 
-  * {
+  > * {
     margin-left: var(--std-pad);
   }
 
@@ -326,16 +437,15 @@ async function changeStatus(id, status, issue) {
   .admin-btns {
     display: flex;
     justify-content: space-between;
-    margin-left: calc(-1 * var(--std-pad));
   }
 }
 
 .recommendation-popup {
-  min-width: min(400px, 100vw);
   background-color: var(--main-bg-color);
   color: #fff;
   --gradient-start: #000000;
   --gradient-end: #ffffff;
+  width: 100%;
 
   > div {
     padding: 24px 48px;

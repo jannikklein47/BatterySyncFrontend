@@ -5,6 +5,7 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     userObject: {},
     admin: false,
+    userIdValue: null,
   }),
 
   getters: {
@@ -16,6 +17,9 @@ export const useUserStore = defineStore('user', {
     },
     isAdmin: (state) => {
       return state.admin
+    },
+    userId: (state) => {
+      return state.userIdValue
     },
   },
 
@@ -31,6 +35,7 @@ export const useUserStore = defineStore('user', {
 
           this.userObject = { email: email, token: token }
           await this.checkAdmin()
+          await this.checkUserId()
           return true
         } else {
           return result.status
@@ -64,6 +69,22 @@ export const useUserStore = defineStore('user', {
           this.admin = admin
 
           return admin
+        } else {
+          return false
+        }
+      } catch {
+        return false
+      }
+    },
+    async checkUserId() {
+      try {
+        const result = await api.get('/login/userId')
+
+        if (result.status === 200) {
+          const userId = result.data
+          this.userIdValue = userId
+
+          return userId
         } else {
           return false
         }

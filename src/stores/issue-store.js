@@ -39,6 +39,11 @@ export const useIssueStore = defineStore('issue', {
       this.issuesArray.push(result.data)
       return result
     },
+
+    async update(data) {
+      const result = await api.patch('/issue', data)
+      return result
+    },
   },
 })
 
