@@ -21,6 +21,7 @@
     "chartjs-adapter-date-fns": "^3.0.0",
     "downsample-lttb": "^0.0.1",
     "express": "^5.1.0",
+    "file-saver": "^2.0.5",
     "pinia": "^3.0.1",
     "quasar": "^2.16.0",
     "vue": "^3.4.18",

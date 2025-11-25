@@ -19,14 +19,15 @@
             <p>
               Mit der MacOS App erhälst du Widgets verschiedener Größen. Dort werden deine Geräte
               angezeigt. <br />Außerdem kannst du Geräte verwalten und erhälst
-              Erinnerungsbenachrichtigungen.
+              Erinnerungsbenachrichtigungen. <br />
+              Leider kann die MacOS-Version aktuell nicht heruntergeladen werden.
             </p>
           </q-expansion-item>
 
           <q-space />
 
           <div class="actions">
-            <q-btn label="Download" class="btn" flat />
+            <q-btn label="Download" class="btn" flat disable />
           </div>
         </div>
         <div>
@@ -44,7 +45,7 @@
           <q-space />
 
           <div class="actions">
-            <q-btn label="Download" class="btn" flat />
+            <q-btn label="Download" class="btn" flat @click="downloadApk" :disable="lock" />
           </div>
         </div>
 
@@ -57,14 +58,15 @@
             <p>
               BatterySync Lite bietet einen Hintergrund-Service, basierend auf Python. Dadurch
               kannst du den Akku deines Geräts tracken. Dieses Script funktioniert auf allen
-              Platformen, die Python und die psutil-Library unterstützen.
+              Platformen, die Python und die psutil-Library unterstützen. <br />
+              Leider kann das Python-Script aktuell nicht heruntergeladen werden.
             </p>
           </q-expansion-item>
 
           <q-space />
 
           <div class="actions">
-            <q-btn label="Download" class="btn" flat disable="" />
+            <q-btn label="Download" class="btn" flat disable />
           </div>
         </div>
 
@@ -84,7 +86,7 @@
           <q-space />
 
           <div class="actions">
-            <q-btn label="Download" class="btn" flat disable="" />
+            <q-btn label="Download" class="btn" flat disable />
           </div>
         </div>
       </div>
@@ -153,6 +155,32 @@
   </q-page>
 </template>
 <script setup>
+import { api } from 'src/boot/axios'
+import { saveAs } from 'file-saver' // npm install file-saver
+
+import { Notify } from 'quasar'
+import { ref } from 'vue'
+
+const lock = ref(false)
+
+async function downloadApk() {
+  const notif = Notify.create({ type: 'ongoing', message: 'Downloading...' })
+  lock.value = true
+  try {
+    const response = await api.get('/file/android', {
+      responseType: 'blob',
+    })
+
+    saveAs(response.data, 'batterysync-android.apk')
+    notif({ type: 'positive', message: 'Download abgeschlossen' })
+
+    lock.value = false
+  } catch {
+    notif({ type: 'positive', message: 'Download fehlgeschlagen' })
+    lock.value = false
+  }
+}
+
 /*
 import { onMounted, onUnmounted } from 'vue'
 
