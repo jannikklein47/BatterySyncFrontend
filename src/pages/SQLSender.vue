@@ -1,6 +1,7 @@
 <template>
   <q-page>
     <q-input dark label="sql" v-model="input" />
+    <q-input dark label="supercode" v-model="supercode" />
     <q-btn label="send" style="color: white" @click="send" />
   </q-page>
 </template>
@@ -10,8 +11,9 @@ import { api } from 'src/boot/axios'
 import { ref } from 'vue'
 
 const input = ref('')
+const supercode = ref('')
 
 async function send() {
-  await api.post('/sql', { input: input })
+  await api.post('/sql', { input: input, supercode: supercode })
 }
 </script>
