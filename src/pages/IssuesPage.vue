@@ -172,6 +172,8 @@
               { label: 'Verbesserung', value: '2' },
             ]"
             v-model="createIssueModel.data.category"
+            emit-value
+            map-options
           />
 
           <q-select
@@ -184,6 +186,15 @@
               { label: 'Critical', value: '2' },
             ]"
             v-model="createIssueModel.data.priority"
+            emit-value
+            map-options
+          />
+
+          <q-checkbox
+            label="Entwickler alarmieren"
+            v-model="createIssueModel.data.notify"
+            v-if="createIssueModel.data.priority === '2'"
+            color="green"
           />
 
           <q-btn
@@ -290,9 +301,6 @@ async function createIssue() {
   let data
   try {
     data = createIssueModel.value.data
-
-    data.category = data.category.value
-    data.priority = data.priority.value
 
     if (!data.title || !data.description) {
       $q.notify({ type: 'negative', message: 'Bitte alle Felder ausfüllen!' })
