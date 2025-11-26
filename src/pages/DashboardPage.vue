@@ -66,6 +66,13 @@
               </div>
             </div>
           </div>
+
+          <div
+            class="no-devices"
+            v-if="computedDevices.filter((device) => device.isShown).length < 1"
+          >
+            Keine Geräte zum anzeigen
+          </div>
         </div>
         <div class="recent-events nothing" v-if="news.length < 1">Keine Neuigkeiten</div>
         <div class="recent-events" v-else>
@@ -124,6 +131,10 @@
             <span class="title"> {{ r.title }} </span>
             <span class="caption"> {{ r.caption }} </span>
           </div>
+        </div>
+
+        <div class="no-devices" v-if="recommendations.length < 1">
+          Zurzeit gibt es keine Empfehlungen
         </div>
       </div>
     </div>
@@ -978,6 +989,15 @@ function openSettings(deviceId) {
     gap: 18px;
     box-shadow: 0 0 24px #00000030;
     min-height: 100px;
+
+    .no-devices {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff66;
+    }
   }
   .recent-events {
     border-radius: 12px;
@@ -1203,6 +1223,15 @@ function openSettings(deviceId) {
     gap: 12px;
     //overflow: auto;
     //max-height: 400px;
+
+    .no-devices {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff66;
+    }
   }
   .recommendation {
     background-color: var(--main-bg-color);

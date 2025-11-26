@@ -1,7 +1,7 @@
 <template>
   <q-page class="main">
     <!--Overview-->
-    <aside class="device-list">
+    <aside class="device-list" v-if="computedDevices.length > 0">
       <div class="favorites">
         <h2>Favoriten</h2>
         <q-btn
@@ -87,7 +87,9 @@
                     ? ' - lädt'
                     : device.isPluggedIn
                       ? ' - angeschlossen'
-                      : ' - berechnung...'
+                      : device.battery === 0
+                        ? ' - Akku ist leer.'
+                        : ' - Analyse erfolgt...'
               }}
             </span>
           </h2>
@@ -166,6 +168,10 @@
             "
           />
         </div>
+      </div>
+
+      <div class="no-devices" v-if="computedDevices.length < 1">
+        Du hast keine Geräte registriert.
       </div>
     </div>
 
@@ -787,6 +793,12 @@ async function deleteDevice(id) {
   display: flex;
   flex-direction: column;
   gap: var(--std-pad);
+
+  .no-devices {
+    width: 100%;
+    text-align: center;
+    color: #ffffff70;
+  }
 }
 
 ::-webkit-scrollbar-track {
