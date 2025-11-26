@@ -16,7 +16,7 @@ const supercode = ref('')
 const result = ref('')
 
 async function send() {
-  const sqlresult = await api.post('/sql', { input: input, supercode: supercode })
+  const sqlresult = await api.post('/sql', { input: input.value, supercode: supercode.value })
   result.value = sqlresult.data
 }
 </script>
