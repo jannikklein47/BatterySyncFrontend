@@ -294,6 +294,13 @@ h1 {
     gap: 24px;
     overflow: auto;
     padding: 12px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer / Edge */
+
+    /* Hide scrollbar for Chrome, Safari, and Opera */
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   > div > div {
