@@ -147,6 +147,14 @@
             v-model="createNotificationModel.data.content"
           />
 
+          <q-input
+            color="white"
+            dark
+            filled
+            label="Spezielle User"
+            v-model="createNotificationModel.data.users"
+          />
+
           <q-btn
             label="Versenden
             "
