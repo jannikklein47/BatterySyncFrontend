@@ -40,11 +40,12 @@
             flat
             class="nav-btn"
             no-caps
-            label="Meine Geräte"
             :class="{ 'active-page': $route.name === 'devices' }"
             to="devices"
             v-if="isLoggedIn"
-          />
+            ><div class="header-btn-label">Meine Geräte</div>
+            <q-icon name="devices_other" class="header-btn-icon"
+          /></q-btn>
           <q-btn
             flat
             class="nav-btn"

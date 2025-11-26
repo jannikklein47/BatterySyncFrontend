@@ -6,33 +6,24 @@
     </div>
 
     <div class="button-group">
-      <q-btn
-        flat
-        no-caps
-        :label="'Offen: ' + computedIssuesWithoutFilter.filter((val) => val.status === 0).length"
-        @click="setSort(0)"
-        :class="{ active: filterStatus === 0 }"
-      />
-      <q-btn
-        flat
-        no-caps
-        :label="
-          'In Bearbeitung: ' + computedIssuesWithoutFilter.filter((val) => val.status === 1).length
-        "
-        @click="setSort(1)"
-        :class="{ active: filterStatus === 1 }"
-      />
-      <q-btn
-        flat
-        no-caps
-        :label="'Erledigt: ' + computedIssuesWithoutFilter.filter((val) => val.status === 2).length"
-        @click="setSort(2)"
-        :class="{ active: filterStatus === 2 }"
-      />
+      <q-btn flat no-caps @click="setSort(0)" :class="{ active: filterStatus === 0 }">
+        <div class="button-group-label">Offen:</div>
+        <q-icon name="block" class="button-group-btn-icon" />
+        {{ computedIssuesWithoutFilter.filter((val) => val.status === 0).length }}
+      </q-btn>
+      <q-btn flat no-caps @click="setSort(1)" :class="{ active: filterStatus === 1 }">
+        <div class="button-group-label">In Bearbeitung:</div>
+        <q-icon name="edit" class="button-group-btn-icon" />
+        {{ computedIssuesWithoutFilter.filter((val) => val.status === 1).length }}
+      </q-btn>
+      <q-btn flat no-caps @click="setSort(2)" :class="{ active: filterStatus === 2 }">
+        <div class="button-group-label">Erledigt:</div>
+        <q-icon name="done_all" class="button-group-btn-icon" />
+        {{ computedIssuesWithoutFilter.filter((val) => val.status === 2).length }}
+      </q-btn>
       <q-space />
       <q-btn flat no-caps class="create-new" @click="createIssueModel.show = true" v-if="userId">
-        <span>Neues Element erstellen</span>
-        <q-space />
+        <div class="button-group-label">Issue erstellen</div>
         <q-icon name="add" />
       </q-btn>
     </div>
@@ -136,30 +127,18 @@
           @click="startEditIssue(issue)"
           v-if="isAdmin || issue.userId === userId"
         />
-        <q-btn
-          label="Nicht bearbeitet"
-          no-caps
-          flat
-          icon="block"
-          v-if="isAdmin"
-          @click="changeStatus(issue.id, 0, issue)"
-        />
-        <q-btn
-          label="In Bearbeitung"
-          no-caps
-          flat
-          icon="edit"
-          v-if="isAdmin"
-          @click="changeStatus(issue.id, 1, issue)"
-        />
-        <q-btn
-          label="Erledigt"
-          no-caps
-          flat
-          icon="done_all"
-          v-if="isAdmin"
-          @click="changeStatus(issue.id, 2, issue)"
-        />
+        <q-btn no-caps flat v-if="isAdmin" @click="changeStatus(issue.id, 0, issue)">
+          <div class="button-group-label">Offen</div>
+          <q-icon name="block" class="button-group-btn-icon" />
+        </q-btn>
+        <q-btn no-caps flat v-if="isAdmin" @click="changeStatus(issue.id, 1, issue)">
+          <div class="button-group-label">Bearbeiten</div>
+          <q-icon name="edit" class="button-group-btn-icon" />
+        </q-btn>
+        <q-btn no-caps flat v-if="isAdmin" @click="changeStatus(issue.id, 2, issue)">
+          <div class="button-group-label">Erledigt</div>
+          <q-icon name="done_all" class="button-group-btn-icon" />
+        </q-btn>
       </div>
     </div>
 
@@ -499,6 +478,8 @@ function setSort(status) {
     flex-direction: row;
     display: flex;
     gap: var(--std-pad);
+    max-width: 100%;
+    flex-wrap: wrap;
 
     .text {
       max-width: 100%;
@@ -597,6 +578,19 @@ function setSort(status) {
 
   &.news {
     min-width: min(800px, 100vw);
+  }
+}
+
+.button-group-btn-icon {
+  display: none;
+}
+
+@media only screen and (max-width: 500px) {
+  .button-group-label {
+    display: none;
+  }
+  .button-group-btn-icon {
+    display: block;
   }
 }
 </style>
