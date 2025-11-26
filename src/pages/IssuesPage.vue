@@ -5,11 +5,37 @@
       <p v-if="!userId">Anmelden, um Details zu sehen</p>
     </div>
 
-    <q-btn flat no-caps class="create-new" @click="createIssueModel.show = true" v-if="userId">
-      <span>Neues Element erstellen</span>
+    <div class="button-group">
+      <q-btn
+        flat
+        no-caps
+        :label="'Offen: ' + computedIssuesWithoutFilter.filter((val) => val.status === 0).length"
+        @click="setSort(0)"
+        :class="{ active: filterStatus === 0 }"
+      />
+      <q-btn
+        flat
+        no-caps
+        :label="
+          'In Bearbeitung: ' + computedIssuesWithoutFilter.filter((val) => val.status === 1).length
+        "
+        @click="setSort(1)"
+        :class="{ active: filterStatus === 1 }"
+      />
+      <q-btn
+        flat
+        no-caps
+        :label="'Erledigt: ' + computedIssuesWithoutFilter.filter((val) => val.status === 2).length"
+        @click="setSort(2)"
+        :class="{ active: filterStatus === 2 }"
+      />
       <q-space />
-      <q-icon name="add" />
-    </q-btn>
+      <q-btn flat no-caps class="create-new" @click="createIssueModel.show = true" v-if="userId">
+        <span>Neues Element erstellen</span>
+        <q-space />
+        <q-icon name="add" />
+      </q-btn>
+    </div>
 
     <div class="element" v-for="issue in computedIssues" :key="issue.id">
       <div
@@ -285,13 +311,19 @@ const $q = useQuasar()
 const issueStore = useIssueStore()
 const userStore = useUserStore()
 
-const computedIssues = computed(() => issueStore.issues)
+const computedIssues = computed(() =>
+  issueStore.issues.filter((val) => val.status === filterStatus.value),
+)
+
+const computedIssuesWithoutFilter = computed(() => issueStore.issues)
 
 const createIssueModel = ref({ show: false, data: {} })
 const editIssueModel = ref({ show: false, data: {} })
 
 const isAdmin = computed(() => userStore.isAdmin)
 const userId = computed(() => userStore.userId)
+
+const filterStatus = ref(0)
 
 onMounted(async () => {
   await issueStore.loadIssues()
@@ -350,6 +382,10 @@ async function sendEdit() {
     editIssueModel.value.show = false
   }
 }
+
+function setSort(status) {
+  filterStatus.value = status
+}
 </script>
 
 <style lang="scss" scoped>
@@ -394,10 +430,19 @@ async function sendEdit() {
   }
 }
 
-.create-new {
-  width: fit-content;
-  background-color: #ffffff20;
-  border-radius: var(--std-pad);
+.button-group {
+  width: 100%;
+  display: flex;
+  gap: var(--std-pad);
+  > button {
+    width: fit-content;
+    background-color: #ffffff20;
+    border-radius: var(--std-pad);
+
+    &.active {
+      background: linear-gradient(10deg, #3e73b8aa 0%, #28b0a5aa 53%, #7cde89aa 100%);
+    }
+  }
 }
 
 .element {
