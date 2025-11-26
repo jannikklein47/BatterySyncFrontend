@@ -24,9 +24,9 @@ const routes = [
         name: 'login',
       },
       {
-        path: 'admin',
-        component: () => import('pages/AdminPanel.vue'),
-        name: 'admin',
+        path: 'apiusage',
+        component: () => import('src/pages/ApiUsagePage.vue'),
+        name: 'apiusage',
       },
       {
         path: 'impressum',
@@ -37,6 +37,11 @@ const routes = [
         path: 'issues',
         component: () => import('pages/IssuesPage.vue'),
         name: 'issues',
+      },
+      {
+        path: 'admin',
+        component: () => import('pages/SQLSender.vue'),
+        name: 'admin',
       },
     ],
   },
