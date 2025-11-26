@@ -193,7 +193,7 @@ async function sendNotificationToUsers() {
   const data = createNotificationModel.value.data
 
   if (data.title && data.content) {
-    const result = await api.post('/notification/custom', data)
+    const result = await api.post('/notification/new/custom', data)
 
     if (result.status === 200) {
       createNotificationModel.value.data = {}
