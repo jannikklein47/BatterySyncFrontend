@@ -145,7 +145,7 @@
     <q-dialog
       v-model="createIssueModel.show"
       backdrop-filter="blur(10px)"
-      @before-hide="createIssueModel.data = {}"
+      @before-hide="createIssueModel.data = { notify: false }"
       full-width
     >
       <div
@@ -296,7 +296,7 @@ const computedIssues = computed(() =>
 
 const computedIssuesWithoutFilter = computed(() => issueStore.issues)
 
-const createIssueModel = ref({ show: false, data: {} })
+const createIssueModel = ref({ show: false, data: { notify: false } })
 const editIssueModel = ref({ show: false, data: {} })
 
 const isAdmin = computed(() => userStore.isAdmin)
