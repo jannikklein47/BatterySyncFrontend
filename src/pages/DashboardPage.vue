@@ -441,6 +441,9 @@ async function setupGraph() {
       },
       plugins: {
         legend: { display: false },
+        tooltip: {
+          enabled: false,
+        },
       },
       layout: {
         padding: {

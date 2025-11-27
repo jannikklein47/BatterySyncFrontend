@@ -617,7 +617,7 @@ function customTooltip(context) {
     tooltipEl.style.padding = '6px 8px'
     tooltipEl.style.borderRadius = '4px'
     tooltipEl.style.pointerEvents = 'none'
-    tooltipEl.style.transition = 'top 0.5s ease, left 0.5s ease'
+    tooltipEl.style.transition = '0.2s ease'
     tooltipEl.style.whiteSpace = 'nowrap'
     document.body.appendChild(tooltipEl)
   }
