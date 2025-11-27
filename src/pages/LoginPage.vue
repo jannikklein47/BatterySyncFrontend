@@ -10,7 +10,6 @@
 
     <form class="login" @submit.prevent="login">
       <h2>Anmelden</h2>
-      <p>Oder direkt Registrieren</p>
       <q-input
         :disable="loginLoading"
         standout="bg-grey-8"
@@ -28,14 +27,23 @@
         autocomplete="login password"
       />
 
-      <q-btn type="submit" label="Absenden" no-caps flat :loading="loginLoading" />
+      <p>Noch kein Konto? <q-btn flat class="register-btn" label="Registrieren" no-caps /></p>
+
+      <q-btn
+        class="submit-btn"
+        type="submit"
+        label="Absenden"
+        no-caps
+        flat
+        :loading="loginLoading"
+      />
     </form>
   </q-page>
 </template>
 <script setup>
 import { useQuasar } from 'quasar'
 import { useUserStore } from 'src/stores/user-store'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
@@ -61,6 +69,15 @@ async function login() {
   }
   loginLoading.value = false
 }
+
+onMounted(() => {
+  if (document.getElementById('loading-progress').style.height === '60%') {
+    document.getElementById('loading-progress').style.height = '75%'
+    setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 500)
+  } else {
+    document.getElementById('loading-progress').style.height = '60%'
+  }
+})
 </script>
 <style lang="scss" scoped>
 .main {
@@ -136,12 +153,18 @@ async function login() {
   }
 
   p {
-    font-size: 24px;
+    font-size: 20px;
   }
 
-  button {
+  .submit-btn {
     width: 200px;
     background-image: linear-gradient(100deg, #7cde89 0%, #28b0a5 53%, #3e73b8 100%);
+  }
+
+  .register-btn {
+    text-decoration: underline;
+    font-size: 20px;
+    padding: 6px;
   }
 
   * {

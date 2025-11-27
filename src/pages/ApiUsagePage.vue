@@ -13,7 +13,7 @@
 
 <script setup>
 import { useAdminStore } from 'src/stores/admin-store'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import { useQuasar } from 'quasar'
 
@@ -199,6 +199,15 @@ function generateGraphs() {
 
   charts.push(stdChart, routeChart)
 }
+
+onMounted(() => {
+  if (document.getElementById('loading-progress').style.height === '60%') {
+    document.getElementById('loading-progress').style.height = '75%'
+    setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 500)
+  } else {
+    document.getElementById('loading-progress').style.height = '60%'
+  }
+})
 </script>
 
 <style lang="scss" scoped>

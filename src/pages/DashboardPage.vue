@@ -249,6 +249,12 @@ const router = useRouter()
 
 onMounted(async () => {
   if (!computedUser.value.email) {
+    if (document.getElementById('loading-progress').style.height === '60%') {
+      document.getElementById('loading-progress').style.height = '75%'
+      setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 500)
+    } else {
+      document.getElementById('loading-progress').style.height = '60%'
+    }
     return
   }
   await deviceStore.loadDevices()
@@ -272,6 +278,13 @@ onMounted(async () => {
     <h2>Neue App</h2>
     <p>Zudem haben wir mit der Entwicklung einer Android WearOS-App gestartet, sodass bald auch Smartwatches in unsere App eingebunden werden können. Dazu gibt es zu einem späteren Zeitpunkt mehr.</p>`,
   })
+
+  if (document.getElementById('loading-progress').style.height === '60%') {
+    document.getElementById('loading-progress').style.height = '75%'
+    setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 500)
+  } else {
+    document.getElementById('loading-progress').style.height = '60%'
+  }
 })
 
 function showNews(data) {

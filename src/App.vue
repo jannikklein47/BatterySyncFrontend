@@ -10,6 +10,7 @@ import { onMounted } from 'vue'
 
 onMounted(() => {
   //$q.dark.set(true)
+  document.getElementById('loading-progress').style.height = '30%'
 })
 //
 </script>

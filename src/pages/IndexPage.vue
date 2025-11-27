@@ -159,7 +159,7 @@ import { api } from 'src/boot/axios'
 import { saveAs } from 'file-saver' // npm install file-saver
 
 import { Notify } from 'quasar'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const lock = ref(false)
 
@@ -180,6 +180,15 @@ async function downloadApk() {
     lock.value = false
   }
 }
+
+onMounted(() => {
+  if (document.getElementById('loading-progress').style.height === '60%') {
+    document.getElementById('loading-progress').style.height = '75%'
+    setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 500)
+  } else {
+    document.getElementById('loading-progress').style.height = '60%'
+  }
+})
 
 /*
 import { onMounted, onUnmounted } from 'vue'

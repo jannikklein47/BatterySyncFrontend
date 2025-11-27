@@ -306,6 +306,13 @@ const filterStatus = ref(0)
 
 onMounted(async () => {
   await issueStore.loadIssues()
+
+  if (document.getElementById('loading-progress').style.height === '60%') {
+    document.getElementById('loading-progress').style.height = '75%'
+    setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 500)
+  } else {
+    document.getElementById('loading-progress').style.height = '60%'
+  }
 })
 
 async function createIssue() {

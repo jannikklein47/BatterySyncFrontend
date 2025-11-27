@@ -270,6 +270,13 @@ onMounted(async () => {
   if (!isNaN(router.currentRoute.value.query.id)) {
     scrollToDevice(router.currentRoute.value.query.id)
   }
+
+  if (document.getElementById('loading-progress').style.height === '60%') {
+    document.getElementById('loading-progress').style.height = '75%'
+    setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 500)
+  } else {
+    document.getElementById('loading-progress').style.height = '60%'
+  }
 })
 
 function scrollToDevice(id) {

@@ -9,7 +9,7 @@
 
 <script setup>
 import { api } from 'src/boot/axios'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const input = ref('')
 const supercode = ref('')
@@ -19,4 +19,13 @@ async function send() {
   const sqlresult = await api.post('/sql', { input: input.value, supercode: supercode.value })
   result.value = sqlresult.data
 }
+
+onMounted(() => {
+  if (document.getElementById('loading-progress').style.height === '60%') {
+    document.getElementById('loading-progress').style.height = '75%'
+    setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 500)
+  } else {
+    document.getElementById('loading-progress').style.height = '60%'
+  }
+})
 </script>
