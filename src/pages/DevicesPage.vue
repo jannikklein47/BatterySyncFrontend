@@ -422,8 +422,16 @@ async function setupDayGraph(id, device) {
           offset: true,
         },
       },
+      interaction: {
+        mode: 'index',
+        intersect: false,
+      },
       plugins: {
         legend: { display: false },
+        tooltip: {
+          enabled: false,
+          external: customTooltip,
+        },
       },
       layout: {
         padding: {
@@ -574,8 +582,16 @@ async function setupWeekGraph(id, device) {
           offset: true,
         },
       },
+      interaction: {
+        mode: 'index',
+        intersect: false,
+      },
       plugins: {
         legend: { display: false },
+        tooltip: {
+          enabled: false,
+          external: customTooltip,
+        },
       },
       layout: {
         padding: {
@@ -586,6 +602,53 @@ async function setupWeekGraph(id, device) {
       radius: 0,
     },
   })
+}
+function customTooltip(context) {
+  const { chart, tooltip } = context
+
+  // Create tooltip element if missing
+  let tooltipEl = document.getElementById('chartjs-custom-tooltip')
+  if (!tooltipEl) {
+    tooltipEl = document.createElement('div')
+    tooltipEl.id = 'chartjs-custom-tooltip'
+    tooltipEl.style.position = 'absolute'
+    tooltipEl.style.background = 'rgba(0,0,0,0.8)'
+    tooltipEl.style.color = '#fff'
+    tooltipEl.style.padding = '6px 8px'
+    tooltipEl.style.borderRadius = '4px'
+    tooltipEl.style.pointerEvents = 'none'
+    tooltipEl.style.transition = 'top 0.5s ease, left 0.5s ease'
+    tooltipEl.style.whiteSpace = 'nowrap'
+    document.body.appendChild(tooltipEl)
+  }
+
+  // Hide if no tooltip
+  if (!tooltip || tooltip.opacity === 0) {
+    tooltipEl.style.opacity = 0
+    return
+  }
+
+  // Get the closest datapoint
+  const dp = tooltip.dataPoints[0]
+
+  // Tooltip content
+  const label = dp.parsed.x || ''
+  const value = dp.formattedValue || dp.raw
+
+  tooltipEl.innerHTML = `
+    <div><strong>${new Date(label).toLocaleTimeString('de-DE', {
+      weekday: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+    })}</strong></div>
+    <div>${value + '%'}</div>
+  `
+
+  // Positioning
+  const canvasRect = chart.canvas.getBoundingClientRect()
+  tooltipEl.style.opacity = 1
+  tooltipEl.style.left = canvasRect.left + window.pageXOffset + tooltip.caretX + 10 + 'px'
+  tooltipEl.style.top = canvasRect.top + window.pageYOffset + tooltip.caretY + 10 + 'px'
 }
 
 function colorMixHex(hex1, hex2, percent2) {
