@@ -296,6 +296,8 @@ h1 {
   justify-content: center;
   margin-bottom: 96px;
 
+  -webkit-mask: linear-gradient(90deg, #0000, #000 5% 95%, #0000);
+
   > div {
     display: flex;
     flex-direction: row;
@@ -325,6 +327,14 @@ h1 {
     height: 100%;
     display: flex;
     flex-direction: column;
+
+    &:first-child {
+      margin-left: 5%;
+    }
+
+    &:last-child {
+      margin-right: 5%;
+    }
 
     h2 {
       width: 100%;

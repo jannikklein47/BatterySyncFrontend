@@ -752,6 +752,8 @@ async function deleteDevice(id) {
   color: white;
   display: flex;
   gap: var(--std-pad);
+  position: relative;
+  overflow: visible;
 }
 
 .device-list {
@@ -761,6 +763,9 @@ async function deleteDevice(id) {
   justify-content: start;
   flex-direction: column;
   gap: var(--std-pad);
+  position: sticky;
+  top: calc(50px + var(--std-pad));
+  height: fit-content;
 
   .favorites,
   .list {
@@ -794,9 +799,6 @@ async function deleteDevice(id) {
 
 .scrollable-content {
   width: 100%;
-  max-height: calc(100vh - 50px - 48px);
-  //background-color: #ffffff10;
-  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   gap: var(--std-pad);
