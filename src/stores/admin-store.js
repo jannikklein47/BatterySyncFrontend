@@ -13,10 +13,10 @@ export const useAdminStore = defineStore('admin', {
   },
 
   actions: {
-    async loadData(timeframe = '1 day', interval = '30', key = 'none') {
+    async loadData(timeframe = '1 day', interval = '30 minutes', key = 'none') {
       try {
         const result = await api.get(
-          '/metrics?timeframe=' + timeframe + '&intervalMinutes=' + interval + '&key=' + key,
+          '/metrics?timeframe=' + timeframe + '&interval=' + interval + '&key=' + key,
         )
 
         if (result.status !== 200) return false

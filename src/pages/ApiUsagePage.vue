@@ -2,7 +2,7 @@
   <q-page class="main">
     <div>
       <q-input label="Custom timeframe" type="text" v-model="timeframe" />
-      <q-input label="Interval in minutes" type="number" v-model="interval" />
+      <q-input label="Interval" type="text" v-model="interval" />
       <q-input label="Admin Key" type="password" v-model="key" />
       <q-btn @click="updateGraph" label="Request" />
       <div><canvas id="display-metrics"></canvas></div>
@@ -25,7 +25,7 @@ const adminStore = useAdminStore()
 const data = computed(() => adminStore.data)
 
 const timeframe = ref('1 day')
-const interval = ref(30)
+const interval = ref('30 minutes')
 const key = ref('')
 
 const charts = []
