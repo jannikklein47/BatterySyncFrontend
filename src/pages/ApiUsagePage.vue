@@ -203,7 +203,7 @@ function generateGraphs() {
 onMounted(() => {
   if (document.getElementById('loading-progress').style.height === '60%') {
     document.getElementById('loading-progress').style.height = '75%'
-    setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 500)
+    setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 300)
   } else {
     document.getElementById('loading-progress').style.height = '60%'
   }

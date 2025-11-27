@@ -23,6 +23,6 @@ import { onMounted } from 'vue'
 
 onMounted(() => {
   document.getElementById('loading-progress').style.height = '75%'
-  setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 500)
+  setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 300)
 })
 </script>
