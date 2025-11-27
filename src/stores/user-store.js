@@ -44,6 +44,26 @@ export const useUserStore = defineStore('user', {
         return error.response?.data || error.message
       }
     },
+    async register(email, password) {
+      try {
+        const result = await api.post('/login/register', { email: email, password: password })
+
+        if (result.status === 200) {
+          const token = result.data
+
+          localStorage.setItem('accessToken', token)
+
+          this.userObject = { email: email, token: token }
+          await this.checkAdmin()
+          await this.checkUserId()
+          return true
+        } else {
+          return result.status
+        }
+      } catch (error) {
+        return error.response?.data || error.message
+      }
+    },
     async auth(token) {
       try {
         const result = await api.get('/login/auth', { headers: { Authorization: token } })

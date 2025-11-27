@@ -8,7 +8,7 @@
       </h1>
     </div>
 
-    <form class="login" @submit.prevent="login">
+    <form class="login" @submit.prevent="login" v-if="wantsToLogin">
       <h2>Anmelden</h2>
       <q-input
         :disable="loginLoading"
@@ -27,7 +27,64 @@
         autocomplete="login password"
       />
 
-      <p>Noch kein Konto? <q-btn flat class="register-btn" label="Registrieren" no-caps /></p>
+      <p>
+        Noch kein Konto?
+        <q-btn
+          flat
+          class="register-btn"
+          label="Registrieren"
+          no-caps
+          @click="wantsToLogin = false"
+        />
+      </p>
+
+      <q-btn
+        class="submit-btn"
+        type="submit"
+        label="Absenden"
+        no-caps
+        flat
+        :loading="loginLoading"
+      />
+    </form>
+    <form class="login" @submit.prevent="register" v-else>
+      <h2>Registrieren</h2>
+      <q-input
+        :disable="loginLoading"
+        standout="bg-grey-8"
+        autofocus
+        label="Nutzername"
+        v-model="inputUsername"
+        autocomplete="login username"
+        hint="Mindestens 4 Zeichen"
+      />
+      <q-input
+        :disable="loginLoading"
+        type="password"
+        standout="bg-grey-8"
+        label="Passwort"
+        hint="Mindestens 8 Zeichen"
+        v-model="inputPassword"
+        autocomplete="login password"
+      />
+      <q-input
+        :disable="loginLoading"
+        type="password"
+        standout="bg-grey-8"
+        label="Passwort wiederholen"
+        v-model="repeatPassword"
+        autocomplete="login password"
+        hint="Passwörter müssen übereinstimmen"
+      />
+
+      <p>
+        Schon ein Konto?
+        <q-btn flat class="register-btn" label="Anmelden" no-caps @click="wantsToLogin = true" />
+      </p>
+      <p style="font-size: 14px">
+        Mit der Registrierung erklären Sie sich mit den AGB und den Nutzungsbedingungen von
+        BatterySync einverstanden.
+      </p>
 
       <q-btn
         class="submit-btn"
@@ -52,11 +109,54 @@ const $q = useQuasar()
 
 const inputUsername = ref('')
 const inputPassword = ref('')
+const repeatPassword = ref('')
 const loginLoading = ref(false)
+
+const wantsToLogin = ref(true)
 
 async function login() {
   loginLoading.value = true
   const result = await userStore.login(inputUsername.value, inputPassword.value)
+  if (result === true) {
+    router.push({ name: 'dashboard' })
+  } else {
+    $q.notify({
+      message: result,
+      timeout: 6000,
+      type: 'negative',
+      position: 'bottom-right',
+    })
+  }
+  loginLoading.value = false
+}
+
+async function register() {
+  loginLoading.value = true
+  if (inputPassword.value !== repeatPassword.value) {
+    $q.notify({
+      message: 'Passwörter stimmen nicht überein',
+      type: 'negative',
+    })
+    loginLoading.value = false
+    return
+  }
+  if (inputPassword.value.length < 8) {
+    $q.notify({
+      message: 'Dein Passwort muss mindestens 8 Zeichen lang sein.',
+      type: 'negative',
+    })
+    loginLoading.value = false
+    return
+  }
+  if (inputUsername.value.length < 8) {
+    $q.notify({
+      message: 'Dein Nutzername muss mindestens 4 Zeichen lang sein.',
+      type: 'negative',
+    })
+    loginLoading.value = false
+    return
+  }
+  const result = await userStore.register(inputUsername.value, inputPassword.value)
   if (result === true) {
     router.push({ name: 'dashboard' })
   } else {
