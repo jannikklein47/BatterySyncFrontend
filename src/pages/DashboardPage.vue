@@ -270,13 +270,9 @@ onMounted(async () => {
   }, 5000)
 
   news.value.push({
-    title: 'Neues Update',
-    caption: 'Wir haben einige neue Features hinzugefügt!',
-    text: `Mit der neuen BatterySync Version "Beta 0.2" aktualisieren wir folgende Funktionen:
-    <h2 class="test"><span class="text-gradient">BatterySync</span> Website</h2>
-    <p> - Angemeldet bleiben: Nutzer müssen sich nicht jedes Mal neu anmelden <br> - Neuigkeiten sind verfügbar<br> - Design: Hintergrundfarbe etwas bläulicher <br> - Design: Navigation-Bar überarbeitet <br> - Design: Neuigkeiten-Bereich verändert, wenn es Neuigkeiten gibt</p>
-    <h2>Neue App</h2>
-    <p>Zudem haben wir mit der Entwicklung einer Android WearOS-App gestartet, sodass bald auch Smartwatches in unsere App eingebunden werden können. Dazu gibt es zu einem späteren Zeitpunkt mehr.</p>`,
+    title: 'Temporäre Einschränkung der Services',
+    caption: 'Bitte beachten!',
+    text: `<h2>Anstehendes Update</h2><p>Wir bauen aktuell auf ein überarbeitetes Geräte-System um. Aus diesem Grund ist das Hinzufügen neuer Geräte aktuell deaktiviert. Wir bitten um Euer Verständnis!</p>`,
   })
 
   if (document.getElementById('loading-progress').style.height === '60%') {
