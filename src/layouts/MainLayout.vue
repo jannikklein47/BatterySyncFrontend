@@ -112,7 +112,7 @@
       <h2>Copyright © 2025 by Jannik Klein</h2>
       <div>
         <q-btn label="Feedback geben / Issues" no-caps flat to="issues" />
-        <q-btn label="Impressum" no-caps flat to="impressum" />
+        <q-btn label="Rechtliches" no-caps flat to="legal" />
         <q-btn label="API Usage Insights" no-caps flat to="apiusage" />
       </div>
     </div>

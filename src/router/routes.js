@@ -29,9 +29,9 @@ const routes = [
         name: 'apiusage',
       },
       {
-        path: 'impressum',
-        component: () => import('pages/ImpressumPage.vue'),
-        name: 'impressum',
+        path: 'legal',
+        component: () => import('src/pages/LegalPage.vue'),
+        name: 'legal',
       },
       {
         path: 'issues',
