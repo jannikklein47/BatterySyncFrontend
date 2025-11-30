@@ -55,6 +55,12 @@
           >
         </div>
 
+        <div v-if="device.isLegacy">
+          <span class="text-orange"
+            >Legacy-Gerät: Dieses Gerät verwendet die veraltete App. Aktualisiere Zeitnah.</span
+          >
+        </div>
+
         <q-separator dark style="margin-bottom: -10px" />
 
         <div class="battery-info">
@@ -191,7 +197,7 @@
         <div class="content">
           <span>
             Dein Gerät wird hierdurch permanent gelöscht. Deine zugehörigen Nutzungsdaten sind dann
-            nicht mehr abrufbar, werden aber selbstverständlich von BatterySync verkauft.
+            nicht mehr abrufbar und werden von unseren Servern gelöscht.
           </span>
           <q-btn
             label="Permanent löschen

@@ -270,9 +270,9 @@ onMounted(async () => {
   }, 5000)
 
   news.value.push({
-    title: 'Temporäre Einschränkung der Services',
-    caption: 'Bitte beachten!',
-    text: `<h2>Anstehendes Update</h2><p>Wir bauen aktuell auf ein überarbeitetes Geräte-System um. Aus diesem Grund ist das Hinzufügen neuer Geräte aktuell deaktiviert. Wir bitten um Euer Verständnis!</p>`,
+    title: 'Update der Android-App',
+    caption: 'Wir haben die Android-App vollständig überarbeitet!',
+    text: `<h2>Vollständige Überarbeitung unserer Android-App</h2><p>Wir haben das Geräte-System überarbeitet. Geräte, die auf die neue Version umstellen, profitieren von zahlreichen Features! <br>- User-Interface im BatterySync-Style<br> - Zertifikats-basierte Authentifizierung<br>- Gerät umbenennen<br>- Sichere Verknüpfung und Übetragung deiner Geräte</p><p>Alte Geräte behalten ihre Funktionalität zunächst. Wir bitten dich dennoch, deine Geräte auf die neue Version zu aktualisieren.</p>`,
   })
 
   if (document.getElementById('loading-progress').style.height === '60%') {
