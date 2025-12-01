@@ -7,7 +7,7 @@ import axios from 'axios'
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: 'https://batterysync.chickenkiller.com:3000' })
+const api = axios.create({ baseURL: 'https://batterysync.de:3000' })
 
 api.interceptors.request.use(function (config) {
   const auth = localStorage.getItem('accessToken')
