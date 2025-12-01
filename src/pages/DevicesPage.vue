@@ -159,6 +159,28 @@
           <canvas :id="'week-graph-device-' + device.id" style="height: 100%; width: 100%"></canvas>
         </div>
 
+        <div class="get-notification">
+          <span>Widget-Sichtbarkeit</span>
+          <q-space />
+          <q-btn-group rounded flat class="reminder-buttons">
+            <q-btn
+              label="Aus"
+              no-caps
+              class="off"
+              :class="{ active: !device.isShown }"
+              @click="hideDevice(device.id)"
+            />
+            <q-separator vertical />
+            <q-btn
+              label="An"
+              no-caps
+              class="once"
+              :class="{ active: device.isShown }"
+              @click="showDevice(device.id)"
+            />
+          </q-btn-group>
+        </div>
+
         <div class="footer">
           <q-space />
           <q-btn
@@ -813,6 +835,13 @@ async function deleteDevice(id) {
   if (result.status === 200) {
     deleteDeviceWindow.value.show = false
   }
+}
+
+async function showDevice(id) {
+  await deviceStore.setIsShown(id, true)
+}
+async function hideDevice(id) {
+  await deviceStore.setIsShown(id, false)
 }
 </script>
 <style lang="scss" scoped>

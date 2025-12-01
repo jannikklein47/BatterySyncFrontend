@@ -137,11 +137,10 @@ export const useDeviceStore = defineStore('device', {
     setLocalHasOrderedNotification(deviceId) {
       this.deviceArray.find((val) => val.id === deviceId).hasOrderedNotification = true
     },
-    async setIsShown(deviceName, isShown) {
-      const result = await api.put('/device', { name: deviceName, isShown: isShown })
+    async setIsShown(id, isShown) {
+      const result = await api.patch('/device/isShown?id=' + id + '&isShown=' + isShown)
 
-      this.deviceArray[this.deviceArray.findIndex((val) => val.name === deviceName)].isShown =
-        isShown
+      this.deviceArray[this.deviceArray.findIndex((val) => val.id === id)].isShown = isShown
 
       return result
     },
