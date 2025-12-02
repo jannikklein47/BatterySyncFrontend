@@ -80,11 +80,23 @@
         </div>
         <span class="time" v-if="userId">
           <q-icon name="add_comment" />
-          {{ new Date(issue.createdAt).toLocaleDateString('de-De') }}</span
+          {{
+            new Date(issue.createdAt).toLocaleDateString('de-De', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })
+          }}</span
         >
         <span class="time" v-if="userId">
           <q-icon name="update" />
-          {{ new Date(issue.updatedAt).toLocaleDateString('de-De') }}</span
+          {{
+            new Date(issue.updatedAt).toLocaleDateString('de-De', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })
+          }}</span
         >
         <span class="user"> @{{ issue.user?.email || 'unknown' }} </span>
       </h2>

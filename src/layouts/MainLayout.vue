@@ -107,7 +107,7 @@
 
     <div
       class="footer"
-      v-if="['indexpage', 'impressum', 'issues', 'profile'].includes($route.name)"
+      v-if="['indexpage', 'impressum', 'issues', 'profile'].includes($route.name) || true"
     >
       <h2>Copyright © 2025 by Jannik Klein</h2>
       <div>

@@ -126,7 +126,8 @@
               label="Aus"
               no-caps
               class="off"
-              :class="{ active: !device.hasOrderedNotification }"
+              :class="{ active: !device.hasOrderedNotification && !device.permanentNotification }"
+              :disable="disableNotificationSelect"
               @click="turnOffNotification(device.id)"
             />
             <q-separator vertical />
@@ -134,16 +135,17 @@
               label="Ein Mal"
               no-caps
               class="once"
-              :class="{ active: device.hasOrderedNotification }"
+              :class="{ active: device.hasOrderedNotification && !device.permanentNotification }"
               @click="turnOnNotificationOnce(device.id)"
-              :disable="device.chargingStatus || device.isPluggedIn"
+              :disable="device.chargingStatus || device.isPluggedIn || disableNotificationSelect"
             />
             <q-separator vertical />
             <q-btn
               label="Immer"
               no-caps
               class="permanent"
-              disable
+              :class="{ active: device.hasOrderedNotification && device.permanentNotification }"
+              :disable="device.chargingStatus || device.isPluggedIn || disableNotificationSelect"
               @click="turnOnNotificationForever(device.id)"
             />
           </q-btn-group>
@@ -236,7 +238,7 @@
 <script setup>
 import { useDeviceStore } from 'src/stores/device-store'
 import { useUserStore } from 'src/stores/user-store'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import 'chartjs-adapter-date-fns'
 import { api } from 'src/boot/axios'
@@ -252,6 +254,8 @@ const computedUser = computed(() => userStore.user)
 const deleteDeviceWindow = ref({ show: false, data: null })
 
 const router = useRouter()
+
+const disableNotificationSelect = ref(false)
 
 onMounted(async () => {
   if (!computedUser.value.email) {
@@ -306,6 +310,13 @@ onMounted(async () => {
     document.getElementById('loading-progress').style.height = '60%'
   }
 })
+
+watch(
+  computed(() => deviceStore.onLoadDevice),
+  () => {
+    disableNotificationSelect.value = false
+  },
+)
 
 function scrollToDevice(id) {
   document.getElementById('device-setting-' + id).scrollIntoView({ behavior: 'smooth' })
@@ -804,7 +815,7 @@ async function turnOffNotification(id) {
   const result = await api.post('/notification/off', { deviceId: id })
 
   if (result.status === 200) {
-    deviceStore.setLocalHasOrderedNotification(id)
+    disableNotificationSelect.value = true
   }
 }
 
@@ -812,12 +823,17 @@ async function turnOnNotificationOnce(id) {
   const result = await api.post('/notification/new', { deviceId: id })
 
   if (result.status === 200) {
-    deviceStore.setLocalHasOrderedNotification(id)
+    disableNotificationSelect.value = true
   }
 }
 
-function turnOnNotificationForever(id) {
-  id
+async function turnOnNotificationForever(id) {
+  await turnOffNotification(id)
+  const result = await api.post('/notification/new', { deviceId: id, permanent: true })
+
+  if (result.status === 200) {
+    disableNotificationSelect.value = true
+  }
 }
 
 async function changeFavorite(device) {

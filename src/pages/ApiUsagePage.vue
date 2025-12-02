@@ -7,6 +7,7 @@
       <q-btn @click="updateGraph" label="Request" />
       <div><canvas id="display-metrics"></canvas></div>
       <div><canvas id="display-routes"></canvas></div>
+      <div><canvas id="display-userIdUsage"></canvas></div>
     </div>
   </q-page>
 </template>
@@ -117,10 +118,10 @@ function generateGraphs() {
     })
   })
 
-  function createDatasets(routes = false) {
+  function createDatasets(type) {
     const datasets = []
     Object.keys(chartData).forEach((key) => {
-      if (key.includes('/') && routes) {
+      if (key.includes('/') && type === 'routes') {
         datasets.push({
           label: key,
           data: chartData[key],
@@ -130,7 +131,7 @@ function generateGraphs() {
         })
       }
 
-      if (!key.includes('/') && !routes) {
+      if (!key.includes('/') && type === 'requests') {
         if (key === 'responseSizes' || key === 'requestSizes') {
           datasets.push({
             label: key,
@@ -139,14 +140,16 @@ function generateGraphs() {
             tension: 0.3,
             yAxisID: 'y1',
           })
-        } else
-          datasets.push({
-            label: key,
-            data: chartData[key],
-            borderWidth: 2,
-            tension: 0.3,
-            yAxisID: 'y',
-          })
+        }
+      }
+      if (key.includes('total_userId-') && type === 'users') {
+        datasets.push({
+          label: key,
+          data: chartData[key],
+          borderWidth: 2,
+          tension: 0.3,
+          yAxisID: 'y4',
+        })
       }
     })
     return datasets
@@ -154,12 +157,13 @@ function generateGraphs() {
 
   const chartCanvas = document.getElementById('display-metrics').getContext('2d')
   const routeCanvas = document.getElementById('display-routes').getContext('2d')
+  const userIdCanvas = document.getElementById('display-userIdUsage').getContext('2d')
 
   const stdChart = new Chart(chartCanvas, {
     type: 'line',
     data: {
       labels: displayLabels,
-      datasets: createDatasets(false),
+      datasets: createDatasets('requests'),
     },
     options: {
       responsive: true,
@@ -183,7 +187,7 @@ function generateGraphs() {
     type: 'line',
     data: {
       labels: displayLabels,
-      datasets: createDatasets(true),
+      datasets: createDatasets('routes'),
     },
     options: {
       responsive: true,
@@ -197,7 +201,25 @@ function generateGraphs() {
     },
   })
 
-  charts.push(stdChart, routeChart)
+  const userIdUsageChart = new Chart(userIdCanvas, {
+    type: 'line',
+    data: {
+      labels: displayLabels,
+      datasets: createDatasets('users'),
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y4: {
+          type: 'linear',
+          position: 'left',
+          title: { display: true, text: 'User Usage' },
+        },
+      },
+    },
+  })
+
+  charts.push(stdChart, routeChart, userIdUsageChart)
 }
 
 onMounted(() => {

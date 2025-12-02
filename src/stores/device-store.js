@@ -8,6 +8,7 @@ export const useDeviceStore = defineStore('device', {
     deviceWeekHistoryArray: [],
     interval: null,
     graphReloadTrigger: false,
+    ldcounter: 0,
   }),
 
   getters: {
@@ -22,6 +23,9 @@ export const useDeviceStore = defineStore('device', {
     },
     watchGraphReloadTrigger: (state) => {
       return state.graphReloadTrigger
+    },
+    onLoadDevice: (state) => {
+      return state.ldcounter
     },
   },
 
@@ -90,6 +94,7 @@ export const useDeviceStore = defineStore('device', {
         this.interval = setInterval(() => this.loadDevices(), 1000)
       }
 
+      this.ldcounter++
       return result.data
     },
     async loadHistory() {
