@@ -140,6 +140,14 @@ function generateGraphs() {
             tension: 0.3,
             yAxisID: 'y1',
           })
+        } else {
+          datasets.push({
+            label: key,
+            data: chartData[key],
+            borderWidth: 2,
+            tension: 0.3,
+            yAxisID: 'y',
+          })
         }
       }
       if (key.includes('total_userId-') && type === 'users') {
