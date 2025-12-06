@@ -148,7 +148,7 @@ async function register() {
     loginLoading.value = false
     return
   }
-  if (inputUsername.value.length < 8) {
+  if (inputUsername.value.length < 4) {
     $q.notify({
       message: 'Dein Nutzername muss mindestens 4 Zeichen lang sein.',
       type: 'negative',
