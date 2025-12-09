@@ -19,15 +19,14 @@
             <p>
               Mit der MacOS App erhälst du Widgets verschiedener Größen. Dort werden deine Geräte
               angezeigt. <br />Außerdem kannst du Geräte verwalten und erhälst
-              Erinnerungsbenachrichtigungen. <br />
-              Leider kann die MacOS-Version aktuell nicht heruntergeladen werden.
+              Erinnerungsbenachrichtigungen.
             </p>
           </q-expansion-item>
 
           <q-space />
 
           <div class="actions">
-            <q-btn label="Download" class="btn" flat disable />
+            <q-btn label="Download" class="btn" flat @click="downloadDmg" :disable="lock" />
           </div>
         </div>
         <div>
@@ -172,6 +171,24 @@ async function downloadApk() {
     })
 
     saveAs(response.data, 'batterysync-android.apk')
+    notif({ type: 'positive', message: 'Download abgeschlossen' })
+
+    lock.value = false
+  } catch {
+    notif({ type: 'positive', message: 'Download fehlgeschlagen' })
+    lock.value = false
+  }
+}
+
+async function downloadDmg() {
+  const notif = Notify.create({ type: 'ongoing', message: 'Downloading...' })
+  lock.value = true
+  try {
+    const response = await api.get('/file/macos', {
+      responseType: 'blob',
+    })
+
+    saveAs(response.data, 'batterysync-macos.dmg')
     notif({ type: 'positive', message: 'Download abgeschlossen' })
 
     lock.value = false
