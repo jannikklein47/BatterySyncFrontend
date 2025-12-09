@@ -131,7 +131,7 @@ function generateGraphs() {
         })
       }
 
-      if (!key.includes('/') && type === 'requests') {
+      if (!key.includes('/') && type === 'requests' && !key.includes('total_userId-')) {
         if (key === 'responseSizes' || key === 'requestSizes') {
           datasets.push({
             label: key,
