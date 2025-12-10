@@ -74,7 +74,13 @@
                       const d = device.predictedZeroAt
 
                       const t = new Date(d) - new Date()
-                      if (t < 0) return 'Akku ist leer.'
+                      if (t < 0) {
+                        if (device.battery > 0) {
+                          return 'Akku ist inzwischen wahrscheinlich leer.'
+                        } else {
+                          return 'Akku ist leer.'
+                        }
+                      }
 
                       const D = Math.floor(t / 86400000)
                       const H = Math.floor((t % 86400000) / 3600000)

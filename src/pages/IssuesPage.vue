@@ -537,7 +537,7 @@ async function addDownvote(issue) {
     font-size: 20px;
 
     button {
-      color: #bbb;
+      color: #000;
     }
 
     button.active.positive {

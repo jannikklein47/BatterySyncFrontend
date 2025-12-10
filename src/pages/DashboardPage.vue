@@ -587,14 +587,24 @@ function generateRecommendations() {
 
   // Battery is low; even include those that have an ordered notification (should not happen!)
   let lowBattery =
-    computedDevices.value.filter(
-      (device) =>
-        ((device.predictedZeroAt &&
+    computedDevices.value.filter((device) => {
+      if (device.isPluggedIn === false) {
+        if (
+          device.predictedZeroAt &&
           device.predictedZeroAt < new Date(Date.now() + 2 * 60 * 60 * 1000) &&
-          device.predictedZeroAt > new Date(Date.now())) ||
-          (device.battery <= 0.15 && device.battery > 0)) &&
-        device.isPluggedIn === false,
-    ) || []
+          device.predictedZeroAt > new Date(Date.now())
+        ) {
+          return true
+        } else if (device.battery <= 0.15 && device.battery > 0) {
+          if (device.predictedZeroAt && device.predictedZeroAt < new Date()) {
+            return false
+          }
+          return true
+        } else {
+          return false
+        }
+      } else return false
+    }) || []
 
   const result = []
 
