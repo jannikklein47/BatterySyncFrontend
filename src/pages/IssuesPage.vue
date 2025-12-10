@@ -33,14 +33,13 @@
         class="status-indicator"
         :style="
           'background-color:' +
-          (issue.status === 0
-            ? 'red'
-            : issue.status === 1
+          (issue.priority === 0
+            ? '#777777'
+            : issue.priority === 1
               ? 'orange'
-              : issue.status === 2
-                ? 'green'
-                : 'grey') +
-          ';'
+              : issue.priority === 2
+                ? 'RED'
+                : 'black')
         "
       ></div>
       <h2>
