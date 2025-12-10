@@ -16,6 +16,8 @@ export const useIssueStore = defineStore('issue', {
     async loadIssues() {
       const result = await api.get('/issue')
 
+      console.log(result.data)
+
       this.issuesArray = result.data
 
       return result.data
@@ -43,6 +45,16 @@ export const useIssueStore = defineStore('issue', {
     async update(data) {
       const result = await api.put('/issue', data)
       return result
+    },
+
+    async upvote(id) {
+      await api.post('/issue/upvote?id=' + id)
+      this.loadIssues()
+    },
+
+    async downvote(id) {
+      await api.post('/issue/downvote?id=' + id)
+      this.loadIssues()
     },
   },
 })

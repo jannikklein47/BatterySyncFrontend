@@ -28,7 +28,7 @@
       </q-btn>
     </div>
 
-    <div class="element" v-for="issue in computedIssues" :key="issue.id">
+    <div class="element" v-for="issue in computedIssues" :key="issue.id" :id="'issue-' + issue.id">
       <div
         class="status-indicator"
         :style="
@@ -41,7 +41,27 @@
                 ? 'RED'
                 : 'black')
         "
-      ></div>
+      >
+        <q-btn
+          flat
+          icon="arrow_drop_up"
+          dense
+          size="lg"
+          @click="addUpvote(issue)"
+          class="positive"
+          :class="{ active: issue.hasUpvoted }"
+        />
+        <span class="text-bold">{{ (issue.upvoteCount || 0) - (issue.downvoteCount || 0) }}</span>
+        <q-btn
+          flat
+          icon="arrow_drop_down"
+          dense
+          size="lg"
+          @click="addDownvote(issue)"
+          class="negative"
+          :class="{ active: issue.hasDownvoted }"
+        />
+      </div>
       <h2>
         <div
           class="prio-indicator"
@@ -383,6 +403,35 @@ async function sendEdit() {
 function setSort(status) {
   filterStatus.value = status
 }
+
+async function addUpvote(issue) {
+  await issueStore.upvote(issue.id)
+  setTimeout(() => {
+    var element = document.getElementById('issue-' + issue.id)
+    var headerOffset = 100
+    var elementPosition = element.getBoundingClientRect().top
+    var offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    })
+  }, 300)
+}
+async function addDownvote(issue) {
+  await issueStore.downvote(issue.id)
+  setTimeout(() => {
+    var element = document.getElementById('issue-' + issue.id)
+    var headerOffset = 100
+    var elementPosition = element.getBoundingClientRect().top
+    var offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    })
+  }, 300)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -456,7 +505,7 @@ function setSort(status) {
   width: 100%;
 
   > * {
-    margin-left: var(--std-pad);
+    margin-left: calc(var(--std-pad) * 2);
   }
 
   .prio-indicator {
@@ -469,7 +518,7 @@ function setSort(status) {
   }
 
   .status-indicator {
-    width: var(--std-pad);
+    width: calc(var(--std-pad) * 2);
     height: 100%;
     position: absolute;
     left: 0;
@@ -478,6 +527,25 @@ function setSort(status) {
     margin: 0;
     border-top-left-radius: var(--std-pad);
     border-bottom-left-radius: var(--std-pad);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--std-pad);
+
+    font-size: 20px;
+
+    button {
+      color: #bbb;
+    }
+
+    button.active.positive {
+      color: #84ff8e;
+    }
+    button.active.negative {
+      color: #ff8484;
+    }
   }
   .category {
     margin: 0;
@@ -490,7 +558,7 @@ function setSort(status) {
   h2 {
     line-height: 1.2em;
     margin: 0;
-    margin-left: var(--std-pad);
+    margin-left: calc(var(--std-pad) * 2);
     font-weight: 300;
     font-size: 30px;
     flex-direction: row;
