@@ -56,6 +56,16 @@ export const useIssueStore = defineStore('issue', {
       await api.post('/issue/downvote?id=' + id)
       this.loadIssues()
     },
+
+    async addComment(text, id) {
+      await api.post('/issue/comment?issueId=' + id, { text: text })
+      this.loadIssues()
+    },
+
+    async deleteComment(id) {
+      await api.delete('/issue/comment?id=' + id)
+      this.loadIssues()
+    },
   },
 })
 

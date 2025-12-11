@@ -117,7 +117,7 @@
             })
           }}</span
         >
-        <span class="user"> @{{ issue.user?.email || 'unknown' }} </span>
+        <span class="user"> @{{ issue.user?.email || issue['user.email'] || 'unknown' }} </span>
       </h2>
       <h2>
         <span class="text"
@@ -133,6 +133,7 @@
         Beschreibung <br />
         <span
           v-for="p in issue.description
+            .trim()
             .replace(/\n{2,}/g, '\n')
             .replace(/ {2,}/g, ' ')
             .split('\n')"
@@ -140,6 +141,60 @@
           >{{ p }} <br
         /></span>
       </p>
+
+      <div class="comments">
+        <q-btn
+          icon="add_circle"
+          @click="
+            () => {
+              createCommentModel.show = true
+              createCommentModel.issue = issue
+            }
+          "
+          label="Kommentar hinzufügen"
+          no-caps
+          rounded
+          style="background-color: #fff2"
+        />
+        <div class="comment" v-for="comment in issue.comments" :key="comment.id">
+          <div class="header">
+            <span class="profile-icon">{{ comment.username.at(0) }}</span>
+            @{{ comment.username || 'unknown' }}
+            <span class="date">
+              {{
+                new Date(comment.createdAt).toLocaleDateString('de-De', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                })
+              }}
+            </span>
+
+            <q-space />
+
+            <q-btn
+              @click="deleteComment(comment)"
+              icon="delete"
+              flat
+              dense
+              size="sm"
+              class="delete"
+              v-if="comment.userId === userId || isAdmin"
+            />
+          </div>
+          <p>
+            <span
+              v-for="p in comment.text
+                .trim()
+                .replace(/\n{2,}/g, '\n')
+                .replace(/ {2,}/g, ' ')
+                .split('\n')"
+              :key="p"
+              >{{ p }} <br
+            /></span>
+          </p>
+        </div>
+      </div>
 
       <div class="admin-btns" v-if="userId">
         <q-btn
@@ -245,6 +300,41 @@
     </q-dialog>
 
     <q-dialog
+      v-model="createCommentModel.show"
+      backdrop-filter="blur(10px)"
+      @before-hide="createCommentModel.data = {}"
+      full-width
+    >
+      <div
+        class="recommendation-popup"
+        :style="'--gradient-start: ' + '#3e73b8' + ';--gradient-end:' + '#7cde89'"
+      >
+        <div class="title">
+          <h1>Issue kommentieren</h1>
+          <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
+        </div>
+        <div class="content">
+          <q-input
+            color="white"
+            dark
+            filled
+            type="textarea"
+            label="Text"
+            v-model="createCommentModel.data.text"
+          />
+
+          <q-btn
+            label="Hochladen
+            "
+            flat
+            class="confirm-button"
+            @click="comment()"
+          />
+        </div>
+      </div>
+    </q-dialog>
+
+    <q-dialog
       v-model="editIssueModel.show"
       backdrop-filter="blur(10px)"
       @before-hide="editIssueModel.data = {}"
@@ -329,6 +419,7 @@ const computedIssuesWithoutFilter = computed(() => issueStore.issues)
 
 const createIssueModel = ref({ show: false, data: { notify: false } })
 const editIssueModel = ref({ show: false, data: {} })
+const createCommentModel = ref({ show: false, issue: {}, data: {} })
 
 const isAdmin = computed(() => userStore.isAdmin)
 const userId = computed(() => userStore.userId)
@@ -431,6 +522,15 @@ async function addDownvote(issue) {
       behavior: 'smooth',
     })
   }, 300)
+}
+
+async function comment() {
+  await issueStore.addComment(createCommentModel.value.data.text, createCommentModel.value.issue.id)
+  createCommentModel.value.show = false
+}
+
+async function deleteComment(comment) {
+  await issueStore.deleteComment(comment.id)
 }
 </script>
 
@@ -597,6 +697,44 @@ async function addDownvote(issue) {
     word-wrap: break-word;
   }
 
+  .comments {
+    display: flex;
+    flex-direction: column;
+    gap: var(--std-pad);
+
+    > button {
+      width: fit-content;
+    }
+
+    .delete {
+      color: red;
+      background-color: #f002;
+    }
+
+    .comment {
+      display: flex;
+      flex-direction: column;
+      background-color: #fff1;
+      border-radius: calc(var(--std-pad) / 2);
+      padding: calc(var(--std-pad) / 2);
+      gap: calc(var(--std-pad) / 2);
+
+      > .header {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+
+        .date {
+          color: #fffb;
+        }
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
   .admin-btns {
     display: flex;
     justify-content: space-between;
@@ -669,6 +807,20 @@ async function addDownvote(issue) {
 
 .button-group-btn-icon {
   display: none;
+}
+
+.profile-icon {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1em;
+  border-radius: 15px;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(10deg, #3e73b8cc 0%, #28b0a5cc 53%, #7cde89cc 100%);
 }
 
 @media only screen and (max-width: 500px) {
