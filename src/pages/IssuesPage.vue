@@ -162,6 +162,7 @@
             <span class="username">@{{ comment.username || 'unknown' }}</span>
 
             <span class="dev-indicator" v-if="comment.byAdmin === true"><span>DEV</span></span>
+            <span class="dev-indicator" v-if="comment.byTester === true"><span>TESTER</span></span>
             <span class="date">
               {{
                 new Date(comment.createdAt).toLocaleDateString('de-De', {
