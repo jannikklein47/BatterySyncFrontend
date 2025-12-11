@@ -163,7 +163,7 @@
 
             <span class="dev-indicator" v-if="comment.byAdmin === true"><span>DEV</span></span>
             <span class="dev-indicator tester" v-if="comment.byTester === true"
-              ><span>FUßSCHNÜFFLER</span></span
+              ><span>TESTER</span></span
             >
             <span class="date">
               {{
