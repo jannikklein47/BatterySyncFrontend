@@ -159,7 +159,9 @@
         <div class="comment" v-for="comment in issue.comments" :key="comment.id">
           <div class="header">
             <span class="profile-icon">{{ comment.username.at(0) }}</span>
-            @{{ comment.username || 'unknown' }}
+            <span class="username">@{{ comment.username || 'unknown' }}</span>
+
+            <span class="dev-indicator" v-if="comment.byAdmin === true"><span>DEV</span></span>
             <span class="date">
               {{
                 new Date(comment.createdAt).toLocaleDateString('de-De', {
@@ -724,8 +726,30 @@ async function deleteComment(comment) {
         gap: 12px;
         align-items: center;
 
+        .username {
+          border-radius: 6px;
+          padding: 3px 12px;
+          font-weight: 400;
+          background-color: #0003;
+        }
+
         .date {
           color: #fffb;
+        }
+
+        .dev-indicator {
+          border-radius: 6px;
+          padding: 3px 12px;
+          font-weight: 500;
+          background-color: #0006;
+
+          > span {
+            background-image: linear-gradient(45deg, #3e73b8 0%, #28b0a5 53%, #7cde89 100%);
+            color: transparent;
+            background-clip: text;
+            font-weight: 500;
+            display: inline-block;
+          }
         }
       }
 
