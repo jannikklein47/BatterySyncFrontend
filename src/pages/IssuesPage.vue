@@ -162,7 +162,9 @@
             <span class="username">@{{ comment.username || 'unknown' }}</span>
 
             <span class="dev-indicator" v-if="comment.byAdmin === true"><span>DEV</span></span>
-            <span class="dev-indicator" v-if="comment.byTester === true"><span>TESTER</span></span>
+            <span class="dev-indicator tester" v-if="comment.byTester === true"
+              ><span>TESTER</span></span
+            >
             <span class="date">
               {{
                 new Date(comment.createdAt).toLocaleDateString('de-De', {
@@ -750,6 +752,12 @@ async function deleteComment(comment) {
             background-clip: text;
             font-weight: 500;
             display: inline-block;
+          }
+        }
+
+        .dev-indicator.tester {
+          > span {
+            background-image: linear-gradient(90deg, #f46600, #ff3932);
           }
         }
       }
