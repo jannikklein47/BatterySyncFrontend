@@ -212,6 +212,11 @@
       </div>
       <q-separator dark inset />
       <div>
+        <h3>Wo speichert <span class="text-gradient">BatterySync</span> meine Daten?</h3>
+        <p>Deine Daten werden innerhalb der EU DSGVO-konform gespeichert.</p>
+      </div>
+      <q-separator dark inset />
+      <div>
         <h3>Welche Betriebssysteme unterstützt <span class="text-gradient">BatterySync</span>?</h3>
         <p>
           Aktuell kannst du BatterySync für Android von unserer Website runterladen; Eine Version
