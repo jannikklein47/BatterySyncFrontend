@@ -724,6 +724,7 @@ async function createIssue() {
     $q.notify({ type: 'negative', message: 'Something went wrong' })
   } else {
     createIssueModel.value.show = false
+    $q.notify({ type: 'positive', message: 'Issue wurde erfolgreich hochgeladen.' })
   }
 }
 
