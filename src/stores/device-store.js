@@ -149,6 +149,13 @@ export const useDeviceStore = defineStore('device', {
 
       return result
     },
+    async rename(id, name) {
+      const result = await api.patch('/device/name?id=' + id + '&name=' + name)
+
+      this.deviceArray[this.deviceArray.findIndex((val) => val.id === id)].name = name
+
+      return result.status === 200
+    },
     async changeDeviceColor(deviceName, color) {
       const result = await api.put('/device', { name: deviceName, color: color })
 

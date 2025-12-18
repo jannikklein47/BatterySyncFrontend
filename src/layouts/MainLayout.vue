@@ -101,7 +101,10 @@
       </q-toolbar>
     </q-header>
 
-    <q-page-container class="main-page-container">
+    <q-page-container
+      class="main-page-container"
+      :class="{ 'no-x-overflow': $route.name === 'indexpage' }"
+    >
       <router-view />
     </q-page-container>
 
@@ -231,14 +234,19 @@ async function sendNotificationToUsers() {
   //background-color: #30394a;
   display: flex;
   justify-content: center;
+  //overflow-x: hidden;
   > main {
     width: min(1200px, calc(100vw));
+  }
+
+  &.no-x-overflow {
+    overflow-x: hidden;
   }
 }
 
 .header {
   //background-color: #00000000;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
   /*
   background: linear-gradient(
     220deg,

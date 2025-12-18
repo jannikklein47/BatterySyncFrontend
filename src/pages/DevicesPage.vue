@@ -192,6 +192,18 @@
         <div class="footer">
           <q-space />
           <q-btn
+            label="Gerät Umbennen"
+            flat
+            class="rename"
+            no-caps
+            @click="
+              () => {
+                renameDeviceWindow.show = true
+                renameDeviceWindow.data = device
+              }
+            "
+          />
+          <q-btn
             label="Gerät löschen"
             flat
             class="delete"
@@ -239,6 +251,42 @@
         </div>
       </div>
     </q-dialog>
+
+    <q-dialog
+      v-model="renameDeviceWindow.show"
+      backdrop-filter="blur(10px)"
+      @before-hide="renameDeviceWindow.data = {}"
+      @before-show="renameDeviceWindow.text = renameDeviceWindow.data?.name || ''"
+    >
+      <div
+        class="recommendation-popup positive"
+        :style="'--gradient-start: ' + '#3e73b8' + ';--gradient-end:' + '#7cde89'"
+      >
+        <div class="title">
+          <h1>{{ renameDeviceWindow.data.name }} umbennen</h1>
+          <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
+        </div>
+        <div class="content">
+          <span> Vergib einen neuen Namen für dein Gerät: </span>
+          <q-input
+            color="white"
+            dark
+            filled
+            type="text"
+            label="Neuer Name"
+            v-model="renameDeviceWindow.text"
+          />
+          <q-btn
+            label="Absenden
+            "
+            flat
+            no-caps
+            class="confirm-button"
+            @click="renameDevice(renameDeviceWindow.data.id)"
+          />
+        </div>
+      </div>
+    </q-dialog>
   </q-page>
 </template>
 <script setup>
@@ -258,6 +306,7 @@ const computedDevices = computed(() => deviceStore.devices)
 const computedUser = computed(() => userStore.user)
 
 const deleteDeviceWindow = ref({ show: false, data: null })
+const renameDeviceWindow = ref({ show: false, data: {}, text: '' })
 
 const router = useRouter()
 
@@ -865,6 +914,17 @@ async function showDevice(id) {
 async function hideDevice(id) {
   await deviceStore.setIsShown(id, false)
 }
+async function renameDevice(id) {
+  const name = renameDeviceWindow.value.text
+  if (name.length < 1) {
+    //
+  } else {
+    const result = await deviceStore.rename(id, renameDeviceWindow.value.text)
+    if (result === true) {
+      renameDeviceWindow.value.show = false
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .main {
@@ -1022,10 +1082,17 @@ async function hideDevice(id) {
     width: 100%;
     display: flex;
     flex-direction: row;
+    gap: 12px;
 
     .delete {
       background-color: #ff000019;
       color: #e30000;
+      border-radius: 6px;
+    }
+
+    .rename {
+      background-color: #ffffff10;
+      color: #eee;
       border-radius: 6px;
     }
   }
@@ -1126,6 +1193,10 @@ async function hideDevice(id) {
     flex-direction: column;
     gap: 12px;
 
+    label {
+      width: 100%;
+    }
+
     .confirm-button {
       margin-top: 12px;
       font-size: 18px;
@@ -1133,6 +1204,10 @@ async function hideDevice(id) {
       color: red;
       min-width: 250px;
     }
+  }
+  &.positive .confirm-button {
+    color: white;
+    background-color: #fff1;
   }
 
   &.news {

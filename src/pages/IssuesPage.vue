@@ -21,6 +21,21 @@
         <q-icon name="done_all" class="button-group-btn-icon" />
         {{ computedIssuesWithoutFilter.filter((val) => val.status === 2).length }}
       </q-btn>
+
+      <q-input
+        label="Suche"
+        rounded
+        standout="bg-grey text-black"
+        dense
+        dark
+        v-model="searchModel"
+        @update:model-value="loadingState = true"
+      >
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+
       <q-space />
       <q-btn flat no-caps class="create-new" @click="createIssueModel.show = true" v-if="userId">
         <div class="button-group-label">Issue erstellen</div>
@@ -28,7 +43,15 @@
       </q-btn>
     </div>
 
-    <div class="element" v-for="issue in computedIssues" :key="issue.id" :id="'issue-' + issue.id">
+    <div>Meine Issues</div>
+
+    <div
+      class="element"
+      v-for="issue in computedIssues"
+      :key="issue.id"
+      :id="'issue-' + issue.id"
+      v-show="!loadingState && issue['user.email'] === computedUser.email"
+    >
       <div
         class="status-indicator"
         :style="
@@ -51,7 +74,7 @@
           class="positive"
           :class="{ active: issue.hasUpvoted }"
         />
-        <span class="text-bold">{{ (issue.upvoteCount || 0) - (issue.downvoteCount || 0) }}</span>
+        <span class="text-bold">{{ issue.score }}</span>
         <q-btn
           flat
           icon="arrow_drop_down"
@@ -233,6 +256,225 @@
       </div>
     </div>
 
+    <div>Weitere Issues</div>
+
+    <div
+      class="element"
+      v-for="issue in computedIssues"
+      :key="issue.id"
+      :id="'issue-' + issue.id"
+      v-show="!loadingState && issue['user.email'] !== computedUser.email"
+    >
+      <div
+        class="status-indicator"
+        :style="
+          'background-color:' +
+          (issue.priority === 0
+            ? '#777777'
+            : issue.priority === 1
+              ? 'orange'
+              : issue.priority === 2
+                ? 'RED'
+                : 'black')
+        "
+      >
+        <q-btn
+          flat
+          icon="arrow_drop_up"
+          dense
+          size="lg"
+          @click="addUpvote(issue)"
+          class="positive"
+          :class="{ active: issue.hasUpvoted }"
+        />
+        <span class="text-bold">{{ issue.score }}</span>
+        <q-btn
+          flat
+          icon="arrow_drop_down"
+          dense
+          size="lg"
+          @click="addDownvote(issue)"
+          class="negative"
+          :class="{ active: issue.hasDownvoted }"
+        />
+      </div>
+      <h2>
+        <div
+          class="prio-indicator"
+          :style="
+            'background-color:' +
+            (issue.priority === 0
+              ? '#777777'
+              : issue.priority === 1
+                ? 'orange'
+                : issue.priority === 2
+                  ? 'RED'
+                  : 'black')
+          "
+        >
+          {{
+            issue.priority === 0
+              ? 'Low'
+              : issue.priority === 1
+                ? 'High'
+                : issue.priority === 2
+                  ? 'CRITICAL'
+                  : '?'
+          }}
+        </div>
+        <div class="category">
+          {{
+            issue.category === 0
+              ? 'Idee'
+              : issue.category === 1
+                ? 'Bug'
+                : issue.category === 2
+                  ? 'Verbesserung'
+                  : ''
+          }}
+        </div>
+        <span class="time" v-if="userId">
+          <q-icon name="add_comment" />
+          {{
+            new Date(issue.createdAt).toLocaleDateString('de-De', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })
+          }}</span
+        >
+        <span class="time" v-if="userId">
+          <q-icon name="update" />
+          {{
+            new Date(issue.updatedAt).toLocaleDateString('de-De', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })
+          }}</span
+        >
+        <span class="user"> @{{ issue.user?.email || issue['user.email'] || 'unknown' }} </span>
+      </h2>
+      <h2>
+        <span class="text"
+          >{{ issue.title }}
+
+          <q-tooltip>
+            {{ issue.title }}
+          </q-tooltip>
+        </span>
+      </h2>
+      <q-separator dark />
+      <p class="description">
+        Beschreibung <br />
+        <span
+          v-for="p in issue.description
+            .trim()
+            .replace(/\n{2,}/g, '\n')
+            .replace(/ {2,}/g, ' ')
+            .split('\n')"
+          :key="p"
+          >{{ p }} <br
+        /></span>
+      </p>
+
+      <div class="comments">
+        <q-btn
+          icon="add_circle"
+          @click="
+            () => {
+              createCommentModel.show = true
+              createCommentModel.issue = issue
+            }
+          "
+          label="Kommentar hinzufügen"
+          no-caps
+          rounded
+          style="background-color: #fff2"
+        />
+        <div class="comment" v-for="comment in issue.comments" :key="comment.id">
+          <div class="header">
+            <span class="profile-icon">{{ comment.username.at(0) }}</span>
+            <span class="username">@{{ comment.username || 'unknown' }}</span>
+
+            <span class="dev-indicator" v-if="comment.byAdmin === true"><span>DEV</span></span>
+            <span class="dev-indicator tester" v-if="comment.byTester === true"
+              ><span>TESTER</span></span
+            >
+            <span class="date">
+              {{
+                new Date(comment.createdAt).toLocaleDateString('de-De', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                })
+              }}
+            </span>
+
+            <q-space />
+
+            <q-btn
+              @click="deleteComment(comment)"
+              icon="delete"
+              flat
+              dense
+              size="sm"
+              class="delete"
+              v-if="comment.userId === userId || isAdmin"
+            />
+          </div>
+          <p>
+            <span
+              v-for="p in comment.text
+                .trim()
+                .replace(/\n{2,}/g, '\n')
+                .replace(/ {2,}/g, ' ')
+                .split('\n')"
+              :key="p"
+              >{{ p }} <br
+            /></span>
+          </p>
+        </div>
+      </div>
+
+      <div class="admin-btns" v-if="userId">
+        <q-btn
+          no-caps
+          flat
+          icon="delete"
+          color="red"
+          @click="deleteIssue(issue.id)"
+          v-if="isAdmin || issue.userId === userId"
+        />
+        <q-btn
+          no-caps
+          flat
+          icon="edit"
+          color="blue"
+          @click="startEditIssue(issue)"
+          v-if="isAdmin || issue.userId === userId"
+        />
+        <q-btn no-caps flat v-if="isAdmin" @click="changeStatus(issue.id, 0, issue)">
+          <div class="button-group-label">Offen</div>
+          <q-icon name="block" class="button-group-btn-icon" />
+        </q-btn>
+        <q-btn no-caps flat v-if="isAdmin" @click="changeStatus(issue.id, 1, issue)">
+          <div class="button-group-label">Bearbeiten</div>
+          <q-icon name="edit" class="button-group-btn-icon" />
+        </q-btn>
+        <q-btn no-caps flat v-if="isAdmin" @click="changeStatus(issue.id, 2, issue)">
+          <div class="button-group-label">Erledigt</div>
+          <q-icon name="done_all" class="button-group-btn-icon" />
+        </q-btn>
+      </div>
+    </div>
+
+    <div v-if="computedIssues.length < 1 && !loadingState" class="no-issues">
+      Aktuell liegen in diesem Abschnitt keine Issues.
+    </div>
+
+    <div class="loading" v-if="loadingState"><q-spinner-oval /></div>
+
     <q-dialog
       v-model="createIssueModel.show"
       backdrop-filter="blur(10px)"
@@ -406,10 +648,10 @@
 </template>
 
 <script setup>
-import { useQuasar } from 'quasar'
+import { debounce, useQuasar } from 'quasar'
 import { useIssueStore } from 'src/stores/issue-store'
 import { useUserStore } from 'src/stores/user-store'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 const $q = useQuasar()
 
@@ -428,8 +670,14 @@ const createCommentModel = ref({ show: false, issue: {}, data: {} })
 
 const isAdmin = computed(() => userStore.isAdmin)
 const userId = computed(() => userStore.userId)
+const computedUser = computed(() => userStore.user)
 
 const filterStatus = ref(0)
+
+const searchModel = ref('')
+const loadingState = ref(false)
+
+const debouncedSearch = debounce(searchIssue, 1000)
 
 onMounted(async () => {
   await issueStore.loadIssues()
@@ -537,6 +785,21 @@ async function comment() {
 async function deleteComment(comment) {
   await issueStore.deleteComment(comment.id)
 }
+
+async function searchIssue() {
+  loadingState.value = true
+  await issueStore.searchIssues(searchModel.value)
+  loadingState.value = false
+}
+
+watch(searchModel, (newVal) => {
+  if (newVal.length > 0) {
+    // Set loading to true IMMEDIATELY on first character
+    loadingState.value = true
+    // Trigger the debounced function
+    debouncedSearch(newVal)
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -772,6 +1035,19 @@ async function deleteComment(comment) {
     display: flex;
     justify-content: space-between;
   }
+}
+.no-issues {
+  color: #ccc;
+  font-size: 24px;
+}
+
+.loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
 }
 
 .recommendation-popup {

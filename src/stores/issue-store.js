@@ -66,6 +66,14 @@ export const useIssueStore = defineStore('issue', {
       await api.delete('/issue/comment?id=' + id)
       this.loadIssues()
     },
+
+    async searchIssues(query) {
+      const result = await api.get('/issue?search=' + query)
+
+      this.issuesArray = result.data
+
+      return result.data
+    },
   },
 })
 
