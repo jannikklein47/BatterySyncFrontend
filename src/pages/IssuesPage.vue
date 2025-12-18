@@ -719,12 +719,25 @@ async function createIssue() {
   }
 
   const result = await issueStore.create(data)
+  await issueStore.searchIssues(searchModel.value)
 
   if (result.status !== 200) {
     $q.notify({ type: 'negative', message: 'Something went wrong' })
   } else {
     createIssueModel.value.show = false
-    $q.notify({ type: 'positive', message: 'Issue wurde erfolgreich hochgeladen.' })
+    setTimeout(() => {
+      $q.notify({ type: 'positive', message: 'Issue wurde erfolgreich hochgeladen.' })
+
+      var element = document.getElementById('issue-' + result.data.id)
+      var headerOffset = 100
+      var elementPosition = element.getBoundingClientRect().top
+      var offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
+    }, 1000)
   }
 }
 
@@ -811,9 +824,9 @@ watch(searchModel, (newVal) => {
   if (newVal.length > 0) {
     // Set loading to true IMMEDIATELY on first character
     loadingState.value = true
-    // Trigger the debounced function
-    debouncedSearch(newVal)
   }
+  // Trigger the debounced function
+  debouncedSearch(newVal)
 })
 </script>
 
