@@ -43,7 +43,14 @@
       </q-btn>
     </div>
 
-    <div>Meine Issues</div>
+    <div
+      v-if="
+        !loadingState &&
+        computedIssues.filter((iss) => iss['user.email'] === computedUser.email).length > 0
+      "
+    >
+      Meine Issues
+    </div>
 
     <div
       class="element"
@@ -256,7 +263,14 @@
       </div>
     </div>
 
-    <div>Weitere Issues</div>
+    <div
+      v-if="
+        !loadingState &&
+        computedIssues.filter((iss) => iss['user.email'] !== computedUser.email).length > 0
+      "
+    >
+      Weitere Issues
+    </div>
 
     <div
       class="element"
