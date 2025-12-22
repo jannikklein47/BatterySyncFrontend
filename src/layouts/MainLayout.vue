@@ -375,6 +375,9 @@ async function sendNotificationToUsers() {
   padding: var(--std-pad);
   padding-top: 60px;
   padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   h2 {
     grid-column: 1/-1;
@@ -391,6 +394,7 @@ async function sendNotificationToUsers() {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     justify-items: center;
     align-items: center;
+    width: min(1000px, 100%);
   }
 }
 
