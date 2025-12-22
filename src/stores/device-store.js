@@ -9,6 +9,7 @@ export const useDeviceStore = defineStore('device', {
     interval: null,
     graphReloadTrigger: false,
     ldcounter: 0,
+    criticalIds: [],
   }),
 
   getters: {
@@ -40,6 +41,7 @@ export const useDeviceStore = defineStore('device', {
           device.notificationIds.length && device.notificationIds[0] !== null
         device.predictedZeroAt =
           device.predictedZeroAt !== null ? new Date(device.predictedZeroAt) : null
+        device.isCritical = this.criticalIds.includes(device.id)
       }
 
       this.deviceArray = result.data
@@ -168,6 +170,9 @@ export const useDeviceStore = defineStore('device', {
     stopInterval() {
       clearInterval(this.interval)
       this.interval = null
+    },
+    setCritical(id) {
+      this.criticalIds.push(id)
     },
   },
 })

@@ -1,5 +1,6 @@
 <template>
   <q-page class="main">
+    <div class="bg-2"></div>
     <!--Overview-->
     <aside class="device-list" v-if="computedDevices.length > 0">
       <div class="favorites">
@@ -374,7 +375,15 @@ watch(
 )
 
 function scrollToDevice(id) {
-  document.getElementById('device-setting-' + id).scrollIntoView({ behavior: 'smooth' })
+  var element = document.getElementById('device-setting-' + id)
+  var headerOffset = 100
+  var elementPosition = element.getBoundingClientRect().top
+  var offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: 'smooth',
+  })
 }
 
 async function setupDayGraph(id, device) {
@@ -1096,10 +1105,10 @@ async function renameDevice(id) {
       border-radius: 6px;
     }
   }
-
+  /*
   &:last-child {
     min-height: calc(100vh - 50px - 48px);
-  }
+  }*/
 }
 
 .progress-bar {
@@ -1213,6 +1222,44 @@ async function renameDevice(id) {
   &.news {
     min-width: min(800px, 100vw);
   }
+}
+
+.bg-2 {
+  z-index: -1;
+  position: absolute;
+  width: 100vw; //min(1200px, calc(100vw)
+  height: 100%;
+  top: 0;
+  left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw - 10px);
+  background-size: max(500px, 100%) 100%;
+  background-position:
+    0px 0px,
+    0px 0px,
+    0px 0px,
+    0px 0px,
+    0px 0px,
+    0px 0px,
+    0px 0px,
+    0px 0px;
+  background-image:
+    radial-gradient(20% 34% at 6% 20%, #19948a 0%, #0000 96%),
+    radial-gradient(20% 34% at 6% 48%, #19948a 0%, #0000 96%),
+    radial-gradient(20% 34% at 6% 76%, #19948a 0%, #0000 96%),
+    radial-gradient(68% 50% at 36% 92%, #2674d9 0%, #073aff00 100%),
+    radial-gradient(68% 50% at 36% 60%, #2674d9 0%, #073aff00 100%),
+    radial-gradient(44% 56% at 28% 30%, #26d93e 10%, #073aff00 100%),
+    radial-gradient(44% 56% at 28% 70%, #26d93e 10%, #073aff00 100%),
+    radial-gradient(22% 30% at 38% 15%, #26d93e 8%, #073aff00 100%),
+    radial-gradient(22% 30% at 38% 85%, #26d93e 8%, #073aff00 100%),
+    radial-gradient(34% 46% at 10% 96%, #26d93e70 22%, #073aff00 100%),
+    radial-gradient(34% 46% at 10% 50%, #26d93e70 22%, #073aff00 100%),
+    radial-gradient(38% 60% at 88% 25%, #26d9ca 12%, #073aff00 100%),
+    radial-gradient(38% 60% at 88% 72%, #26d9ca 12%, #073aff00 100%),
+    radial-gradient(30% 58% at 64% 10%, #7a26d9 0%, #0000 100%),
+    radial-gradient(30% 58% at 64% 90%, #7a26d9 0%, #0000 100%),
+    linear-gradient(132deg, #000000ff 0%, #000000ff 100%);
+
+  opacity: 0.03;
 }
 
 @media only screen and (max-width: 700px) {

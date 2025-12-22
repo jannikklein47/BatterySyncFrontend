@@ -103,7 +103,7 @@
 
     <q-page-container
       class="main-page-container"
-      :class="{ 'no-x-overflow': $route.name === 'indexpage' }"
+      :class="{ 'no-x-overflow': ['indexpage', 'dashboard'].includes($route.name) }"
     >
       <router-view />
     </q-page-container>
@@ -117,6 +117,41 @@
         <q-btn label="Feedback geben / Issues" no-caps flat to="issues" />
         <q-btn label="Rechtliches" no-caps flat to="legal" />
         <q-btn label="API Usage Insights" no-caps flat to="apiusage" />
+        <q-btn
+          label="GitHub: MacOS Repository"
+          no-caps
+          flat
+          href="https://github.com/jannikklein47/BatterySyncMacOS"
+          target="_blank"
+        />
+        <q-btn
+          label="GitHub: Android Repository"
+          no-caps
+          flat
+          href="https://github.com/jannikklein47/BatterySyncAndroid"
+          target="_blank"
+        />
+        <q-btn
+          label="GitHub: Frontend Repository"
+          no-caps
+          flat
+          href="https://github.com/jannikklein47/BatterySyncFrontend"
+          target="_blank"
+        />
+        <q-btn
+          label="GitHub: Backend Repository"
+          no-caps
+          flat
+          href="https://github.com/jannikklein47/BatterySyncAPI"
+          target="_blank"
+        />
+        <q-btn
+          label="GitHub: jannikklein47"
+          no-caps
+          flat
+          href="https://github.com/jannikklein47"
+          target="_blank"
+        />
       </div>
     </div>
 
@@ -453,7 +488,7 @@ html {
   //overflow-x: hidden;
 
   &:not(:has(header .box-highlight, header .text-gradient)) {
-    --main-bg-color: #212126;
+    --main-bg-color: #1e1e25;
   }
   &:has(header .box-highlight, header .text-gradient) {
   }

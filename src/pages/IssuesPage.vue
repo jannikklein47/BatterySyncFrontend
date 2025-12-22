@@ -50,6 +50,12 @@
       "
     >
       Meine Issues
+      <q-btn
+        flat
+        dense
+        :icon="retractOwnIssues ? 'arrow_circle_up' : 'expand_circle_down'"
+        @click="retractOwnIssues = !retractOwnIssues"
+      />
     </div>
 
     <div
@@ -57,7 +63,7 @@
       v-for="issue in computedIssues"
       :key="issue.id"
       :id="'issue-' + issue.id"
-      v-show="!loadingState && issue['user.email'] === computedUser.email"
+      v-show="!loadingState && issue['user.email'] === computedUser.email && !retractOwnIssues"
     >
       <div
         class="status-indicator"
@@ -270,6 +276,12 @@
       "
     >
       Weitere Issues
+      <q-btn
+        flat
+        dense
+        :icon="retractOtherIssues ? 'arrow_circle_up' : 'expand_circle_down'"
+        @click="retractOtherIssues = !retractOtherIssues"
+      />
     </div>
 
     <div
@@ -277,7 +289,7 @@
       v-for="issue in computedIssues"
       :key="issue.id"
       :id="'issue-' + issue.id"
-      v-show="!loadingState && issue['user.email'] !== computedUser.email"
+      v-show="!loadingState && issue['user.email'] !== computedUser.email && !retractOtherIssues"
     >
       <div
         class="status-indicator"
@@ -693,6 +705,9 @@ const loadingState = ref(false)
 
 const debouncedSearch = debounce(searchIssue, 1000)
 
+const retractOwnIssues = ref(false)
+const retractOtherIssues = ref(false)
+
 onMounted(async () => {
   await issueStore.loadIssues()
 
@@ -905,12 +920,10 @@ watch(searchModel, (newVal) => {
   }
 
   .prio-indicator {
-    background-color: black;
-    padding: 6px;
-    border-radius: 12px;
-    min-width: fit-content;
-    text-align: center;
-    height: fit-content;
+    border-radius: 6px;
+    padding: 3px 12px;
+    font-weight: 400;
+    background-color: #0003;
   }
 
   .status-indicator {
@@ -944,12 +957,10 @@ watch(searchModel, (newVal) => {
     }
   }
   .category {
-    margin: 0;
-    background-color: #2e2e2e;
-    height: fit-content;
-    padding: 6px;
-    border-radius: 12px;
-    font-weight: 500;
+    border-radius: 6px;
+    padding: 3px 12px;
+    font-weight: 400;
+    background-color: #444444;
   }
   h2 {
     line-height: 1.2em;
@@ -982,6 +993,11 @@ watch(searchModel, (newVal) => {
       gap: 6px;
       align-items: center;
       justify-content: center;
+
+      border-radius: 6px;
+      padding: 3px 12px;
+      font-weight: 400;
+      background-color: #444444;
     }
 
     .user {
@@ -1005,6 +1021,9 @@ watch(searchModel, (newVal) => {
     .delete {
       color: red;
       background-color: #f002;
+      position: absolute;
+      right: calc(var(--std-pad) / 2);
+      width: fit-content;
     }
 
     .comment {
@@ -1014,6 +1033,8 @@ watch(searchModel, (newVal) => {
       border-radius: calc(var(--std-pad) / 2);
       padding: calc(var(--std-pad) / 2);
       gap: calc(var(--std-pad) / 2);
+
+      position: relative;
 
       > .header {
         display: flex;
@@ -1147,8 +1168,8 @@ watch(searchModel, (newVal) => {
 }
 
 .profile-icon {
-  width: 30px;
-  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
