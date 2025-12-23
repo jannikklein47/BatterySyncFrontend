@@ -64,39 +64,8 @@
           <span class="profile-icon">?</span>
         </q-btn>
 
-        <q-btn flat dense v-else>
+        <q-btn flat dense v-else to="account">
           <span class="profile-icon">{{ (computedUser.email || '?').at(0) }}</span>
-          <q-popup-proxy>
-            <div class="account-list" v-if="computedUser.email">
-              <div class="account-name">
-                <span class="profile-icon">{{ (computedUser.email || '?').at(0) }}</span>
-                <div>{{ computedUser.email }} {{ isAdmin ? ' - ADMIN ACCOUNT' : '' }}</div>
-              </div>
-              <q-separator />
-              <q-btn
-                flat
-                no-caps
-                align="left"
-                v-if="isAdmin"
-                @click="createNotificationModel.show = true"
-                >Benachrichtigungen versenden</q-btn
-              >
-
-              <q-separator />
-              <q-btn flat no-caps align="left">Passwort ändern</q-btn>
-              <q-separator />
-              <q-btn flat no-caps align="left" color="red">Account Löschen</q-btn>
-              <q-separator />
-              <q-btn flat no-caps align="left" color="orange" icon="logout" @click="logout"
-                >Abmelden</q-btn
-              >
-            </div>
-            <div class="account-list" v-else>
-              <div>Melde Dich an, um auf alle Funktionen zuzugreifen.</div>
-              <q-separator />
-              <q-btn flat no-caps align="left">Hier Anmelden</q-btn>
-            </div>
-          </q-popup-proxy>
         </q-btn>
       </q-toolbar>
     </q-header>
@@ -208,20 +177,15 @@
 </template>
 
 <script setup>
-import { useDeviceStore } from 'src/stores/device-store'
 import { useUserStore } from 'src/stores/user-store'
 import { computed, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { api } from 'src/boot/axios'
 import { Notify } from 'quasar'
 
 const userStore = useUserStore()
-const router = useRouter()
-const deviceStore = useDeviceStore()
 
 const computedUser = computed(() => userStore.user)
 const isLoggedIn = computed(() => userStore.loggedIn)
-const isAdmin = computed(() => userStore.isAdmin)
 
 const createNotificationModel = ref({ show: false, data: {} })
 
@@ -236,12 +200,6 @@ onMounted(async () => {
     document.getElementById('loading-progress').style.height = '60%'
   }
 })
-
-function logout() {
-  userStore.logout()
-  deviceStore.stopInterval()
-  router.push({ name: 'login' })
-}
 
 async function sendNotificationToUsers() {
   const data = createNotificationModel.value.data
@@ -488,13 +446,13 @@ async function sendNotificationToUsers() {
 html {
   background-color: var(--main-bg-color); //#30394a;
   transition: background-color 1s;
-  --main-bg-color: black;
   //overflow-x: hidden;
 
   &:not(:has(header .box-highlight, header .text-gradient)) {
     --main-bg-color: #1e1e25;
   }
   &:has(header .box-highlight, header .text-gradient) {
+    --main-bg-color: black;
   }
 }
 </style>

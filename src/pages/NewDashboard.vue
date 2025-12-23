@@ -1,7 +1,7 @@
 <template>
   <q-page class="main">
     <div class="bg-2"></div>
-    <h1>Guten Tag, Jannik</h1>
+    <h1>Guten Tag, {{ computedUser.email }}</h1>
     <h2 v-if="criticalDevices.length > 0">
       {{ criticalDevices.length }} Gerät{{
         criticalDevices.length === 1 ? ' benötigt' : 'e benötigen'
@@ -293,9 +293,11 @@
 <script setup>
 import { api } from 'src/boot/axios'
 import { useDeviceStore } from 'src/stores/device-store'
+import { useUserStore } from 'src/stores/user-store'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 const deviceStore = useDeviceStore()
+const userStore = useUserStore()
 const computedDevices = computed(() => deviceStore.devices)
 const criticalDevices = computed(() =>
   deviceStore.devices.filter(
@@ -311,6 +313,7 @@ const warnedDevices = computed(() =>
       !dev.chargingStatus,
   ),
 )
+const computedUser = computed(() => userStore.user)
 
 const recommendations = ref([])
 const recommendationModel = ref({ show: false, data: {}, loading: false, success: null })

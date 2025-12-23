@@ -5,6 +5,7 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     userObject: {},
     admin: false,
+    tester: false,
     userIdValue: null,
   }),
 
@@ -26,14 +27,14 @@ export const useUserStore = defineStore('user', {
   actions: {
     async login(email, password) {
       try {
-        const result = await api.post('/login', { email: email, password: password })
+        const result = await api.post('/login/web', { email: email, password: password })
 
         if (result.status === 200) {
-          const token = result.data
+          const token = result.data.token
 
           localStorage.setItem('accessToken', token)
 
-          this.userObject = { email: email, token: token }
+          this.userObject = { email: email, token: token, data: result.data.data }
           await this.checkAdmin()
           await this.checkUserId()
           return true
@@ -46,14 +47,14 @@ export const useUserStore = defineStore('user', {
     },
     async register(email, password) {
       try {
-        const result = await api.post('/login/register', { email: email, password: password })
+        const result = await api.post('/login/register/web', { email: email, password: password })
 
         if (result.status === 200) {
-          const token = result.data
+          const token = result.data.token
 
           localStorage.setItem('accessToken', token)
 
-          this.userObject = { email: email, token: token }
+          this.userObject = { email: email, token: token, data: result.data.data }
           await this.checkAdmin()
           await this.checkUserId()
           return true
@@ -66,11 +67,11 @@ export const useUserStore = defineStore('user', {
     },
     async auth(token) {
       try {
-        const result = await api.get('/login/auth', { headers: { Authorization: token } })
+        const result = await api.get('/login/auth/web', { headers: { Authorization: token } })
 
         if (result.status === 200) {
-          const email = result.data
-          this.userObject = { email: email, token: token }
+          const email = result.data.email
+          this.userObject = { email: email, token: token, data: result.data.data }
 
           return true
         } else {
