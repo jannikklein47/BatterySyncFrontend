@@ -48,11 +48,6 @@ const routes = [
         component: () => import('pages/ProfilePage.vue'),
         name: 'account',
       },
-      {
-        path: 'account2',
-        component: () => import('pages/ProfilePage2.vue'),
-        name: 'account2',
-      },
     ],
   },
 
