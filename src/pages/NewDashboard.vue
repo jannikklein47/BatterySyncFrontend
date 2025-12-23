@@ -118,7 +118,12 @@
           dense
           no-caps
           :to="'devices?id=' + device.id"
-          :style="'--device-color:' + device.color"
+          :style="
+            '--device-color: ' +
+            (device.battery === 0 ? '#f77' : '#fffa') +
+            '; --critical-color: ' +
+            (device.battery === 0 ? '#f77' : '#fff')
+          "
         >
           <div class="content">
             <q-icon
@@ -208,7 +213,7 @@
                   ? '#ff0000'
                   : r.type === 'battery_low'
                     ? '#fc5203'
-                    : r.color)
+                    : '#fff9')
               "
             />
           </div>
@@ -644,7 +649,7 @@ function setDeviceCritical(device) {
       width: 100%;
       padding: 12px;
       border-radius: 12px;
-      color: white;
+      color: var(--critical-color);
       //background-color: );
       background-image: linear-gradient(
         to right,
