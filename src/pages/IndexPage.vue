@@ -10,7 +10,15 @@
       </p>
 
       <div class="platform-list">
-        <div>
+        <q-btn
+          class="nav left"
+          icon="keyboard_arrow_left"
+          flat
+          dense
+          :class="{ off: $q.platform.is.mobile }"
+          @click="removeScroll"
+        />
+        <div id="platform-carousel">
           <div>
             <h2>
               <span class="text-gradient">BatterySync</span>
@@ -51,8 +59,8 @@
 
           <div>
             <h2>
-              <span class="text-gradient">BatterySync</span> Lite
-              <span style="color: #ffffffaa; font-weight: 400">Any Desktop Platform</span>
+              <span class="text-gradient">BatterySync</span>Lite
+              <span style="color: #ffffffaa; font-weight: 400">Desktop</span>
             </h2>
             <q-expansion-item label="Mehr Erfahren" switch-toggle-side>
               <p>
@@ -90,6 +98,15 @@
             </div>
           </div>
         </div>
+
+        <q-btn
+          class="nav right"
+          icon="keyboard_arrow_right"
+          flat
+          dense
+          :class="{ off: $q.platform.is.mobile }"
+          @click="addScroll"
+        />
       </div>
 
       <div class="wide">
@@ -314,6 +331,24 @@ onMounted(() => {
   startRolling()
 })
 
+function addScroll() {
+  const currScroll = document.getElementById('platform-carousel').scrollLeft
+  const distanceNeeded = document.querySelectorAll('#platform-carousel > div')[0].scrollWidth
+  document.getElementById('platform-carousel').scroll({
+    left: currScroll + distanceNeeded,
+    behavior: 'smooth',
+  })
+}
+
+function removeScroll() {
+  const currScroll = document.getElementById('platform-carousel').scrollLeft
+  const distanceNeeded = document.querySelectorAll('#platform-carousel > div')[0].scrollWidth
+  document.getElementById('platform-carousel').scroll({
+    left: currScroll - distanceNeeded,
+    behavior: 'smooth',
+  })
+}
+
 /*
 import { onMounted, onUnmounted } from 'vue'
 
@@ -453,8 +488,7 @@ h1 {
   display: flex;
   justify-content: center;
   margin-bottom: 96px;
-
-  -webkit-mask: linear-gradient(90deg, #0000, #000 5% 95%, #0000);
+  align-items: center;
 
   > div {
     display: flex;
@@ -466,6 +500,12 @@ h1 {
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* Internet Explorer / Edge */
 
+    scroll-snap-type: x mandatory;
+
+    position: relative;
+
+    -webkit-mask: linear-gradient(90deg, #0000, #000 5% 95%, #0000);
+
     /* Hide scrollbar for Chrome, Safari, and Opera */
     &::-webkit-scrollbar {
       display: none;
@@ -473,25 +513,25 @@ h1 {
   }
 
   > div > div {
-    background-color: #00000092;
     border-radius: 24px;
     padding: 24px;
-    box-shadow:
-      0 0 12px #0f0f0f70,
-      0 2px 3px #ffffff10 inset;
-    //backdrop-filter: blur(10px);
-    max-width: 300px;
-    min-width: 300px;
-    height: 100%;
+    max-width: min(400px, calc(100vw - 96px));
+    min-width: min(400px, calc(100vw - 96px));
+    height: fit-content;
     display: flex;
     flex-direction: column;
+    scroll-snap-align: center;
+
+    background-color: #60606043;
+    border: 1px solid #fff2;
+    position: relative;
 
     &:first-child {
-      margin-left: 5%;
+      margin-left: 2%;
     }
 
     &:last-child {
-      margin-right: 5%;
+      margin-right: 2%;
     }
 
     h2 {
@@ -500,6 +540,9 @@ h1 {
       margin-bottom: 12px;
       line-height: 1em;
       font-size: 30px;
+      span:first-child {
+        margin-right: 6px;
+      }
     }
     .actions {
       width: 100%;
@@ -510,6 +553,48 @@ h1 {
       .btn {
         background-image: linear-gradient(100deg, #7cde89 0%, #28b0a5 53%, #3e73b8 100%);
       }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      pointer-events: none;
+      background: linear-gradient(to right, #0000, #ffff, #0000);
+      opacity: 0.25;
+      transition: opacity 0.4s;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      pointer-events: none;
+      background: linear-gradient(to right, #0000, #ffff, #0000);
+      opacity: 0.1;
+      transition: opacity 0.4s;
+    }
+
+    &:hover::after,
+    &:hover::before {
+      opacity: 0.4;
+    }
+  }
+
+  .nav {
+    width: fit-content;
+    height: fit-content;
+    border-radius: 100px;
+    background-color: #fff2;
+
+    &.off {
+      display: none;
     }
   }
 }
