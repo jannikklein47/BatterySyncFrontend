@@ -256,7 +256,7 @@ import RollingCounter from 'src/components/RollingCounter.vue'
 
 const lock = ref(false)
 
-const counterStart = { val: 1000000, date: new Date(2025, 11, 17, 15, 52), growth: 0.0004 }
+let counterStart = { val: 1000000, date: new Date(2025, 11, 17, 15, 52), growth: 0.00044 }
 const syncCounter = ref(
   counterStart.val + (new Date(Date.now()) - counterStart.date) * counterStart.growth,
 )
@@ -300,7 +300,19 @@ async function downloadDmg() {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  // Get the timings for the counter
+  const result = await api.get('/appinfo/syncs')
+  counterStart = {
+    val: result.data.val,
+    date: new Date(result.data.date).setDate(new Date(result.data.date).getDate() + 1),
+    growth: result.data.growth,
+  }
+  syncCounter.value =
+    counterStart.val + (new Date(Date.now()) - counterStart.date) * counterStart.growth
+  targetValue.value =
+    counterStart.val + (new Date(Date.now()) - counterStart.date) * counterStart.growth
+
   if (document.getElementById('loading-progress').style.height === '60%') {
     document.getElementById('loading-progress').style.height = '75%'
     setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 300)
