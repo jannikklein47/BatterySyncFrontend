@@ -127,7 +127,22 @@
 
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-h6">Akku-Gesundheit</div>
+            <div class="text-h6 flex" style="align-items: center; gap: 12px">
+              Akku-Gesundheit
+              <q-icon name="help_outline" size="xs" color="grey-7">
+                <q-tooltip style="font-size: 12px">
+                  <div style="max-width: 350px">
+                    Dies ist kein Indikator für die Akkukapazität deines Geräts. <br />
+                    Der Score errechnet sich aus deinem Ladeverhalten und gibt dir 0 bis 100 Punkte.
+                    Es ist schädlich für den Akku, sich oft zwischen 0-15% und 85-100% aufzuhalten.
+                    <br />
+                    Vermeide dieses Verhalten für eine gute Bewertung. Wenn deine Bewertung
+                    schlechter ist als erwartet, verändere dein Nutzungsverhalten um die Lebensdauer
+                    deines Geräts zu maximieren.
+                  </div>
+                </q-tooltip>
+              </q-icon>
+            </div>
             <div class="text-subtitle2 text-grey-5">
               {{ device.healthStats.explanation.safeZonePercent }}% deiner Ladungen sind im
               unschädlichen Bereich.
@@ -151,7 +166,10 @@
                     : 'red'
               "
             >
-              {{ device.healthStats.healthScore }}
+              <div style="text-align: center">
+                {{ device.healthStats.healthScore }}<br />
+                <span style="color: #aaa; font-size: 10px">/100</span>
+              </div>
             </q-circular-progress>
           </div>
         </div>
@@ -184,7 +202,7 @@
               label="Immer"
               no-caps
               class="permanent"
-              :class="{ active: device.hasOrderedNotification && device.permanentNotification }"
+              :class="{ active: device.permanentNotification }"
               :disable="device.chargingStatus || device.isPluggedIn || disableNotificationSelect"
               @click="turnOnNotificationForever(device.id)"
             />
