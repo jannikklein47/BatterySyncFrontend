@@ -147,7 +147,10 @@
               {{ device.healthStats.explanation.safeZonePercent }}% deiner Ladungen sind im
               unschädlichen Bereich.
               <span style="color: #eee">{{
-                (device.healthStats.totalCharged / 100).toFixed(0) + ' Akkuzyklen'
+                (device.healthStats.totalCharged / 100).toFixed(0) +
+                ((device.healthStats.totalCharged / 100).toFixed(0) == 1
+                  ? ' Akkuzyklus'
+                  : ' Akkuzyklen')
               }}</span>
               verbraucht.
             </div>
