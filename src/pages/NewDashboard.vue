@@ -71,7 +71,9 @@
                 const d = device.predictedZeroAt
 
                 const t = new Date(d) - new Date()
-                if (t < 0) {
+                if (!d) {
+                  return 'Analyse erfolgt...'
+                } else if (t < 0) {
                   if (device.battery > 0) {
                     return 'Akku ist inzwischen wahrscheinlich leer.'
                   } else {
@@ -95,7 +97,7 @@
               })()
             }}
           </p>
-          <p>14% verbleibend</p>
+          <p>{{ Math.round(device.battery * 100) }}% verbleibend</p>
         </div>
         <q-space />
         <q-btn
@@ -145,7 +147,9 @@
                     }
 
                     const t = new Date(d) - new Date()
-                    if (t < 0) {
+                    if (!d) {
+                      return 'Analyse erfolgt...'
+                    } else if (t < 0) {
                       if (device.battery > 0) {
                         return 'Akku ist inzwischen wahrscheinlich leer.'
                       } else {
