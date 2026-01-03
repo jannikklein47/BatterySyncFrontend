@@ -32,7 +32,6 @@ export const useDeviceStore = defineStore('device', {
 
   actions: {
     async loadDevices() {
-      console.log('Load devices')
       // We fetch this route to enable / disable notification ordering for certain devices
       const result = await api.get('/battery/withNotificationInfo')
 

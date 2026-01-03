@@ -125,6 +125,36 @@
           </div>
         </div>
 
+        <div class="row items-center no-wrap">
+          <div class="col">
+            <div class="text-h6">Akku-Gesundheit</div>
+            <div class="text-subtitle2 text-grey-5">
+              {{ device.healthStats.explanation.safeZonePercent }}% deiner Ladungen sind im
+              unschädlichen Bereich.
+              {{ (device.healthStats.totalCharged / 100).toFixed(0) + ' Akkuzyklen' }} verbraucht.
+            </div>
+          </div>
+
+          <div class="col-auto">
+            <q-circular-progress
+              show-value
+              :value="device.healthStats.healthScore"
+              size="50px"
+              :color="
+                device.healthStats.healthScore > 80
+                  ? 'green'
+                  : device.healthStats.healthScore > 50
+                    ? 'orange'
+                    : 'red'
+              "
+            >
+              {{ device.healthStats.healthScore }}
+            </q-circular-progress>
+          </div>
+        </div>
+
+        <q-separator dark />
+
         <div class="get-notification">
           <span>Erinnerung erhalten, wenn das Gerät in 2 Stunden leer ist?</span>
           <q-space />
