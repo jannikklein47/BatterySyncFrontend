@@ -216,7 +216,7 @@
             <q-space />
 
             <q-btn
-              @click="deleteComment(comment)"
+              @click="deleteComment(comment, issue.id)"
               icon="delete"
               flat
               dense
@@ -444,7 +444,7 @@
             <q-space />
 
             <q-btn
-              @click="deleteComment(comment)"
+              @click="deleteComment(comment, issue.id)"
               icon="delete"
               flat
               dense
@@ -744,29 +744,21 @@ async function createIssue() {
     $q.notify({ type: 'negative', message: 'Something went wrong' })
   } else {
     createIssueModel.value.show = false
-    setTimeout(() => {
-      $q.notify({ type: 'positive', message: 'Issue wurde erfolgreich hochgeladen.' })
-
-      var element = document.getElementById('issue-' + result.data.id)
-      var headerOffset = 100
-      var elementPosition = element.getBoundingClientRect().top
-      var offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      })
-    }, 1000)
+    $q.notify({ type: 'positive', message: 'Issue wurde erfolgreich hochgeladen.' })
+    scrollToIssue(result.data.id)
   }
 }
 
 async function deleteIssue(id) {
   await issueStore.delete(id)
+  await issueStore.searchIssues(searchModel.value)
 }
 
 async function changeStatus(id, status, issue) {
   await issueStore.changeStatus(id, status)
   issue.status = status
+  await issueStore.searchIssues(searchModel.value)
+  scrollToIssue(id)
 }
 
 function startEditIssue(issue) {
@@ -783,6 +775,7 @@ async function sendEdit() {
   if (!data.title || !data.description) return
 
   const result = await issueStore.update(data)
+  await issueStore.searchIssues(searchModel.value)
 
   if (result.status !== 200) {
     $q.notify({ type: 'negative', message: 'Something went wrong' })
@@ -797,40 +790,26 @@ function setSort(status) {
 
 async function addUpvote(issue) {
   await issueStore.upvote(issue.id)
-  setTimeout(() => {
-    var element = document.getElementById('issue-' + issue.id)
-    var headerOffset = 100
-    var elementPosition = element.getBoundingClientRect().top
-    var offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth',
-    })
-  }, 300)
+  await issueStore.searchIssues(searchModel.value)
+  scrollToIssue(issue.id)
 }
 async function addDownvote(issue) {
   await issueStore.downvote(issue.id)
-  setTimeout(() => {
-    var element = document.getElementById('issue-' + issue.id)
-    var headerOffset = 100
-    var elementPosition = element.getBoundingClientRect().top
-    var offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth',
-    })
-  }, 300)
+  await issueStore.searchIssues(searchModel.value)
+  scrollToIssue(issue.id)
 }
 
 async function comment() {
   await issueStore.addComment(createCommentModel.value.data.text, createCommentModel.value.issue.id)
   createCommentModel.value.show = false
+  await issueStore.searchIssues(searchModel.value)
+  scrollToIssue(createCommentModel.value.issue.id)
 }
 
-async function deleteComment(comment) {
+async function deleteComment(comment, issueId) {
   await issueStore.deleteComment(comment.id)
+  await issueStore.searchIssues(searchModel.value)
+  scrollToIssue(issueId)
 }
 
 async function searchIssue() {
@@ -847,6 +826,24 @@ watch(searchModel, (newVal) => {
   // Trigger the debounced function
   debouncedSearch(newVal)
 })
+
+function scrollToIssue(id) {
+  setTimeout(() => {
+    const elements = document.querySelectorAll('[id="issue-' + id + '"]')
+
+    const element = Array.from(elements).find(
+      (el) => window.getComputedStyle(el).display !== 'none',
+    )
+    var headerOffset = 100
+    var elementPosition = element.getBoundingClientRect().top
+    var offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    })
+  }, 300)
+}
 </script>
 
 <style lang="scss" scoped>
