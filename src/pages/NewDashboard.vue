@@ -645,7 +645,6 @@ function setDeviceCritical(device) {
     margin: 0;
     line-height: normal;
     font-weight: 500;
-    margin-left: 11px;
   }
 
   > div {
