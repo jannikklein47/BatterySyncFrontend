@@ -49,7 +49,9 @@
         computedIssues.filter((iss) => iss['user.email'] === computedUser.email).length > 0
       "
     >
-      Meine Issues
+      Meine Issues ({{
+        computedIssues.filter((iss) => iss['user.email'] === computedUser.email).length
+      }})
       <q-btn
         flat
         dense
@@ -275,7 +277,9 @@
         computedIssues.filter((iss) => iss['user.email'] !== computedUser.email).length > 0
       "
     >
-      Weitere Issues
+      Weitere Issues ({{
+        computedIssues.filter((iss) => iss['user.email'] !== computedUser.email).length
+      }})
       <q-btn
         flat
         dense
