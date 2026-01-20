@@ -71,8 +71,10 @@
                 const d = device.predictedZeroAt
 
                 const t = new Date(d) - new Date()
-                if (!d) {
+                if (!d && device.battery > 0) {
                   return 'Analyse erfolgt...'
+                } else if (!d && device.battery === 0) {
+                  return 'Akku ist leer.'
                 } else if (t < 0) {
                   if (device.battery > 0) {
                     return 'Akku ist inzwischen wahrscheinlich leer.'
@@ -147,8 +149,10 @@
                     }
 
                     const t = new Date(d) - new Date()
-                    if (!d) {
+                    if (!d && device.battery > 0) {
                       return 'Analyse erfolgt...'
+                    } else if (!d && device.battery === 0) {
+                      return 'Akku ist leer.'
                     } else if (t < 0) {
                       if (device.battery > 0) {
                         return 'Akku ist inzwischen wahrscheinlich leer.'
