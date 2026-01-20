@@ -81,7 +81,7 @@
       class="footer"
       v-if="['indexpage', 'impressum', 'issues', 'profile'].includes($route.name) || true"
     >
-      <h2>Copyright © 2025 by Jannik Klein</h2>
+      <h2>© 2025 - {{ new Date().getUTCFullYear() }} by Jannik Klein</h2>
       <div>
         <q-btn label="Feedback geben / Issues" no-caps flat to="issues" />
         <q-btn label="Rechtliches" no-caps flat to="legal" />
