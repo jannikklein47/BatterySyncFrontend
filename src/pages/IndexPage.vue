@@ -109,67 +109,6 @@
         />
       </div>
 
-      <div class="wide" v-if="false">
-        <div class="text">
-          <h2>
-            Unsere Server synchronisieren <br />
-            deine Geräte <span class="text-bold">24/7</span>
-          </h2>
-          <p>Davon merkst Du nichts - die Apps laufen einfach im Hintergrund.</p>
-          <h2>Sparsam und Datenfreundlich</h2>
-          <div class="savings">
-            <p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-              >
-                <path
-                  d="M120-320v-320 320Zm40 80q-50 0-85-35t-35-85v-240q0-50 35-85t85-35h480v80H160q-17 0-28.5 11.5T120-600v240q0 17 11.5 28.5T160-320h480v80H160Zm560-80v-120H600v-80h120v-120h80v120h120v80H800v120h-80Z"
-                />
-              </svg>
-              Ca. 0.5% Akkuverbrauch am Tag
-            </p>
-            <p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-              >
-                <path
-                  d="M480-120q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM254-346l-84-86q59-59 138.5-93.5T480-560q92 0 171.5 35T790-430l-84 84q-44-44-102-69t-124-25q-66 0-124 25t-102 69ZM84-516 0-600q92-94 215-147t265-53q142 0 265 53t215 147l-84 84q-77-77-178.5-120.5T480-680q-116 0-217.5 43.5T84-516Z"
-                />
-              </svg>
-              Ca. 100 MB Datennutzung pro Monat
-            </p>
-          </div>
-          <h2>
-            Sicherheit
-            <span style="display: inline-block">
-              geht vor
-              <svg
-                class="locksvg"
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#ffffff"
-              >
-                <path
-                  d="M420-360h120l-23-129q20-10 31.5-29t11.5-42q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 23 11.5 42t31.5 29l-23 129Zm60 280q-139-35-229.5-159.5T160-516v-244l320-120 320 120v244q0 152-90.5 276.5T480-80Zm0-84q104-33 172-132t68-220v-189l-240-90-240 90v189q0 121 68 220t172 132Zm0-316Z"
-                />
-              </svg>
-            </span>
-          </h2>
-          <p id="p_ssl">Mit SSL-Verschlüsselung bleiben sogar deine Akkustände geheim.</p>
-        </div>
-        <div class="presentation">
-          <img src="/Sync illustration.png" alt="" />
-        </div>
-      </div>
-
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 320"
@@ -296,8 +235,11 @@
         class="phone-widget-section"
       >
         <q-intersection transition="scale" class="content-block" once>
-          <div style="max-width: 480px" class="q-pa-lg">
-            <div class="text-h2 text-weight-bold text-white phone-widget-headline">
+          <div style="max-width: 540px" class="q-pa-lg">
+            <div
+              class="text-h2 text-weight-bold text-white phone-widget-headline"
+              style="letter-spacing: 0.1em"
+            >
               Immer im Auge
             </div>
             <div class="text-h6 text-grey-1">
@@ -345,6 +287,7 @@
         display: flex;
         align-items: center;
         margin-bottom: -5px;
+        top: -1px;
       "
     >
       <q-intersection transition="scale" class="content-block" once>
@@ -392,31 +335,71 @@
           </p>
         </div>
       </q-intersection>
+    </div>
 
-      <q-intersection transition="scale" class="content-block" once>
-        <h2>
-          Sicherheit
-          <span style="display: inline-block">
-            geht vor
-            <svg
-              class="locksvg"
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="#ffffff"
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1440 320"
+      style="
+        width: 100vw;
+        position: relative;
+        left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw - var(--std-pad));
+        background-color: #3e73b8;
+        margin-top: 0;
+      "
+    >
+      <path
+        fill="#252525"
+        fill-opacity="1"
+        d="M0,128L80,138.7C160,149,320,171,480,165.3C640,160,800,128,960,106.7C1120,85,1280,75,1360,69.3L1440,64L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"
+      ></path>
+    </svg>
+
+    <div
+      style="
+        width: 100vw;
+        position: relative;
+        left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw - var(--std-pad));
+        background-color: #3e73b8;
+        margin-top: -10px;
+      "
+    >
+      <div
+        style="
+          padding: 0 calc(50vw - 600px);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 48px;
+        "
+      >
+        <q-intersection transition="scale" class="content-block" once>
+          <div class="q-pa-lg">
+            <div class="text-h2 text-weight-bold text-white" style="letter-spacing: 0.1em">
+              Großartige Sicherheit
+            </div>
+            <div class="text-h6 text-grey-2 q-mt-md">
+              <span class="text-weight-bolder">BatterySync</span> führt Zertifikate für Geräte ein.
+            </div>
+            <div class="text-body2 text-grey-4 q-mt-md" style="font-size: 18px">
+              Mit einem individuellen Zertifikat kommuniziert jedes Gerät sicher und verschlüsselt
+              mit den Servern. Niemand kommt an deine Daten, und keiner kann sie manipulieren.
+            </div>
+            <div
+              class="text-body2 text-grey-4 q-mt-md"
+              style="font-size: 18px; margin-bottom: -50px"
             >
-              <path
-                d="M420-360h120l-23-129q20-10 31.5-29t11.5-42q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 23 11.5 42t31.5 29l-23 129Zm60 280q-139-35-229.5-159.5T160-516v-244l320-120 320 120v244q0 152-90.5 276.5T480-80Zm0-84q104-33 172-132t68-220v-189l-240-90-240 90v189q0 121 68 220t172 132Zm0-316Z"
-              />
-            </svg>
-          </span>
-        </h2>
-      </q-intersection>
+              Jeder Austausch deiner Geräteinfos erfordert solch ein Zertifikat. Unsere Server
+              handeln mit deinen Geräten bei einer Registrierung ein einzigartiges Zertifikat aus.
+            </div>
+          </div>
+        </q-intersection>
 
-      <q-intersection transition="scale" class="content-block" once>
-        <p id="p_ssl">Mit SSL-Verschlüsselung bleiben sogar deine Akkustände geheim.</p>
-      </q-intersection>
+        <div class="q-pa-lg">
+          <secure-connection style="width: min(calc(100vw - 48px), 800px); height: fit-content" />
+        </div>
+      </div>
     </div>
 
     <svg
@@ -431,9 +414,9 @@
       "
     >
       <path
-        fill="#252525"
+        fill="#3e73b8"
         fill-opacity="1"
-        d="M0,128L80,138.7C160,149,320,171,480,165.3C640,160,800,128,960,106.7C1120,85,1280,75,1360,69.3L1440,64L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"
+        d="M0,128L48,106.7C96,85,192,43,288,48C384,53,480,107,576,112C672,117,768,75,864,53.3C960,32,1056,32,1152,48C1248,64,1344,96,1392,112L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
       ></path>
     </svg>
 
@@ -522,6 +505,7 @@ import { onMounted, ref } from 'vue'
 import RollingCounter from 'src/components/RollingCounter.vue'
 import PhoneWithNotification from 'src/components/PhoneWithNotification.vue'
 import AppleWidget from 'src/components/AppleWidget.vue'
+import SecureConnection from 'src/components/SecureConnection.vue'
 
 const lock = ref(false)
 
@@ -768,7 +752,7 @@ h1 {
   margin-left: calc(-1 * var(--std-pad));
   display: flex;
   justify-content: center;
-  margin-bottom: 96px;
+  //margin-bottom: 96px;
   align-items: center;
 
   > div {
