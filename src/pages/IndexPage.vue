@@ -380,7 +380,8 @@
               Großartige Sicherheit
             </div>
             <div class="text-h6 text-grey-2 q-mt-md">
-              <span class="text-weight-bolder">BatterySync</span> führt Zertifikate für Geräte ein.
+              <span class="text-weight-bolder">BatterySync</span> nutzt ein Zertifikat-System für
+              den sicheren Austausch von Daten.
             </div>
             <div class="text-body2 text-grey-4 q-mt-md" style="font-size: 18px">
               Mit einem individuellen Zertifikat kommuniziert jedes Gerät sicher und verschlüsselt
