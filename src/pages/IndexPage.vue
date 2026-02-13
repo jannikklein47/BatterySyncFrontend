@@ -109,66 +109,23 @@
         />
       </div>
 
-      <div class="wide">
-        <div class="text">
-          <h2>
-            Unsere Server synchronisieren <br />
-            deine Geräte <span class="text-bold">24/7</span>
-          </h2>
-          <p>Davon merkst Du nichts - die Apps laufen einfach im Hintergrund.</p>
-          <h2>Sparsam und Datenfreundlich</h2>
-          <div class="savings">
-            <p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-              >
-                <path
-                  d="M120-320v-320 320Zm40 80q-50 0-85-35t-35-85v-240q0-50 35-85t85-35h480v80H160q-17 0-28.5 11.5T120-600v240q0 17 11.5 28.5T160-320h480v80H160Zm560-80v-120H600v-80h120v-120h80v120h120v80H800v120h-80Z"
-                />
-              </svg>
-              Ca. 0.5% Akkuverbrauch am Tag
-            </p>
-            <p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-              >
-                <path
-                  d="M480-120q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM254-346l-84-86q59-59 138.5-93.5T480-560q92 0 171.5 35T790-430l-84 84q-44-44-102-69t-124-25q-66 0-124 25t-102 69ZM84-516 0-600q92-94 215-147t265-53q142 0 265 53t215 147l-84 84q-77-77-178.5-120.5T480-680q-116 0-217.5 43.5T84-516Z"
-                />
-              </svg>
-              Ca. 100 MB Datennutzung pro Monat
-            </p>
-          </div>
-          <h2>
-            Sicherheit
-            <span style="display: inline-block">
-              geht vor
-              <svg
-                class="locksvg"
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#ffffff"
-              >
-                <path
-                  d="M420-360h120l-23-129q20-10 31.5-29t11.5-42q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 23 11.5 42t31.5 29l-23 129Zm60 280q-139-35-229.5-159.5T160-516v-244l320-120 320 120v244q0 152-90.5 276.5T480-80Zm0-84q104-33 172-132t68-220v-189l-240-90-240 90v189q0 121 68 220t172 132Zm0-316Z"
-                />
-              </svg>
-            </span>
-          </h2>
-          <p id="p_ssl">Mit SSL-Verschlüsselung bleiben sogar deine Akkustände geheim.</p>
-        </div>
-        <div class="presentation">
-          <img src="/Sync illustration.png" alt="" />
-        </div>
-      </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 320"
+        class="q-mb-none"
+        style="
+          width: 100vw;
+          position: relative;
+          bottom: -12px;
+          left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw - var(--std-pad));
+        "
+      >
+        <path
+          fill="#000000"
+          fill-opacity="1"
+          d="M0,256L60,234.7C120,213,240,171,360,170.7C480,171,600,213,720,208C840,203,960,149,1080,144C1200,139,1320,181,1380,202.7L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+        ></path>
+      </svg>
     </div>
 
     <div class="sync-information">
@@ -185,64 +142,358 @@
         <span><span class="text-gradient">3.</span> Akku wird automatisch synchroniert</span>
       </div>
     </div>
+    <div
+      class="phone-noti-advert"
+      style="
+        width: 100vw;
+        position: relative;
+        left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw - var(--std-pad));
+      "
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" st>
+        <path
+          fill="#3e73b8"
+          fill-opacity="1"
+          d="M0,160L80,154.7C160,149,320,139,480,154.7C640,171,800,213,960,208C1120,203,1280,149,1360,122.7L1440,96L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+        ></path>
+      </svg>
+
+      <div
+        style="background-color: #3e73b8; margin-top: -12px; max-height: none; overflow: hidden"
+        class="q-px-lg"
+      >
+        <div style="padding: 0 calc(50vw - 600px)">
+          <q-intersection transition="scale" class="content-block" once>
+            <div
+              class="text-h2 text-weight-bold phone-noti-headline text-white"
+              style="letter-spacing: 0.1em"
+            >
+              Nie wieder
+              <span class="text-warning text-weight-bolder">leer.</span>
+            </div>
+          </q-intersection>
+
+          <div style="width: 100%; display: flex" class="phone-noti-section">
+            <q-intersection transition="scale" class="content-block" once>
+              <div style="max-width: 450px">
+                <div class="text-h6 text-grey-1" style="font-size: 24px">
+                  Erhalte Erinnerungen, wenn dein Gerät leer geht.
+                </div>
+                <div class="text-body2 text-grey-3 q-mt-md" style="font-size: 18px">
+                  Du erhälst Mitteilungen auf deine Geräte, sollte eines leer gehen. Unsere
+                  Vorhersage-Algorithmen schlagen Alarm, wenn sich ein Gerät in ca. 2 Stunden
+                  ausschalten wird.
+                </div>
+                <div class="text-body2 text-grey-3 q-mt-md" style="font-size: 18px">
+                  Falls du ein Gerät vergisst, erhälst du gelegentlich Erinnerungen, es
+                  anzuschließen. Auch nachdem es sich bereits ausgeschaltet hat.
+                </div>
+              </div>
+            </q-intersection>
+            <div>
+              <phone-with-notification style="top: -550px; left: 200px" class="phone-svg" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1440 320"
+      class="below-phone-wave"
+      style="
+        width: 100vw;
+        position: relative;
+        left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw - var(--std-pad));
+        background-color: #3e73b8;
+        margin-top: -10px;
+      "
+    >
+      <path
+        fill="#28B0A5"
+        fill-opacity="1"
+        d="M0,160L60,149.3C120,139,240,117,360,128C480,139,600,181,720,186.7C840,192,960,160,1080,144C1200,128,1320,128,1380,128L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+      ></path>
+    </svg>
+    <div
+      style="
+        width: 100vw;
+        position: relative;
+        left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw - var(--std-pad));
+        background-color: #28b0a5;
+        margin-top: -10px;
+      "
+    >
+      <div
+        style="
+          padding: 0 calc(50vw - 600px);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 48px;
+        "
+        class="phone-widget-section"
+      >
+        <q-intersection transition="scale" class="content-block" once>
+          <div style="max-width: 540px" class="q-pa-lg">
+            <div
+              class="text-h2 text-weight-bold text-white phone-widget-headline"
+              style="letter-spacing: 0.1em"
+            >
+              Immer im Auge
+            </div>
+            <div class="text-h6 text-grey-1">
+              Mit den <span class="text-weight-bolder">BatterySync</span>-Widgets bewahrst du den
+              Überblick über deine Geräte.
+            </div>
+            <div class="text-body2 text-grey-3 q-mt-md" style="font-size: 18px">
+              Unsere Android und MacOS-Apps unterstützen die Erstellung von Widgets auf deinem
+              Startbildschirm.
+            </div>
+          </div>
+        </q-intersection>
+
+        <div class="q-pa-lg">
+          <apple-widget style="width: min(calc(100vw - 48px), 495px); height: fit-content" />
+        </div>
+      </div>
+    </div>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1440 320"
+      style="
+        width: 100vw;
+        position: relative;
+        left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw - var(--std-pad));
+        background-color: #28b0a5;
+        margin-top: 0;
+      "
+    >
+      <path
+        fill="#252525"
+        fill-opacity="1"
+        d="M0,96L80,101.3C160,107,320,117,480,133.3C640,149,800,171,960,160C1120,149,1280,107,1360,85.3L1440,64L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+      ></path>
+    </svg>
+
+    <div
+      class="info-section q-pa-lg"
+      style="
+        width: 100vw;
+        position: relative;
+        left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw - var(--std-pad));
+        background-color: #252525;
+        margin-top: -10pxpx;
+        display: flex;
+        align-items: center;
+        margin-bottom: -5px;
+        top: -1px;
+      "
+    >
+      <q-intersection transition="scale" class="content-block" once>
+        <div class="text-h3 text-weight-regular">
+          Unsere Server synchronisieren <br />
+          deine Geräte <span class="text-weight-bold">24/7</span>
+        </div>
+      </q-intersection>
+
+      <q-intersection transition="scale" class="content-block" once>
+        <p class="q-mt-md">Davon merkst Du nichts - die Apps laufen einfach im Hintergrund.</p>
+      </q-intersection>
+
+      <q-intersection transition="scale" class="content-block" once>
+        <h2>Sparsam und Datenfreundlich</h2>
+      </q-intersection>
+
+      <q-intersection transition="scale" class="content-block" once>
+        <div class="savings">
+          <p>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+            >
+              <path
+                d="M120-320v-320 320Zm40 80q-50 0-85-35t-35-85v-240q0-50 35-85t85-35h480v80H160q-17 0-28.5 11.5T120-600v240q0 17 11.5 28.5T160-320h480v80H160Zm560-80v-120H600v-80h120v-120h80v120h120v80H800v120h-80Z"
+              />
+            </svg>
+            Ca. 0.5% Akkuverbrauch am Tag
+          </p>
+          <p>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+            >
+              <path
+                d="M480-120q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM254-346l-84-86q59-59 138.5-93.5T480-560q92 0 171.5 35T790-430l-84 84q-44-44-102-69t-124-25q-66 0-124 25t-102 69ZM84-516 0-600q92-94 215-147t265-53q142 0 265 53t215 147l-84 84q-77-77-178.5-120.5T480-680q-116 0-217.5 43.5T84-516Z"
+              />
+            </svg>
+            Ca. 100 MB Datennutzung pro Monat
+          </p>
+        </div>
+      </q-intersection>
+    </div>
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1440 320"
+      style="
+        width: 100vw;
+        position: relative;
+        left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw - var(--std-pad));
+        background-color: #3e73b8;
+        margin-top: 0;
+      "
+    >
+      <path
+        fill="#252525"
+        fill-opacity="1"
+        d="M0,128L80,138.7C160,149,320,171,480,165.3C640,160,800,128,960,106.7C1120,85,1280,75,1360,69.3L1440,64L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"
+      ></path>
+    </svg>
+
+    <div
+      style="
+        width: 100vw;
+        position: relative;
+        left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw - var(--std-pad));
+        background-color: #3e73b8;
+        margin-top: -10px;
+      "
+    >
+      <div
+        style="
+          padding: 0 calc(50vw - 600px);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 48px;
+        "
+      >
+        <q-intersection transition="scale" class="content-block" once>
+          <div class="q-pa-lg">
+            <div class="text-h2 text-weight-bold text-white" style="letter-spacing: 0.1em">
+              Großartige Sicherheit
+            </div>
+            <div class="text-h6 text-grey-2 q-mt-md">
+              <span class="text-weight-bolder">BatterySync</span> nutzt ein Zertifikat-System für
+              den sicheren Austausch von Daten.
+            </div>
+            <div class="text-body2 text-grey-4 q-mt-md" style="font-size: 18px">
+              Mit einem individuellen Zertifikat kommuniziert jedes Gerät sicher und verschlüsselt
+              mit den Servern. Niemand kommt an deine Daten, und keiner kann sie manipulieren.
+            </div>
+            <div
+              class="text-body2 text-grey-4 q-mt-md"
+              style="font-size: 18px; margin-bottom: -50px"
+            >
+              Jeder Austausch deiner Geräteinfos erfordert solch ein Zertifikat. Unsere Server
+              handeln mit deinen Geräten bei einer Registrierung ein einzigartiges Zertifikat aus.
+            </div>
+          </div>
+        </q-intersection>
+
+        <div class="q-pa-lg">
+          <secure-connection style="width: min(calc(100vw - 48px), 800px); height: fit-content" />
+        </div>
+      </div>
+    </div>
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1440 320"
+      style="
+        width: 100vw;
+        position: relative;
+        left: calc(-1 * (100vw - min(600px, calc(50vw))) + 50vw - var(--std-pad));
+        background-color: #000;
+        margin-top: 0;
+      "
+    >
+      <path
+        fill="#3e73b8"
+        fill-opacity="1"
+        d="M0,128L48,106.7C96,85,192,43,288,48C384,53,480,107,576,112C672,117,768,75,864,53.3C960,32,1056,32,1152,48C1248,64,1344,96,1392,112L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+      ></path>
+    </svg>
+
     <div class="faq">
       <div class="bg-2" id="gradient-bg-asd"></div>
+
       <h2>FAQ</h2>
-      <div>
-        <h3>Warum <span class="text-gradient">BatterySync</span>?</h3>
-        <p>
-          BatterySync ist ein Open-Source Projekt, was gegen die Einschränkungen der moderenen
-          Smartphone-Ökosysteme beitragen möchte. Mit BatterySync behälst du den Akku deiner Geräte
-          immer im Blick - über unsere Website, über Widgets auf deinem Startbildschirm, über
-          Erinnerungen per Benachrichtigung; Es spielt keine Rolle, welche Marken du kreuzt.
-        </p>
-      </div>
+      <q-intersection transition="scale" class="content-block" once>
+        <div>
+          <h3>Warum <span class="text-gradient">BatterySync</span>?</h3>
+          <p>
+            BatterySync ist ein Open-Source Projekt, was gegen die Einschränkungen der moderenen
+            Smartphone-Ökosysteme beitragen möchte. Mit BatterySync behälst du den Akku deiner
+            Geräte immer im Blick - über unsere Website, über Widgets auf deinem Startbildschirm,
+            über Erinnerungen per Benachrichtigung; Es spielt keine Rolle, welche Marken du kreuzt.
+          </p>
+        </div>
+      </q-intersection>
       <q-separator dark inset />
-      <div>
-        <h3>Kostet <span class="text-gradient">BatterySync</span> etwas?</h3>
-        <p>
-          BatterySync kann völlig kostenfrei genutzt werden. Es ist ein Open-Source Projekt, du
-          könntest sogar deine eigenen Server hosten!
-        </p>
-      </div>
+      <q-intersection transition="scale" class="content-block" once>
+        <div>
+          <h3>Kostet <span class="text-gradient">BatterySync</span> etwas?</h3>
+          <p>
+            BatterySync kann völlig kostenfrei genutzt werden. Es ist ein Open-Source Projekt, du
+            könntest sogar deine eigenen Server hosten!
+          </p>
+        </div>
+      </q-intersection>
       <q-separator dark inset />
-      <div>
-        <h3>
-          <span class="text-gradient">BatterySync</span> läuft im Hintergrund. Verbraucht das nicht
-          viel Akku?
-        </h3>
-        <p>
-          Zur Synchronisierung wird ein minimaler Service verwendet. Wenn du die App schließt, läuft
-          sie nicht weiter. Dieser Hintergrund-Service verbraucht bis zu 0.5% Akku am Tag.
-        </p>
-      </div>
+      <q-intersection transition="scale" class="content-block" once>
+        <div>
+          <h3>
+            <span class="text-gradient">BatterySync</span> läuft im Hintergrund. Verbraucht das
+            nicht viel Akku?
+          </h3>
+          <p>
+            Zur Synchronisierung wird ein minimaler Service verwendet. Wenn du die App schließt,
+            läuft sie nicht weiter. Dieser Hintergrund-Service verbraucht bis zu 0.5% Akku am Tag.
+          </p>
+        </div>
+      </q-intersection>
       <q-separator dark inset />
-      <div>
-        <h3>Sind meine Daten bei <span class="text-gradient">BatterySync</span> sicher?</h3>
-        <p>
-          Bei <span class="text-gradient">BatterySync</span> steht Privatsphäre im Fokus. Es werden
-          keine unnötigen Daten erhoben: Wir speichern lediglich den Akkuverlauf deiner Geräte, um
-          Graphen und Vorhersagen zu generieren. Wir können deine Passwört nicht sehen. Temporär
-          speichern wir deine Netwerk-Aktivitäten pseudonymisiert. Es handelt sich zu dem um
-          gemeinnützigen Open-Source Projekt; Wir werden deine Daten niemals verkaufen.
-        </p>
-      </div>
+      <q-intersection transition="scale" class="content-block" once>
+        <div>
+          <h3>Sind meine Daten bei <span class="text-gradient">BatterySync</span> sicher?</h3>
+          <p>
+            Bei <span class="text-gradient">BatterySync</span> steht Privatsphäre im Fokus. Es
+            werden keine unnötigen Daten erhoben: Wir speichern lediglich den Akkuverlauf deiner
+            Geräte, um Graphen und Vorhersagen zu generieren. Wir können deine Passwört nicht sehen.
+            Temporär speichern wir deine Netwerk-Aktivitäten pseudonymisiert. Es handelt sich zu dem
+            um gemeinnützigen Open-Source Projekt; Wir werden deine Daten niemals verkaufen.
+          </p>
+        </div>
+      </q-intersection>
       <q-separator dark inset />
-      <div>
-        <h3>Wo speichert <span class="text-gradient">BatterySync</span> meine Daten?</h3>
-        <p>Deine Daten werden innerhalb der EU DSGVO-konform gespeichert.</p>
-      </div>
+      <q-intersection transition="scale" class="content-block" once>
+        <div>
+          <h3>Wo speichert <span class="text-gradient">BatterySync</span> meine Daten?</h3>
+          <p>Deine Daten werden innerhalb der EU DSGVO-konform gespeichert.</p>
+        </div>
+      </q-intersection>
       <q-separator dark inset />
-      <div>
-        <h3>Welche Betriebssysteme unterstützt <span class="text-gradient">BatterySync</span>?</h3>
-        <p>
-          Aktuell kannst du BatterySync für Android von unserer Website runterladen; Eine Version
-          für MacOS steht verfügbar, dennoch unsigniert. Du kannst den Sourcecode von unserem GitHub
-          herunterladen und die App selber kompilieren.
-          <br />Für Windows, Linux und andere Systeme ist bald ein Python-Script verfügbar - Dein
-          System muss Python und die psutil-Library unterstützen.
-        </p>
-      </div>
+      <q-intersection transition="scale" class="content-block" once>
+        <div>
+          <h3>
+            Welche Betriebssysteme unterstützt <span class="text-gradient">BatterySync</span>?
+          </h3>
+          <p>
+            Aktuell kannst du BatterySync für Android von unserer Website runterladen; Eine Version
+            für MacOS steht verfügbar, dennoch unsigniert. Du kannst den Sourcecode von unserem
+            GitHub herunterladen und die App selber kompilieren.
+            <br />Für Windows, Linux und andere Systeme ist bald ein Python-Script verfügbar - Dein
+            System muss Python und die psutil-Library unterstützen.
+          </p>
+        </div>
+      </q-intersection>
     </div>
   </q-page>
 </template>
@@ -253,6 +504,9 @@ import { saveAs } from 'file-saver' // npm install file-saver
 import { Notify } from 'quasar'
 import { onMounted, ref } from 'vue'
 import RollingCounter from 'src/components/RollingCounter.vue'
+import PhoneWithNotification from 'src/components/PhoneWithNotification.vue'
+import AppleWidget from 'src/components/AppleWidget.vue'
+import SecureConnection from 'src/components/SecureConnection.vue'
 
 const lock = ref(false)
 
@@ -405,7 +659,7 @@ onUnmounted(() => {
   color: white;
   padding: var(--std-pad);
   padding-bottom: 0;
-  gap: 48px;
+  //gap: 48px;
 
   > div {
     // page chapter containers
@@ -499,7 +753,7 @@ h1 {
   margin-left: calc(-1 * var(--std-pad));
   display: flex;
   justify-content: center;
-  margin-bottom: 96px;
+  //margin-bottom: 96px;
   align-items: center;
 
   > div {
@@ -670,6 +924,44 @@ h1 {
   }
 }
 
+.info-section {
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    margin: 0;
+    margin-bottom: 12px;
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.2em;
+    color: #eee;
+  }
+
+  p {
+    font-size: 18px;
+    font-weight: 500;
+    color: #ddd;
+  }
+
+  .savings {
+    p {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      gap: 12px;
+
+      svg {
+        fill: #00e171;
+      }
+    }
+  }
+
+  .locksvg {
+    scale: 1.5;
+    fill: #26d9ca;
+  }
+}
+
 .sync-information {
   margin-top: 24px;
   display: flex;
@@ -738,6 +1030,50 @@ h1 {
   left: 0;
 }
 
+.phone-noti-advert {
+  margin-bottom: -400px;
+}
+
+.phone-svg {
+  zoom: 0.8;
+}
+
+.phone-widget-section {
+  flex-direction: row;
+}
+@media only screen and (max-width: 800px) {
+  .phone-noti-advert {
+    //margin-bottom: 0;
+  }
+
+  .phone-noti-headline {
+    width: 100%;
+    text-align: center;
+  }
+  .phone-widget-headline {
+    width: 100%;
+    text-align: center;
+  }
+  .phone-noti-section {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+
+    .phone-svg {
+      width: fit-content;
+      bottom: 0;
+      left: 0 !important;
+      top: -600px !important;
+      zoom: 0.7;
+      -webkit-mask: linear-gradient(0deg, #000 30%, #0000 55%);
+    }
+  }
+
+  .phone-widget-section {
+    flex-direction: column;
+  }
+}
+
 @media only screen and (max-width: 900px) {
   .wide {
     flex-direction: column;
@@ -770,5 +1106,9 @@ h1 {
     width: 100%;
     display: none;
   }
+}
+
+.content-block {
+  min-height: 100px;
 }
 </style>
