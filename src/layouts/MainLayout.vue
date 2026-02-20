@@ -34,16 +34,16 @@
             label="Dashboard"
             class="nav-btn"
             :class="{ 'active-page': $route.name === 'dashboard' }"
-            to="dashboard"
+            :to="`/${$route.params.locale}/dashboard`"
           />
           <q-btn
             flat
             class="nav-btn"
             no-caps
             :class="{ 'active-page': $route.name === 'devices' }"
-            to="devices"
+            :to="`/${$route.params.locale}/devices`"
             v-if="isLoggedIn"
-            ><div class="header-btn-label">Meine Geräte</div>
+            ><div class="header-btn-label">{{ $t('mainlayout.my-devices') }}</div>
             <q-icon name="devices_other" class="header-btn-icon"
           /></q-btn>
           <q-btn
@@ -51,7 +51,7 @@
             class="nav-btn"
             no-caps
             :class="{ 'active-page': $route.name === 'issues' }"
-            to="issues"
+            :to="`/${$route.params.locale}/issues`"
             ><div class="header-btn-label">Community</div>
             <q-icon name="group" class="header-btn-icon"
           /></q-btn>
@@ -60,7 +60,7 @@
         <q-space />
 
         <q-btn flat dense no-caps v-if="!isLoggedIn" class="login-button" to="login">
-          <span style="margin-right: 6px">Anmelden</span>
+          <span style="margin-right: 6px">{{ $t('mainlayout.login') }}</span>
           <span class="profile-icon">?</span>
         </q-btn>
 
@@ -83,9 +83,19 @@
     >
       <h2>© 2025 - {{ new Date().getUTCFullYear() }} by Jannik Klein</h2>
       <div>
-        <q-btn label="Feedback geben / Issues" no-caps flat to="issues" />
-        <q-btn label="Rechtliches" no-caps flat to="legal" />
-        <q-btn label="API Usage Insights" no-caps flat to="apiusage" />
+        <q-btn
+          :label="$t('mainlayout.feedback')"
+          no-caps
+          flat
+          :to="`/${$route.params.locale}/issues`"
+        />
+        <q-btn
+          :label="$t('mainlayout.legal')"
+          no-caps
+          flat
+          :to="`/${$route.params.locale}/legal`"
+        />
+        <q-btn label="API Usage Insights" no-caps flat :to="`/${$route.params.locale}/apiusage`" />
         <q-btn
           label="GitHub: MacOS Repository"
           no-caps
@@ -181,6 +191,15 @@ import { useUserStore } from 'src/stores/user-store'
 import { computed, onMounted, ref } from 'vue'
 import { api } from 'src/boot/axios'
 import { Notify } from 'quasar'
+import { useMeta } from 'quasar'
+
+useMeta({
+  link: {
+    en: { rel: 'alternate', hreflang: 'en', href: 'https://batterysync.de/en' },
+    de: { rel: 'alternate', hreflang: 'de', href: 'https://batterysync.de/de' },
+    x: { rel: 'alternate', hreflang: 'x-default', href: 'https://batterysync.de/de' },
+  },
+})
 
 const userStore = useUserStore()
 
