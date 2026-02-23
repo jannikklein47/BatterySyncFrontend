@@ -129,7 +129,7 @@ async function login() {
     router.push({ name: 'dashboard' })
   } else {
     $q.notify({
-      message: result,
+      message: result.message,
       timeout: 6000,
       type: 'negative',
       position: 'bottom-right',
