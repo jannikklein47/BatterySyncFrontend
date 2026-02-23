@@ -2,28 +2,28 @@
   <q-page class="main">
     <div class="main-element">
       <h1>Feedback & Issues</h1>
-      <p v-if="!userId">Anmelden, um Details zu sehen</p>
+      <p v-if="!userId">{{ $t('issues.login') }}</p>
     </div>
 
     <div class="button-group">
       <q-btn flat no-caps @click="setSort(0)" :class="{ active: filterStatus === 0 }">
-        <div class="button-group-label">Offen:</div>
+        <div class="button-group-label">{{ $t('issues.open') }}:</div>
         <q-icon name="block" class="button-group-btn-icon" />
         {{ computedIssuesWithoutFilter.filter((val) => val.status === 0).length }}
       </q-btn>
       <q-btn flat no-caps @click="setSort(1)" :class="{ active: filterStatus === 1 }">
-        <div class="button-group-label">In Bearbeitung:</div>
+        <div class="button-group-label">{{ $t('issues.in-progress') }}:</div>
         <q-icon name="edit" class="button-group-btn-icon" />
         {{ computedIssuesWithoutFilter.filter((val) => val.status === 1).length }}
       </q-btn>
       <q-btn flat no-caps @click="setSort(2)" :class="{ active: filterStatus === 2 }">
-        <div class="button-group-label">Erledigt:</div>
+        <div class="button-group-label">{{ $t('issues.closed') }}:</div>
         <q-icon name="done_all" class="button-group-btn-icon" />
         {{ computedIssuesWithoutFilter.filter((val) => val.status === 2).length }}
       </q-btn>
 
       <q-input
-        label="Suche"
+        :label="$t('issues.search')"
         rounded
         standout="bg-grey text-black"
         dense
@@ -38,7 +38,7 @@
 
       <q-space />
       <q-btn flat no-caps class="create-new" @click="createIssueModel.show = true" v-if="userId">
-        <div class="button-group-label">Issue erstellen</div>
+        <div class="button-group-label">{{ $t('issues.create') }}</div>
         <q-icon name="add" />
       </q-btn>
     </div>
@@ -49,7 +49,7 @@
         computedIssues.filter((iss) => iss['user.email'] === computedUser.email).length > 0
       "
     >
-      Meine Issues ({{
+      {{ $t('issues.my-issues') }} ({{
         computedIssues.filter((iss) => iss['user.email'] === computedUser.email).length
       }})
       <q-btn
@@ -127,11 +127,11 @@
         <div class="category">
           {{
             issue.category === 0
-              ? 'Idee'
+              ? $t('issues.idea')
               : issue.category === 1
-                ? 'Bug'
+                ? $t('issues.bug')
                 : issue.category === 2
-                  ? 'Verbesserung'
+                  ? $t('issues.improvement')
                   : ''
           }}
         </div>
@@ -168,7 +168,7 @@
       </h2>
       <q-separator dark />
       <p class="description">
-        Beschreibung <br />
+        {{ $t('issues.description') }} <br />
         <span
           v-for="p in issue.description
             .trim()
@@ -189,7 +189,7 @@
               createCommentModel.issue = issue
             }
           "
-          label="Kommentar hinzufügen"
+          :label="$t('issues.add-comment')"
           no-caps
           rounded
           style="background-color: #fff2"
@@ -257,15 +257,15 @@
           v-if="isAdmin || issue.userId === userId"
         />
         <q-btn no-caps flat v-if="isAdmin" @click="changeStatus(issue.id, 0, issue)">
-          <div class="button-group-label">Offen</div>
+          <div class="button-group-label">{{ $t('issues.open') }}</div>
           <q-icon name="block" class="button-group-btn-icon" />
         </q-btn>
         <q-btn no-caps flat v-if="isAdmin" @click="changeStatus(issue.id, 1, issue)">
-          <div class="button-group-label">Bearbeiten</div>
+          <div class="button-group-label">{{ $t('issues.in-progress') }}</div>
           <q-icon name="edit" class="button-group-btn-icon" />
         </q-btn>
         <q-btn no-caps flat v-if="isAdmin" @click="changeStatus(issue.id, 2, issue)">
-          <div class="button-group-label">Erledigt</div>
+          <div class="button-group-label">{{ $t('issues.closed') }}</div>
           <q-icon name="done_all" class="button-group-btn-icon" />
         </q-btn>
       </div>
@@ -277,7 +277,7 @@
         computedIssues.filter((iss) => iss['user.email'] !== computedUser.email).length > 0
       "
     >
-      Weitere Issues ({{
+      {{ $t('issues.other-issues') }} ({{
         computedIssues.filter((iss) => iss['user.email'] !== computedUser.email).length
       }})
       <q-btn
@@ -355,11 +355,11 @@
         <div class="category">
           {{
             issue.category === 0
-              ? 'Idee'
+              ? $t('issues.idea')
               : issue.category === 1
-                ? 'Bug'
+                ? $t('issues.bug')
                 : issue.category === 2
-                  ? 'Verbesserung'
+                  ? $t('issues.improvement')
                   : ''
           }}
         </div>
@@ -396,7 +396,7 @@
       </h2>
       <q-separator dark />
       <p class="description">
-        Beschreibung <br />
+        {{ $t('issues.description') }} <br />
         <span
           v-for="p in issue.description
             .trim()
@@ -417,7 +417,7 @@
               createCommentModel.issue = issue
             }
           "
-          label="Kommentar hinzufügen"
+          :label="$t('issues.add-comment')"
           no-caps
           rounded
           style="background-color: #fff2"
@@ -485,22 +485,22 @@
           v-if="isAdmin || issue.userId === userId"
         />
         <q-btn no-caps flat v-if="isAdmin" @click="changeStatus(issue.id, 0, issue)">
-          <div class="button-group-label">Offen</div>
+          <div class="button-group-label">{{ $t('issues.open') }}</div>
           <q-icon name="block" class="button-group-btn-icon" />
         </q-btn>
         <q-btn no-caps flat v-if="isAdmin" @click="changeStatus(issue.id, 1, issue)">
-          <div class="button-group-label">Bearbeiten</div>
+          <div class="button-group-label">{{ $t('issues.in-progress') }}</div>
           <q-icon name="edit" class="button-group-btn-icon" />
         </q-btn>
         <q-btn no-caps flat v-if="isAdmin" @click="changeStatus(issue.id, 2, issue)">
-          <div class="button-group-label">Erledigt</div>
+          <div class="button-group-label">{{ $t('issues.closed') }}</div>
           <q-icon name="done_all" class="button-group-btn-icon" />
         </q-btn>
       </div>
     </div>
 
     <div v-if="computedIssues.length < 1 && !loadingState" class="no-issues">
-      Aktuell liegen in diesem Abschnitt keine Issues.
+      {{ $t('issues.no-issues') }}
     </div>
 
     <div class="loading" v-if="loadingState"><q-spinner-oval /></div>
@@ -516,28 +516,34 @@
         :style="'--gradient-start: ' + '#3e73b8' + ';--gradient-end:' + '#7cde89'"
       >
         <div class="title">
-          <h1>Neuen Issue erstellen</h1>
+          <h1>{{ $t('issues.create-new') }}</h1>
           <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
         </div>
         <div class="content">
-          <q-input color="white" dark filled label="Titel" v-model="createIssueModel.data.title" />
+          <q-input
+            color="white"
+            dark
+            filled
+            :label="$t('issues.title')"
+            v-model="createIssueModel.data.title"
+          />
           <q-input
             color="white"
             dark
             filled
             type="textarea"
-            label="Beschreibung"
+            :label="$t('issues.description')"
             v-model="createIssueModel.data.description"
           />
 
           <q-select
-            label="Kategorie"
+            :label="$t('issues.category')"
             dark
             color="white"
             :options="[
-              { label: 'Idee', value: '0' },
-              { label: 'Bug', value: '1' },
-              { label: 'Verbesserung', value: '2' },
+              { label: $t('issues.idea'), value: '0' },
+              { label: $t('issues.bug'), value: '1' },
+              { label: $t('issues.improvement'), value: '2' },
             ]"
             v-model="createIssueModel.data.category"
             emit-value
@@ -545,7 +551,7 @@
           />
 
           <q-select
-            label="Priorität"
+            :label="$t('issues.priority')"
             dark
             color="white"
             :options="[
@@ -559,19 +565,13 @@
           />
 
           <q-checkbox
-            label="Entwickler alarmieren"
+            :label="$t('issues.alarm-devs')"
             v-model="createIssueModel.data.notify"
             v-if="createIssueModel.data.priority === '2'"
             color="green"
           />
 
-          <q-btn
-            label="Hochladen
-            "
-            flat
-            class="confirm-button"
-            @click="createIssue()"
-          />
+          <q-btn :label="$t('issues.upload')" flat class="confirm-button" @click="createIssue()" />
         </div>
       </div>
     </q-dialog>
@@ -587,7 +587,7 @@
         :style="'--gradient-start: ' + '#3e73b8' + ';--gradient-end:' + '#7cde89'"
       >
         <div class="title">
-          <h1>Issue kommentieren</h1>
+          <h1>{{ $t('issues.comment-issue') }}</h1>
           <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
         </div>
         <div class="content">
@@ -600,13 +600,7 @@
             v-model="createCommentModel.data.text"
           />
 
-          <q-btn
-            label="Hochladen
-            "
-            flat
-            class="confirm-button"
-            @click="comment()"
-          />
+          <q-btn :label="$t('issues.upload')" flat class="confirm-button" @click="comment()" />
         </div>
       </div>
     </q-dialog>
@@ -622,28 +616,34 @@
         :style="'--gradient-start: ' + '#3e73b8' + ';--gradient-end:' + '#7cde89'"
       >
         <div class="title">
-          <h1>Issue Bearbeiten</h1>
+          <h1>{{ $t('issues.edit') }}</h1>
           <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
         </div>
         <div class="content">
-          <q-input color="white" dark filled label="Titel" v-model="editIssueModel.data.title" />
+          <q-input
+            color="white"
+            dark
+            filled
+            :label="$t('issues.title')"
+            v-model="editIssueModel.data.title"
+          />
           <q-input
             color="white"
             dark
             filled
             type="textarea"
-            label="Beschreibung"
+            :label="$t('issues.description')"
             v-model="editIssueModel.data.description"
           />
 
           <q-select
-            label="Kategorie"
+            :label="$t('issues.category')"
             dark
             color="white"
             :options="[
-              { label: 'Idee', value: 0 },
-              { label: 'Bug', value: 1 },
-              { label: 'Verbesserung', value: 2 },
+              { label: $t('issues.idea'), value: 0 },
+              { label: $t('issues.bug'), value: 1 },
+              { label: $t('issues.improvement'), value: 2 },
             ]"
             v-model="editIssueModel.data.category"
             map-options
@@ -651,7 +651,7 @@
           />
 
           <q-select
-            label="Priorität"
+            :label="$t('issues.priority')"
             dark
             color="white"
             :options="[
@@ -664,13 +664,7 @@
             emit-value
           />
 
-          <q-btn
-            label="Hochladen
-            "
-            flat
-            class="confirm-button"
-            @click="sendEdit()"
-          />
+          <q-btn :label="$t('issues.upload')" flat class="confirm-button" @click="sendEdit()" />
         </div>
       </div>
     </q-dialog>

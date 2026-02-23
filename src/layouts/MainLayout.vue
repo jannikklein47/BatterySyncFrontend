@@ -59,12 +59,19 @@
 
         <q-space />
 
-        <q-btn flat dense no-caps v-if="!isLoggedIn" class="login-button" to="login">
+        <q-btn
+          flat
+          dense
+          no-caps
+          v-if="!isLoggedIn"
+          class="login-button"
+          :to="`/${$route.params.locale}/login`"
+        >
           <span style="margin-right: 6px">{{ $t('mainlayout.login') }}</span>
           <span class="profile-icon">?</span>
         </q-btn>
 
-        <q-btn flat dense v-else to="account">
+        <q-btn flat dense v-else :to="`/${$route.params.locale}/account`">
           <span class="profile-icon">{{ (computedUser.email || '?').at(0) }}</span>
         </q-btn>
       </q-toolbar>
@@ -191,15 +198,6 @@ import { useUserStore } from 'src/stores/user-store'
 import { computed, onMounted, ref } from 'vue'
 import { api } from 'src/boot/axios'
 import { Notify } from 'quasar'
-import { useMeta } from 'quasar'
-
-useMeta({
-  link: {
-    en: { rel: 'alternate', hreflang: 'en', href: 'https://batterysync.de/en' },
-    de: { rel: 'alternate', hreflang: 'de', href: 'https://batterysync.de/de' },
-    x: { rel: 'alternate', hreflang: 'x-default', href: 'https://batterysync.de/de' },
-  },
-})
 
 const userStore = useUserStore()
 
@@ -235,6 +233,37 @@ async function sendNotificationToUsers() {
     Notify.create({ message: 'Bitte fülle alle Felder aus', type: 'negative' })
   }
 }
+
+// ----------- meta for language handling ----------
+
+import { useMeta } from 'quasar'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+// This helper generates the full URL for a specific locale
+const getLocaleUrl = (locale) => {
+  const domain = 'https://batterysync.de'
+  // Replace the current locale in the path with the target locale
+  const path = route.path.replace(`/${route.params.locale}`, `/${locale}`)
+  return `${domain}${path}`
+}
+
+useMeta(() => {
+  const enUrl = getLocaleUrl('en')
+  const deUrl = getLocaleUrl('de')
+
+  return {
+    link: {
+      // 1. Link to the English version
+      en: { rel: 'alternate', hreflang: 'en', href: enUrl },
+      // 2. Link to the German version
+      de: { rel: 'alternate', hreflang: 'de', href: deUrl },
+      // 3. The "Default" version for everyone else (usually your main language)
+      x: { rel: 'alternate', hreflang: 'x-default', href: enUrl },
+    },
+  }
+})
 </script>
 
 <style lang="scss" scoped>

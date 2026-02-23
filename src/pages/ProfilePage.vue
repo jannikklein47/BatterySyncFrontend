@@ -20,9 +20,9 @@
             {{ computedUser.email || 'Lade...' }}
           </div>
           <div class="text-grey-5 text-subtitle1">
-            Mitglied seit
+            {{ $t('profile.member-since') }}
             {{
-              new Date(computedUser.data.createdAt).toLocaleDateString('de-DE', {
+              new Date(computedUser.data.createdAt).toLocaleDateString(i18n.global.locale.value, {
                 month: 'long',
                 year: 'numeric',
               })
@@ -30,7 +30,9 @@
           </div>
           <div class="row items-center q-mt-sm">
             <q-icon name="devices" color="grey-5" class="q-mr-xs" />
-            <span class="text-white">{{ computedDevices.length }} verknüpfte Geräte</span>
+            <span class="text-white"
+              >{{ computedDevices.length }} {{ $t('profile.connected-devices') }}</span
+            >
           </div>
         </div>
       </div>
@@ -38,19 +40,19 @@
       <div class="q-mb-xl">
         <div class="text-h6 text-white q-mb-md flex items-center">
           <q-icon name="insights" color="secondary" class="q-mr-sm" />
-          Deine Akku-Insights
+          {{ $t('profile.insights') }}
         </div>
 
         <div class="row q-col-gutter-md">
           <div class="col-12 col-sm-6 col-md-3">
             <q-card class="stat-card bg-grey-10 text-white" flat bordered>
               <q-card-section>
-                <div class="text-caption text-grey-5 uppercase">Synchronisierungen</div>
+                <div class="text-caption text-grey-5 uppercase">{{ $t('profile.syncs') }}</div>
                 <div class="text-h4 text-weight-bold text-secondary counter-font">
                   {{ formatNumber(stats.totalSyncs) }}
                 </div>
                 <div class="text-xs text-grey-6 q-mt-sm">
-                  Kommunikationen zwischen deinen Geräten
+                  {{ $t('profile.syncs-detail') }}
                 </div>
               </q-card-section>
             </q-card>
@@ -59,11 +61,11 @@
           <div class="col-12 col-sm-6 col-md-3">
             <q-card class="stat-card bg-grey-10 text-white" flat bordered>
               <q-card-section>
-                <div class="text-caption text-grey-5 uppercase">Ladevorgänge</div>
+                <div class="text-caption text-grey-5 uppercase">{{ $t('profile.charges') }}</div>
                 <div class="text-h4 text-weight-bold text-white counter-font">
                   {{ stats.totalCharges }}
                 </div>
-                <div class="text-xs text-grey-6 q-mt-sm">Gesamtzahl all deiner Geräte</div>
+                <div class="text-xs text-grey-6 q-mt-sm">{{ $t('profile.charges-detail') }}</div>
               </q-card-section>
             </q-card>
           </div>
@@ -71,12 +73,14 @@
           <div class="col-12 col-sm-6 col-md-3">
             <q-card class="stat-card bg-grey-10 text-white" flat bordered>
               <q-card-section>
-                <div class="text-caption text-grey-5 uppercase">Akku-Sieger 🏆</div>
+                <div class="text-caption text-grey-5 uppercase">
+                  {{ $t('profile.battery-winner') }}
+                </div>
                 <div class="text-h5 text-weight-bold text-white text-overflow no-overflow">
                   {{ stats.longestDevice }}
                 </div>
                 <div class="text-caption text-teal q-mt-sm">
-                  {{ stats.longestPeriod }} ohne zu Laden
+                  {{ stats.longestPeriod }} {{ $t('profile.without-charging') }}
                 </div>
               </q-card-section>
             </q-card>
@@ -87,7 +91,9 @@
               <q-card-section>
                 <div class="text-caption text-white-8 uppercase">Top User</div>
                 <div class="text-h4 text-weight-bold">{{ stats.communityRank }}</div>
-                <div class="text-xs text-white-8 q-mt-sm">Basierend auf deiner Aktivität</div>
+                <div class="text-xs text-white-8 q-mt-sm">
+                  {{ $t('profile.based-on-activity') }}
+                </div>
               </q-card-section>
             </q-card>
           </div>
@@ -95,18 +101,17 @@
       </div>
 
       <div class="q-mb-xl">
-        <div class="text-h6 text-white q-mb-md">Account Einstellungen</div>
+        <div class="text-h6 text-white q-mb-md">{{ $t('profile.account-settings') }}</div>
         <q-list bordered class="rounded-borders bg-grey-10 text-white">
           <q-item clickable v-ripple class="q-py-md" @click="changePasswordModel.show = true">
             <q-item-section avatar>
               <q-icon name="lock_reset" color="white" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Passwort zurücksetzen </q-item-label>
-              <q-item-label caption class="text-grey-6"
-                >Wähle ein neues Passwort. Du wirst von allen Geräten abgemeldet; Für diesen Vorgang
-                werden deine Geräte temporär entsperrt.</q-item-label
-              >
+              <q-item-label>{{ $t('profile.reset-password') }}</q-item-label>
+              <q-item-label caption class="text-grey-6">{{
+                $t('profile.reset-password-description')
+              }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-icon name="chevron_right" color="grey-6" />
@@ -129,13 +134,13 @@
             </q-item-section>
             <q-item-section>
               <q-item-label
-                >Nutzername ändern
+                >{{ $t('profile.change-username') }}
                 <span
                   v-if="
                     new Date(computedUser.data.lastRename) > new Date() - 30 * 24 * 60 * 60 * 1000
                   "
                 >
-                  - noch bis
+                  - {{ $t('profile.deactivated-until-1') }}
                   {{
                     new Date(
                       new Date(computedUser.data.lastRename).setDate(
@@ -147,12 +152,12 @@
                       year: 'numeric',
                     })
                   }}
-                  deaktiviert
+                  {{ $t('profile.deactivated-until-2') }}
                 </span></q-item-label
               >
-              <q-item-label caption class="text-grey-6"
-                >Ändere deinen Nutzernamen. Du kannst dies nur ein Mal pro Monat tun.</q-item-label
-              >
+              <q-item-label caption class="text-grey-6">{{
+                $t('profile.change-username-description')
+              }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-icon name="chevron_right" color="grey-6" />
@@ -162,17 +167,18 @@
       </div>
 
       <div class="danger-zone q-pa-md rounded-borders border-red q-mb-xl">
-        <div class="text-subtitle1 text-red text-weight-bold q-mb-sm">Kritisches</div>
+        <div class="text-subtitle1 text-red text-weight-bold q-mb-sm">
+          {{ $t('profile.critical') }}
+        </div>
         <p class="text-grey-6 text-caption q-mb-md">
-          Wenn du deinen Account gelöscht hast, gibt es kein Zurück mehr. Wir entfernen alle Daten
-          von unseren Servern, die deinem Account zugeordnet sind.
+          {{ $t('profile.delete-account-description') }}
         </p>
 
         <div class="row q-gutter-md">
           <q-btn
             outline
             color="red"
-            label="Deine Daten löschen"
+            :label="$t('profile.delete-data')"
             no-caps
             icon="delete_sweep"
             disable
@@ -181,7 +187,7 @@
             disable
             unelevated
             color="red"
-            label="Account permanent löschen"
+            :label="$t('profile.delete-account')"
             no-caps
             class="text-black"
           />
@@ -189,16 +195,18 @@
       </div>
 
       <div class="danger-zone q-pa-md rounded-borders border-red">
-        <div class="text-subtitle1 text-red text-weight-bold q-mb-sm">Abmelden</div>
+        <div class="text-subtitle1 text-red text-weight-bold q-mb-sm">
+          {{ $t('profile.logout') }}
+        </div>
         <p class="text-grey-6 text-caption q-mb-md">
-          Hier kannst du dich bei der Website abmelden.
+          {{ $t('profile.logout-description') }}
         </p>
 
         <div class="row q-gutter-md">
           <q-btn
             outline
             color="red"
-            label="Jetzt abmelden"
+            :label="$t('profile.logout-now')"
             no-caps
             icon="delete_sweep"
             @click="logout"
@@ -218,23 +226,22 @@
         :style="'--gradient-start: ' + '#3e73b8' + ';--gradient-end:' + '#7cde89'"
       >
         <div class="title">
-          <h1>Neuen Nutzernamen vergeben</h1>
+          <h1>{{ $t('profile.new-username') }}</h1>
           <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
         </div>
         <div class="content">
-          <span> Mindestlänge: 4 Zeichen </span>
+          <span> {{ $t('profile.min-4-char') }} </span>
           <q-input
             color="white"
             dark
             filled
             type="text"
-            label="Neuer Name"
+            :label="$t('profile.new-name')"
             v-model="changeUsernameModel.text"
             style="width: 100%"
           />
           <q-btn
-            label="Absenden
-            "
+            :label="$t('profile.submit')"
             flat
             no-caps
             class="confirm-button"
@@ -257,22 +264,22 @@
         :style="'--gradient-start: ' + '#3e73b8' + ';--gradient-end:' + '#7cde89'"
       >
         <div class="title">
-          <h1>Passwort zurücksetzen</h1>
+          <h1>{{ $t('profile.reset-password') }}</h1>
           <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
         </div>
         <div class="content">
-          <span> Mindestlänge: 8 Zeichen </span>
+          <span> {{ $t('profile.min-8-char') }} </span>
           <span
             class="text-negative"
             v-if="changePasswordModel.password !== changePasswordModel.repeat"
-            >Passwörter stimmen nicht überein</span
+            >{{ $t('profile.passwords-do-not-match') }}</span
           >
           <q-input
             color="white"
             dark
             filled
             type="password"
-            label="Neues Passwort"
+            :label="$t('profile.new-password')"
             v-model="changePasswordModel.password"
             style="width: 100%"
           />
@@ -281,13 +288,12 @@
             dark
             filled
             type="password"
-            label="Passwort wiederholen"
+            :label="$t('profile.repeat-password')"
             v-model="changePasswordModel.repeat"
             style="width: 100%"
           />
           <q-btn
-            label="Absenden
-            "
+            :label="$t('profile.submit')"
             flat
             no-caps
             class="confirm-button"
@@ -310,6 +316,10 @@ import { useDeviceStore } from 'src/stores/device-store'
 import { useUserStore } from 'src/stores/user-store'
 import { reactive, onMounted, computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { i18n } from 'src/boot/i18n'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 onMounted(async () => {
   const response = await api.get('/metrics/userStats')
@@ -337,11 +347,11 @@ const router = useRouter()
 const $q = useQuasar()
 
 const stats = reactive({
-  totalSyncs: 'Lade...',
-  totalCharges: 'Lade...',
-  longestDevice: 'lade...',
-  longestPeriod: '...',
-  communityRank: 'berechne...',
+  totalSyncs: t('profile.loading'),
+  totalCharges: t('profile.loading'),
+  longestDevice: t('profile.loading'),
+  longestPeriod: t('profile.loading'),
+  communityRank: t('profile.loading'),
 })
 
 const computedDevices = computed(() => deviceStore.devices)
@@ -376,7 +386,7 @@ async function renameUser(name) {
     await userStore.auth()
     $q.notify({
       type: 'positive',
-      message: 'Du hast dich erfolgreich umbenannt.',
+      message: t('profile.successfully-renamed'),
     })
     changeUsernameModel.value.show = false
   }
@@ -395,7 +405,7 @@ async function changePassword(password) {
   if (result.status === 200) {
     $q.notify({
       type: 'positive',
-      message: 'Du hast dich erfolgreich umbenannt.',
+      message: t('profile.successfully-changed-password'),
     })
     changeUsernameModel.value.show = false
     logout()

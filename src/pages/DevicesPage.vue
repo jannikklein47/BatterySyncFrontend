@@ -216,7 +216,7 @@
           <q-space />
           <q-btn-group rounded flat class="reminder-buttons">
             <q-btn
-              label="Aus"
+              :label="$t('devices.off')"
               no-caps
               class="off"
               :class="{ active: !device.isShown }"
@@ -224,7 +224,7 @@
             />
             <q-separator vertical />
             <q-btn
-              label="An"
+              :label="$t('devices.on')"
               no-caps
               class="once"
               :class="{ active: device.isShown }"

@@ -3,18 +3,18 @@
     <div class="bg-1"></div>
     <div class="text">
       <h1>
-        Willkommen bei <br />
+        {{ $t('login.welcome') }} <br />
         <span class="text-gradient">BatterySync</span>
       </h1>
     </div>
 
     <form class="login" @submit.prevent="login" v-if="wantsToLogin">
-      <h2>Anmelden</h2>
+      <h2>{{ $t('login.login') }}</h2>
       <q-input
         :disable="loginLoading"
         standout="bg-grey-8"
         autofocus
-        label="Nutzername"
+        :label="$t('login.username')"
         v-model="inputUsername"
         autocomplete="login username"
       />
@@ -22,17 +22,17 @@
         :disable="loginLoading"
         type="password"
         standout="bg-grey-8"
-        label="Passwort"
+        :label="$t('login.password')"
         v-model="inputPassword"
         autocomplete="login password"
       />
 
       <p>
-        Noch kein Konto?
+        {{ $t('login.no-account') }}
         <q-btn
           flat
           class="register-btn"
-          label="Registrieren"
+          :label="$t('login.register')"
           no-caps
           @click="wantsToLogin = false"
         />
@@ -41,29 +41,29 @@
       <q-btn
         class="submit-btn"
         type="submit"
-        label="Absenden"
+        :label="$t('login.submit')"
         no-caps
         flat
         :loading="loginLoading"
       />
     </form>
     <form class="login" @submit.prevent="register" v-else>
-      <h2>Registrieren</h2>
+      <h2>{{ $t('login.register') }}</h2>
       <q-input
         :disable="loginLoading"
         standout="bg-grey-8"
         autofocus
-        label="Nutzername"
+        :label="$t('login.username')"
         v-model="inputUsername"
         autocomplete="login username"
-        hint="Mindestens 4 Zeichen"
+        :hint="$t('login.min-4-char')"
       />
       <q-input
         :disable="loginLoading"
         type="password"
         standout="bg-grey-8"
-        label="Passwort"
-        hint="Mindestens 8 Zeichen"
+        :label="$t('login.password')"
+        :hint="$t('login.min-8-char')"
         v-model="inputPassword"
         autocomplete="login password"
       />
@@ -71,25 +71,30 @@
         :disable="loginLoading"
         type="password"
         standout="bg-grey-8"
-        label="Passwort wiederholen"
+        :label="$t('login.repeat-password')"
         v-model="repeatPassword"
         autocomplete="login password"
-        hint="Passwörter müssen übereinstimmen"
+        :hint="$t('login.passwords-need-to-match')"
       />
 
       <p>
-        Schon ein Konto?
-        <q-btn flat class="register-btn" label="Anmelden" no-caps @click="wantsToLogin = true" />
+        {{ $t('login.already-registered') }}
+        <q-btn
+          flat
+          class="register-btn"
+          :label="$t('login.login')"
+          no-caps
+          @click="wantsToLogin = true"
+        />
       </p>
       <p style="font-size: 14px">
-        Mit der Registrierung erklären Sie sich mit den AGB und den Nutzungsbedingungen von
-        BatterySync einverstanden.
+        {{ $t('login.agb') }}
       </p>
 
       <q-btn
         class="submit-btn"
         type="submit"
-        label="Absenden"
+        :label="$t('login.submit')"
         no-caps
         flat
         :loading="loginLoading"
@@ -101,7 +106,10 @@
 import { useQuasar } from 'quasar'
 import { useUserStore } from 'src/stores/user-store'
 import { onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+
+const { t } = useI18n()
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -134,7 +142,7 @@ async function register() {
   loginLoading.value = true
   if (inputPassword.value !== repeatPassword.value) {
     $q.notify({
-      message: 'Passwörter stimmen nicht überein',
+      message: t('login.passwords-need-to-match'),
       type: 'negative',
     })
     loginLoading.value = false
@@ -142,7 +150,7 @@ async function register() {
   }
   if (inputPassword.value.length < 8) {
     $q.notify({
-      message: 'Dein Passwort muss mindestens 8 Zeichen lang sein.',
+      message: t('login.password-min-length'),
       type: 'negative',
     })
     loginLoading.value = false
@@ -150,7 +158,7 @@ async function register() {
   }
   if (inputUsername.value.length < 4) {
     $q.notify({
-      message: 'Dein Nutzername muss mindestens 4 Zeichen lang sein.',
+      message: t('login.username-min-length'),
       type: 'negative',
     })
     loginLoading.value = false

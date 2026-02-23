@@ -4,7 +4,7 @@
     <h1>{{ $t('dashboard.hello') }}{{ computedUser.email }}</h1>
     <h2 v-if="criticalDevices.length > 0">
       {{ criticalDevices.length }}
-      {{ criticalDevices.length === 1 ? $t('dashboard.device') : $t('dashboard.devices') }}
+      {{ criticalDevices.length === 1 ? $t('dashboard.device-sg') : $t('dashboard.device-pl') }}
       {{ $t('dashboard.your-attention') }}
     </h2>
     <h2 v-else>{{ $t('dashboard.nothing') }}</h2>
@@ -17,7 +17,7 @@
       <div class="element" v-for="device in criticalDevices" :key="device.id">
         <q-icon name="battery_0_bar" color="red" />
         <div>
-          <h2>{{ $t('dashboard.your') }} {{ device.name }} {{ $t('dashboard.charged') }}</h2>
+          <h2>{{ $t('dashboard.your') }} {{ device.name }} {{ $t('dashboard.charge') }}</h2>
           <p>
             {{ $t('dashboard.battery-level') }}: {{ Math.round(device.battery * 100) }}% -
             {{
@@ -229,7 +229,9 @@
           </div>
         </div>
       </div>
-      <span v-if="recommendations.length < 1"> {{ $t('dashboard.no-recommendations') }} </span>
+      <span v-if="recommendations.length < 1" class="text-grey-7">
+        {{ $t('dashboard.no-recommendations') }}
+      </span>
     </div>
 
     <q-dialog

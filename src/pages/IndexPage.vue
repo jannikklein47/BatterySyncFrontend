@@ -232,7 +232,7 @@
         <q-intersection transition="scale" class="content-block" once>
           <div style="max-width: 540px" class="q-pa-lg">
             <div
-              class="text-h2 text-weight-bold text-white phone-widget-headline"
+              class="text-h2 text-weight-bold text-white phone-widget-headline q-mb-md"
               style="letter-spacing: 0.1em"
             >
               {{ $t('indexpage.alwaysvisible') }}
