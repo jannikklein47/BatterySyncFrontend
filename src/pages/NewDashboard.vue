@@ -445,53 +445,6 @@ function generateRecommendations() {
         hasOrderedNotification: false,
       })
     }
-
-    /*
-    const analysis = analyzeSinceLastUnplug(deviceStore.deviceHistory[device.id])
-    if (analysis && analysis.predictedZeroAt) {
-      if (sameDay(analysis.predictedZeroAt, new Date(Date.now()))) {
-        result.push({
-          type: 'battery_info',
-          title: 'Erhalte eine Erinnerung, wenn dein ' + device.name + ' aufgeladen werden muss.',
-          caption:
-            'Nach dem aktuellen Verbrauchsmuster wird es um ' +
-            analysis.predictedZeroAt.getHours().toString().padStart(2, '0') +
-            ':' +
-            analysis.predictedZeroAt.getMinutes().toString().padStart(2, '0') +
-            ' Uhr leer sein.',
-          id: device.id,
-          color: device.color,
-          gradientStart: '#fe5f55',
-          gradientEnd: '#7cde89',
-        })
-      } else if (analysis.predictedZeroAt.getTime() - 7 * 24 * 60 * 60 * 1000 > Date.now()) {
-        result.push({
-          type: 'battery_info',
-          title: 'Erhalte eine Erinnerung, wenn dein ' + device.name + ' aufgeladen werden muss.',
-          caption: 'Nach dem aktuellen Verbrauchsmuster musst du es erst nächste Woche laden.',
-          id: device.id,
-          color: device.color,
-          gradientStart: '#3e73b8',
-          gradientEnd: '#7cde89',
-        })
-      } else if (analysis.predictedZeroAt.getTime() - 7 * 24 * 60 * 60 * 1000 <= Date.now()) {
-        result.push({
-          type: 'battery_info',
-          title: 'Erhalte eine Erinnerung, wenn dein ' + device.name + ' aufgeladen werden muss.',
-          caption:
-            'Nach dem aktuellen Verbrauchsmuster reicht der Akku noch bis ' +
-            analysis.predictedZeroAt.toLocaleDateString('de-DE', {
-              weekday: 'long',
-            }) +
-            '.',
-          id: device.id,
-          color: device.color,
-          gradientStart: '#fe9355',
-          gradientEnd: '#7cde89',
-        })
-      }
-    }
-      */
   }
 
   return result

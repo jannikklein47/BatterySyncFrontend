@@ -496,6 +496,9 @@ import RollingCounter from 'src/components/RollingCounter.vue'
 import PhoneWithNotification from 'src/components/PhoneWithNotification.vue'
 import AppleWidget from 'src/components/AppleWidget.vue'
 import SecureConnection from 'src/components/SecureConnection.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const lock = ref(false)
 
@@ -516,11 +519,11 @@ async function downloadApk() {
     })
 
     saveAs(response.data, 'batterysync-android.apk')
-    notif({ type: 'positive', message: 'Download abgeschlossen' })
+    notif({ type: 'positive', message: t('indexpage.download-success') })
 
     lock.value = false
   } catch {
-    notif({ type: 'positive', message: 'Download fehlgeschlagen' })
+    notif({ type: 'positive', message: t('indexpage.download-fail') })
     lock.value = false
   }
 }
@@ -534,11 +537,11 @@ async function downloadDmg() {
     })
 
     saveAs(response.data, 'batterysync-macos.dmg')
-    notif({ type: 'positive', message: 'Download abgeschlossen' })
+    notif({ type: 'positive', message: t('indexpage.download-success') })
 
     lock.value = false
   } catch {
-    notif({ type: 'positive', message: 'Download fehlgeschlagen' })
+    notif({ type: 'positive', message: t('indexpage.download-fail') })
     lock.value = false
   }
 }
@@ -603,40 +606,6 @@ function removeScroll() {
     behavior: 'smooth',
   })
 }
-
-/*
-import { onMounted, onUnmounted } from 'vue'
-
-function gradientShift() {
-  const scrollProgress = window.scrollY / (document.body.scrollHeight - window.innerHeight)
-  if (scrollProgress > 0.5) return
-
-  // Use HSL to smoothly change color hues based on scroll
-  const hue1 = Math.floor(175 + scrollProgress * 60)
-  const hue2 = Math.floor(214 + scrollProgress * 60)
-  const hue3 = Math.floor(128 + scrollProgress * 60)
-  const hue4 = Math.floor(268 + scrollProgress * 60)
-
-  document.getElementById('gradient-bg').style.backgroundImage = `
-    radial-gradient(16% 32% at 3% 53%, hsl(${hue1}, 71%, 34%) 0%, transparent 99%),
-    radial-gradient(70% 53% at 32% 89%, hsl(${hue2}, 70%, 50%) 0%, transparent 100%),
-    radial-gradient(42% 53% at 31% 73%, hsl(${hue3}, 70%, 50%) 7%, transparent 100%),
-    radial-gradient(18% 28% at 35% 87%, hsl(${hue3}, 70%, 50%) 7%, transparent 100%),
-    radial-gradient(31% 43% at 7% 98%, hsl(${hue3}, 70%, 50%) 24%, transparent 100%),
-    radial-gradient(35% 56% at 91% 74%, hsl(${hue1}, 70%, 50%) 9%, transparent 100%),
-    radial-gradient(27% 55% at 66% 88%, hsl(${hue4}, 70%, 50%) 0%, transparent 100%),
-    linear-gradient(125deg, #000000 1%, #000000 100%)
-  `
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', gradientShift)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', gradientShift)
-})
-  */
 </script>
 <style lang="scss" scoped>
 .main-container {

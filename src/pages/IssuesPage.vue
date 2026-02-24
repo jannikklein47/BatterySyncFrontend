@@ -676,8 +676,11 @@ import { debounce, useQuasar } from 'quasar'
 import { useIssueStore } from 'src/stores/issue-store'
 import { useUserStore } from 'src/stores/user-store'
 import { computed, onMounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const $q = useQuasar()
+
+const { t } = useI18n()
 
 const issueStore = useIssueStore()
 const userStore = useUserStore()
@@ -723,11 +726,11 @@ async function createIssue() {
     data = createIssueModel.value.data
 
     if (!data.title || !data.description) {
-      $q.notify({ type: 'negative', message: 'Bitte alle Felder ausfüllen!' })
+      $q.notify({ type: 'negative', message: t('issues.fill-out-all-fields') })
       return
     }
   } catch {
-    $q.notify({ type: 'negative', message: 'Bitte alle Felder ausfüllen!' })
+    $q.notify({ type: 'negative', message: t('issues.fill-out-all-fields') })
     return
   }
 
@@ -738,7 +741,7 @@ async function createIssue() {
     $q.notify({ type: 'negative', message: 'Something went wrong' })
   } else {
     createIssueModel.value.show = false
-    $q.notify({ type: 'positive', message: 'Issue wurde erfolgreich hochgeladen.' })
+    $q.notify({ type: 'positive', message: t('issues.upload-success') })
     scrollToIssue(result.data.id)
   }
 }

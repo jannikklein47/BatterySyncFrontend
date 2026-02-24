@@ -63,6 +63,8 @@ export default {
     'faq-os-head-2': 'support?',
     'faq-os-content':
       'Currently, you can download BatterySync for Android from our website; A version for MacOS is available, but is unsigned. You can also download the source code from our GitHub and compile the app yourself. For Windows, Linux and other systems, a Python-script is soon available - your system must support Python and the psutil-library.',
+    'download-success': 'Download successful.',
+    'download-fail': 'Download failed.',
   },
   mainlayout: {
     'my-devices': 'My Devices',
@@ -167,6 +169,8 @@ export default {
     upload: 'Upload',
     'comment-issue': 'Comment Issue',
     edit: 'Edit Issue',
+    'fill-out-all-fields': 'Please fill out all fields.',
+    'upload-success': 'Upload successful.',
   },
   profile: {
     'member-since': 'Member since',

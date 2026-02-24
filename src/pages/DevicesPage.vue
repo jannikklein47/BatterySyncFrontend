@@ -548,7 +548,7 @@ async function setupDayGraph(id, device) {
         y: {
           min: 0,
           max: 100,
-          title: { display: false, text: 'Batteriestand (%)', color: '#fff' },
+          title: { display: false },
           ticks: {
             callback: (value) => (value % 50 === 0 ? value + '%' : ''),
             color: '#fff',
@@ -560,7 +560,7 @@ async function setupDayGraph(id, device) {
             padding: -60,
             z: 1,
           },
-          border: { display: false, color: '#fff' },
+          border: { display: false },
           position: 'right',
           offset: true,
         },
@@ -697,7 +697,7 @@ async function setupWeekGraph(id, device) {
           },
           min: Date.now() - 7 * 24 * 60 * 60 * 1000,
           max: Date.now(),
-          title: { display: false, text: 'Zeit', color: '#fff' },
+          title: { display: false },
           ticks: {
             display: false,
             maxTicksLimit: 0,
@@ -709,7 +709,7 @@ async function setupWeekGraph(id, device) {
         y: {
           min: 0,
           max: 100,
-          title: { display: false, text: 'Batteriestand (%)', color: '#fff' },
+          title: { display: false },
           ticks: {
             color: '#fff',
             display: false,
@@ -720,7 +720,7 @@ async function setupWeekGraph(id, device) {
             padding: -60,
             z: 1,
           },
-          border: { display: false, color: '#fff' },
+          border: { display: false },
           position: 'right',
           offset: true,
         },
@@ -787,10 +787,17 @@ function customTooltip(context) {
     <div>${value + '%'}</div>
   `
 
+  const min = (a, b) => (a < b ? a : b)
+
   // Positioning
   const canvasRect = chart.canvas.getBoundingClientRect()
+
   tooltipEl.style.opacity = 1
-  tooltipEl.style.left = canvasRect.left + window.pageXOffset + tooltip.caretX + 10 + 'px'
+  tooltipEl.style.left =
+    min(
+      canvasRect.left + window.pageXOffset + tooltip.caretX + 10,
+      window.innerWidth - tooltipEl.clientWidth - 16,
+    ) + 'px'
   tooltipEl.style.top = canvasRect.top + window.pageYOffset + tooltip.caretY + 10 + 'px'
 }
 
@@ -876,25 +883,15 @@ function colorMixHex(hex1, hex2, percent2) {
   }
 
   function scaleRGBValues({ r, g, b, a }, scalar) {
-    //console.log('Scaling ', { r, g, b, a }, 'by ', scalar)
     r *= scalar
     g *= scalar
     b *= scalar
     a *= scalar
 
-    //console.log('To: ', { r: Math.floor(r), g: Math.floor(g), b: Math.floor(b), a: Math.floor(a) })
     return { r: Math.floor(r), g: Math.floor(g), b: Math.floor(b), a: Math.floor(a) }
   }
 
   function addRGBA(rgb1, rgb2) {
-    /*
-    console.log('Adding ', rgb1, ' and ', rgb2, 'to', {
-      r: rgb1.r + rgb2.r,
-      g: rgb1.g + rgb2.g,
-      b: rgb1.b + rgb2.b,
-      a: rgb1.a + rgb2.a,
-    })
-      */
     return {
       r: rgb1.r + rgb2.r,
       g: rgb1.g + rgb2.g,
