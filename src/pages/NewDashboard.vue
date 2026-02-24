@@ -1,26 +1,25 @@
 <template>
   <q-page class="main">
     <div class="bg-2"></div>
-    <h1>Guten Tag, {{ computedUser.email }}</h1>
+    <h1>{{ $t('dashboard.hello') }}{{ computedUser.email }}</h1>
     <h2 v-if="criticalDevices.length > 0">
-      {{ criticalDevices.length }} Gerät{{
-        criticalDevices.length === 1 ? ' benötigt' : 'e benötigen'
-      }}
-      deine Aufmerksamkeit.
+      {{ criticalDevices.length }}
+      {{ criticalDevices.length === 1 ? $t('dashboard.device-sg') : $t('dashboard.device-pl') }}
+      {{ $t('dashboard.your-attention') }}
     </h2>
-    <h2 v-else>Alles ist ruhig.</h2>
+    <h2 v-else>{{ $t('dashboard.nothing') }}</h2>
 
     <div class="attention critical" v-if="criticalDevices.length > 0">
       <div class="header">
-        Kritisch <q-space />
+        {{ $t('dashboard.critical') }} <q-space />
         <span>{{ criticalDevices.length }}</span>
       </div>
       <div class="element" v-for="device in criticalDevices" :key="device.id">
         <q-icon name="battery_0_bar" color="red" />
         <div>
-          <h2>Dein {{ device.name }} muss geladen werden.</h2>
+          <h2>{{ $t('dashboard.your') }} {{ device.name }} {{ $t('dashboard.charge') }}</h2>
           <p>
-            Akkustand: {{ Math.round(device.battery * 100) }}% -
+            {{ $t('dashboard.battery-level') }}: {{ Math.round(device.battery * 100) }}% -
             {{
               (() => {
                 const d = device.predictedZeroAt
@@ -28,9 +27,9 @@
                 const t = new Date(d) - new Date()
                 if (t < 0) {
                   if (device.battery > 0) {
-                    return 'Akku ist inzwischen wahrscheinlich leer.'
+                    return $t('dashboard.battery-might-empty')
                   } else {
-                    return 'Akku ist leer.'
+                    return $t('dashboard.battery-empty')
                   }
                 }
 
@@ -39,16 +38,15 @@
                 const M = Math.floor((t % 3600000) / 60000)
 
                 return [
-                  'Akku hält noch',
+                  $t('dashboard.battery-remaining'),
                   D ? `${D} d` : '',
                   H ? `${H} h` : '',
                   D < 1 ? `${M} m` : '',
-                  '.',
                 ]
                   .filter(Boolean)
                   .join(' ')
               })()
-            }}
+            }}.
           </p>
         </div>
         <q-space />
@@ -58,13 +56,13 @@
 
     <div class="attention soon" v-if="warnedDevices.length > 0">
       <div class="header">
-        Bald laden <q-space />
+        {{ $t('dashboard.charge-soon') }} <q-space />
         <span>{{ warnedDevices.length }}</span>
       </div>
       <div class="element" v-for="device in warnedDevices" :key="device.id">
         <q-icon name="battery_1_bar" color="orange" />
         <div>
-          <h2>Dein {{ device.name }} bald laden</h2>
+          <h2>{{ $t('dashboard.charge-your') }} {{ device.name }} {{ $t('dashboard.soon') }}</h2>
           <p>
             {{
               (() => {
@@ -72,14 +70,14 @@
 
                 const t = new Date(d) - new Date()
                 if (!d && device.battery > 0) {
-                  return 'Analyse erfolgt...'
+                  return $t('dashboard.analyzing')
                 } else if (!d && device.battery === 0) {
-                  return 'Akku ist leer.'
+                  return $t('dashboard.battery-empty')
                 } else if (t < 0) {
                   if (device.battery > 0) {
-                    return 'Akku ist inzwischen wahrscheinlich leer.'
+                    return $t('dashboard.battery-might-empty')
                   } else {
-                    return 'Akku ist leer.'
+                    return $t('dashboard.battery-empty')
                   }
                 }
 
@@ -88,22 +86,21 @@
                 const M = Math.floor((t % 3600000) / 60000)
 
                 return [
-                  'Akku hält noch',
+                  $t('dashboard.battery-remaining'),
                   D ? `${D} d` : '',
                   H ? `${H} h` : '',
                   D < 1 ? `${M} m` : '',
-                  '.',
                 ]
                   .filter(Boolean)
                   .join(' ')
               })()
-            }}
+            }}.
           </p>
-          <p>{{ Math.round(device.battery * 100) }}% verbleibend</p>
+          <p>{{ Math.round(device.battery * 100) }}% {{ $t('dashboard.remaining-2') }}</p>
         </div>
         <q-space />
         <q-btn
-          label="Erinnerung erhalten"
+          :label="$t('dashboard.get-notified')"
           flat
           no-caps
           class="action"
@@ -114,7 +111,7 @@
     </div>
 
     <div class="overview">
-      <h2>Übersicht</h2>
+      <h2>{{ $t('dashboard.overview') }}</h2>
       <div v-for="device in computedDevices" :key="device.id">
         <q-btn
           class="device"
@@ -143,21 +140,21 @@
                     const d = device.predictedZeroAt
 
                     if (device.isPluggedIn && !device.chargingStatus) {
-                      return 'angeschlossen.'
+                      return $t('dashboard.plugged-in')
                     } else if (device.isPluggedIn && device.chargingStatus) {
-                      return 'lädt.'
+                      return $t('dashboard.charging')
                     }
 
                     const t = new Date(d) - new Date()
                     if (!d && device.battery > 0) {
-                      return 'Analyse erfolgt...'
+                      return $t('dashboard.analyzing')
                     } else if (!d && device.battery === 0) {
-                      return 'Akku ist leer.'
+                      return $t('dashboard.battery-empty')
                     } else if (t < 0) {
                       if (device.battery > 0) {
-                        return 'Akku ist inzwischen wahrscheinlich leer.'
+                        return $t('dashboard.battery-might-empty')
                       } else {
-                        return 'Akku ist leer.'
+                        return $t('dashboard.battery-empty')
                       }
                     }
 
@@ -169,7 +166,7 @@
                       D ? `${D} d` : '',
                       H ? `${H} h` : '',
                       D < 1 ? `${M} m` : '',
-                      'verbleiben',
+                      $t('dashboard.remaining-2'),
                     ]
                       .filter(Boolean)
                       .join(' ')
@@ -193,7 +190,7 @@
     </div>
 
     <div class="misc">
-      <h2>Empfehlungen</h2>
+      <h2>{{ $t('dashboard.recommendations') }}</h2>
       <div class="grid">
         <div
           class="recommendation"
@@ -232,7 +229,9 @@
           </div>
         </div>
       </div>
-      <span v-if="recommendations.length < 1"> Aktuell liegen keine Empfehlungen vor. </span>
+      <span v-if="recommendations.length < 1" class="text-grey-7">
+        {{ $t('dashboard.no-recommendations') }}
+      </span>
     </div>
 
     <q-dialog
@@ -264,15 +263,15 @@
             {{ recommendationModel.data.caption }}
           </span>
           <span>
-            <span class="text-bold">BatterySync</span> kann dich daran erinnern, dein Gerät zu
-            laden. Dazu werden rechtzeitig Benachrichtigungen an all deine Geräte versendet.
+            <span class="text-bold">BatterySync</span>
+            {{ $t('dashboard.notification-explanation') }}
           </span>
           <q-btn
             :label="
               recommendationModel.data.hasOrderedNotification
-                ? 'Erinnerung wird gesendet'
+                ? $t('recommendation-notification-active')
                 : recommendationModel.success === null
-                  ? 'Erinnerung aktivieren'
+                  ? $t('dashboard.recommendation-notification-activate')
                   : ''
             "
             flat
@@ -303,6 +302,9 @@ import { api } from 'src/boot/axios'
 import { useDeviceStore } from 'src/stores/device-store'
 import { useUserStore } from 'src/stores/user-store'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 
 const deviceStore = useDeviceStore()
 const userStore = useUserStore()
@@ -333,7 +335,6 @@ onMounted(async () => {
   recommendations.value = generateRecommendations()
   recommendationGenerationInterval = setInterval(() => {
     recommendations.value = generateRecommendations()
-    console.log('generate recs')
   }, 5000)
 
   if (document.getElementById('loading-progress').style.height === '60%') {
@@ -374,13 +375,16 @@ function generateRecommendations() {
         if (!device.hasOrderedNotification) {
           result.push({
             type: 'battery_suggestion',
-            title: 'Erhalte eine Erinnerung, wenn dein ' + device.name + ' aufgeladen werden muss.',
+            title:
+              t('dashboard.recommendation-headline-1') +
+              device.name +
+              t('dashboard.recommendation-headline-2'),
             caption:
-              'Nach dem aktuellen Verbrauchsmuster wird es um ' +
+              t('dashboard.recommendation-detail-1') +
               device.predictedZeroAt.getHours().toString().padStart(2, '0') +
               ':' +
               device.predictedZeroAt.getMinutes().toString().padStart(2, '0') +
-              ' Uhr leer sein.',
+              t('dashboard.recommendation-detail-2'),
             id: device.id,
             color: device.color,
             gradientStart: '#fe5f55',
@@ -392,8 +396,11 @@ function generateRecommendations() {
         if (!device.hasOrderedNotification) {
           result.push({
             type: 'battery_suggestion',
-            title: 'Erhalte eine Erinnerung, wenn dein ' + device.name + ' aufgeladen werden muss.',
-            caption: 'Nach dem aktuellen Verbrauchsmuster musst du es erst nächste Woche laden.',
+            title:
+              t('dashboard.recommendation-headline-1') +
+              device.name +
+              t('dashboard.recommendation-headline-2'),
+            caption: t('dashboard.recommendation-next-week'),
             id: device.id,
             color: device.color,
             gradientStart: '#3e73b8',
@@ -405,13 +412,16 @@ function generateRecommendations() {
         if (!device.hasOrderedNotification) {
           result.push({
             type: 'battery_suggestion',
-            title: 'Erhalte eine Erinnerung, wenn dein ' + device.name + ' aufgeladen werden muss.',
+            title:
+              t('dashboard.recommendation-headline-1') +
+              device.name +
+              t('dashboard.recommendation-headline-2'),
             caption:
-              'Nach dem aktuellen Verbrauchsmuster reicht der Akku noch bis ' +
-              device.predictedZeroAt.toLocaleDateString('de-DE', {
+              t('dashboard.recommendation-detail-1') +
+              device.predictedZeroAt.toLocaleDateString(locale.value, {
                 weekday: 'long',
               }) +
-              '.',
+              t('dashboard.recommendation-detail-2'),
             id: device.id,
             color: device.color,
             gradientStart: '#fe9355',
@@ -423,9 +433,11 @@ function generateRecommendations() {
     } else if (device.hasOrderedNotification === false) {
       result.push({
         type: 'battery_suggestion',
-        title: 'Erhalte eine Erinnerung, wenn dein ' + device.name + ' aufgeladen werden muss.',
-        caption:
-          'Wir konnten dein Verbauchsmuster noch nicht analysieren. Du kannst aber jetzt schon eine Erinnerung einstellen!',
+        title:
+          t('dashboard.recommendation-headline-1') +
+          device.name +
+          t('dashboard.recommendation-headline-2'),
+        caption: t('dashboard.recommendation-unknown'),
         id: device.id,
         color: device.color,
         gradientStart: '#fe9355',
@@ -433,53 +445,6 @@ function generateRecommendations() {
         hasOrderedNotification: false,
       })
     }
-
-    /*
-    const analysis = analyzeSinceLastUnplug(deviceStore.deviceHistory[device.id])
-    if (analysis && analysis.predictedZeroAt) {
-      if (sameDay(analysis.predictedZeroAt, new Date(Date.now()))) {
-        result.push({
-          type: 'battery_info',
-          title: 'Erhalte eine Erinnerung, wenn dein ' + device.name + ' aufgeladen werden muss.',
-          caption:
-            'Nach dem aktuellen Verbrauchsmuster wird es um ' +
-            analysis.predictedZeroAt.getHours().toString().padStart(2, '0') +
-            ':' +
-            analysis.predictedZeroAt.getMinutes().toString().padStart(2, '0') +
-            ' Uhr leer sein.',
-          id: device.id,
-          color: device.color,
-          gradientStart: '#fe5f55',
-          gradientEnd: '#7cde89',
-        })
-      } else if (analysis.predictedZeroAt.getTime() - 7 * 24 * 60 * 60 * 1000 > Date.now()) {
-        result.push({
-          type: 'battery_info',
-          title: 'Erhalte eine Erinnerung, wenn dein ' + device.name + ' aufgeladen werden muss.',
-          caption: 'Nach dem aktuellen Verbrauchsmuster musst du es erst nächste Woche laden.',
-          id: device.id,
-          color: device.color,
-          gradientStart: '#3e73b8',
-          gradientEnd: '#7cde89',
-        })
-      } else if (analysis.predictedZeroAt.getTime() - 7 * 24 * 60 * 60 * 1000 <= Date.now()) {
-        result.push({
-          type: 'battery_info',
-          title: 'Erhalte eine Erinnerung, wenn dein ' + device.name + ' aufgeladen werden muss.',
-          caption:
-            'Nach dem aktuellen Verbrauchsmuster reicht der Akku noch bis ' +
-            analysis.predictedZeroAt.toLocaleDateString('de-DE', {
-              weekday: 'long',
-            }) +
-            '.',
-          id: device.id,
-          color: device.color,
-          gradientStart: '#fe9355',
-          gradientEnd: '#7cde89',
-        })
-      }
-    }
-      */
   }
 
   return result

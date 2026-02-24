@@ -2,11 +2,15 @@
   <q-page class="main-container">
     <div class="top">
       <div class="bg-1" id="gradient-bg"></div>
-      <h1>Alle Akkus. <span class="text-gradient">Eine App.</span></h1>
+      <h1>
+        {{ $t('indexpage.slogan-1') }}
+        <span class="text-gradient">{{ $t('indexpage.slogan-2') }}</span>
+      </h1>
       <p class="headline-description">
-        Mit <span class="text-gradient">BatterySync</span> überwachst du den Akku all deiner Geräte.
+        {{ $t('indexpage.slogan-detail-1') }} <span class="text-gradient">BatterySync</span>
+        {{ $t('indexpage.slogan-detail-2') }}
         <br />
-        <span class="text-bold">Egal welche Plattform. </span>
+        <span class="text-bold">{{ $t('indexpage.slogan-detail-3') }} </span>
       </p>
 
       <div class="platform-list">
@@ -24,11 +28,9 @@
               <span class="text-gradient">BatterySync</span>
               <span style="color: #ffffffaa; font-weight: 400">MacOS</span>
             </h2>
-            <q-expansion-item label="Mehr Erfahren" switch-toggle-side>
+            <q-expansion-item :label="$t('indexpage.viewmore')" switch-toggle-side>
               <p>
-                Mit der MacOS App erhälst du Widgets verschiedener Größen. Dort werden deine Geräte
-                angezeigt. <br />Außerdem kannst du Geräte verwalten und erhälst
-                Erinnerungsbenachrichtigungen.
+                {{ $t('indexpage.macos') }}
               </p>
             </q-expansion-item>
 
@@ -43,10 +45,9 @@
               <span class="text-gradient">BatterySync</span>
               <span style="color: #ffffffaa; font-weight: 400">Android</span>
             </h2>
-            <q-expansion-item label="Mehr Erfahren" switch-toggle-side>
+            <q-expansion-item :label="$t('indexpage.viewmore')" switch-toggle-side>
               <p>
-                Mit der Android App erhälst du ein Home&shy;screen-Widget, wo deine Geräte angezeigt
-                werden. Außerdem erhälst du Erinnerungen, wenn du deine Geräte anschließen musst.
+                {{ $t('indexpage.android') }}
               </p>
             </q-expansion-item>
 
@@ -62,12 +63,9 @@
               <span class="text-gradient">BatterySync</span>Lite
               <span style="color: #ffffffaa; font-weight: 400">Desktop</span>
             </h2>
-            <q-expansion-item label="Mehr Erfahren" switch-toggle-side>
+            <q-expansion-item :label="$t('indexpage.viewmore')" switch-toggle-side>
               <p>
-                BatterySync Lite bietet einen Hintergrund-Service, basierend auf Python. Dadurch
-                kannst du den Akku deines Geräts tracken. Dieses Script funktioniert auf allen
-                Platformen, die Python und die psutil-Library unterstützen. <br />
-                Leider kann das Python-Script aktuell nicht heruntergeladen werden.
+                {{ $t('indexpage.desktop') }}
               </p>
             </q-expansion-item>
 
@@ -83,11 +81,9 @@
               <span class="text-gradient">BatterySync</span>
               <span style="color: #ffffffaa; font-weight: 400">WearOS</span>
             </h2>
-            <q-expansion-item label="Mehr Erfahren" switch-toggle-side>
+            <q-expansion-item :label="$t('indexpage.viewmore')" switch-toggle-side>
               <p>
-                In Entwicklung: <br />
-                Mit der Android WearOS App stattest du deine Wearable mit dem BatterySync-Service
-                aus, sodass du auch Akku-Insights für deine Uhr bekommst.
+                {{ $t('indexpage.wearos') }}
               </p>
             </q-expansion-item>
 
@@ -131,15 +127,15 @@
     <div class="sync-information">
       <div>
         <rolling-counter :value="syncCounter" />
-        <p class="text-grey-3">Akku-Synchronisierungen</p>
+        <p class="text-grey-3">{{ $t('indexpage.syncs') }}</p>
       </div>
       <div>
-        <h2>So funktioniert's:</h2>
-        <span><span class="text-gradient">1.</span> App installieren</span>
+        <h2>{{ $t('indexpage.howitworks') }}</h2>
+        <span><span class="text-gradient">1.</span> {{ $t('indexpage.installapp') }}</span>
         <q-icon name="keyboard_arrow_down" />
-        <span><span class="text-gradient">2.</span> Gerät hinzufügen</span>
+        <span><span class="text-gradient">2.</span> {{ $t('indexpage.adddevice') }}</span>
         <q-icon name="keyboard_arrow_down" />
-        <span><span class="text-gradient">3.</span> Akku wird automatisch synchroniert</span>
+        <span><span class="text-gradient">3.</span> {{ $t('indexpage.automaticsync') }}</span>
       </div>
     </div>
     <div
@@ -168,8 +164,10 @@
               class="text-h2 text-weight-bold phone-noti-headline text-white"
               style="letter-spacing: 0.1em"
             >
-              Nie wieder
-              <span class="text-warning text-weight-bolder">leer.</span>
+              {{ $t('indexpage.neverempty-1') }}
+              <span class="text-warning text-weight-bolder">{{
+                $t('indexpage.neverempty-2')
+              }}</span>
             </div>
           </q-intersection>
 
@@ -177,16 +175,13 @@
             <q-intersection transition="scale" class="content-block" once>
               <div style="max-width: 450px">
                 <div class="text-h6 text-grey-1" style="font-size: 24px">
-                  Erhalte Erinnerungen, wenn dein Gerät leer geht.
+                  {{ $t('indexpage.getreminders') }}
                 </div>
                 <div class="text-body2 text-grey-3 q-mt-md" style="font-size: 18px">
-                  Du erhälst Mitteilungen auf deine Geräte, sollte eines leer gehen. Unsere
-                  Vorhersage-Algorithmen schlagen Alarm, wenn sich ein Gerät in ca. 2 Stunden
-                  ausschalten wird.
+                  {{ $t('indexpage.getremindersdetail') }}
                 </div>
                 <div class="text-body2 text-grey-3 q-mt-md" style="font-size: 18px">
-                  Falls du ein Gerät vergisst, erhälst du gelegentlich Erinnerungen, es
-                  anzuschließen. Auch nachdem es sich bereits ausgeschaltet hat.
+                  {{ $t('indexpage.forgetdevice') }}
                 </div>
               </div>
             </q-intersection>
@@ -237,18 +232,18 @@
         <q-intersection transition="scale" class="content-block" once>
           <div style="max-width: 540px" class="q-pa-lg">
             <div
-              class="text-h2 text-weight-bold text-white phone-widget-headline"
+              class="text-h2 text-weight-bold text-white phone-widget-headline q-mb-md"
               style="letter-spacing: 0.1em"
             >
-              Immer im Auge
+              {{ $t('indexpage.alwaysvisible') }}
             </div>
             <div class="text-h6 text-grey-1">
-              Mit den <span class="text-weight-bolder">BatterySync</span>-Widgets bewahrst du den
-              Überblick über deine Geräte.
+              {{ $t('indexpage.widgetdetail-1') }}
+              <span class="text-weight-bolder">BatterySync</span
+              >{{ $t('indexpage.widgetdetail-2') }}
             </div>
             <div class="text-body2 text-grey-3 q-mt-md" style="font-size: 18px">
-              Unsere Android und MacOS-Apps unterstützen die Erstellung von Widgets auf deinem
-              Startbildschirm.
+              {{ $t('indexpage.widgetversions') }}
             </div>
           </div>
         </q-intersection>
@@ -291,18 +286,17 @@
       "
     >
       <q-intersection transition="scale" class="content-block" once>
-        <div class="text-h3 text-weight-regular">
-          Unsere Server synchronisieren <br />
-          deine Geräte <span class="text-weight-bold">24/7</span>
+        <div class="text-h3 text-weight-regular text-center">
+          {{ $t('indexpage.allweek') }} <span class="text-weight-bold">24/7</span>
         </div>
       </q-intersection>
 
       <q-intersection transition="scale" class="content-block" once>
-        <p class="q-mt-md">Davon merkst Du nichts - die Apps laufen einfach im Hintergrund.</p>
+        <p class="q-mt-md">{{ $t('indexpage.inbackground') }}</p>
       </q-intersection>
 
       <q-intersection transition="scale" class="content-block" once>
-        <h2>Sparsam und Datenfreundlich</h2>
+        <h2>{{ $t('indexpage.efficient') }}</h2>
       </q-intersection>
 
       <q-intersection transition="scale" class="content-block" once>
@@ -318,7 +312,7 @@
                 d="M120-320v-320 320Zm40 80q-50 0-85-35t-35-85v-240q0-50 35-85t85-35h480v80H160q-17 0-28.5 11.5T120-600v240q0 17 11.5 28.5T160-320h480v80H160Zm560-80v-120H600v-80h120v-120h80v120h120v80H800v120h-80Z"
               />
             </svg>
-            Ca. 0.5% Akkuverbrauch am Tag
+            {{ $t('indexpage.batteryperday') }}
           </p>
           <p>
             <svg
@@ -331,7 +325,7 @@
                 d="M480-120q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM254-346l-84-86q59-59 138.5-93.5T480-560q92 0 171.5 35T790-430l-84 84q-44-44-102-69t-124-25q-66 0-124 25t-102 69ZM84-516 0-600q92-94 215-147t265-53q142 0 265 53t215 147l-84 84q-77-77-178.5-120.5T480-680q-116 0-217.5 43.5T84-516Z"
               />
             </svg>
-            Ca. 100 MB Datennutzung pro Monat
+            {{ $t('indexpage.datapermonth') }}
           </p>
         </div>
       </q-intersection>
@@ -377,22 +371,19 @@
         <q-intersection transition="scale" class="content-block" once>
           <div class="q-pa-lg">
             <div class="text-h2 text-weight-bold text-white" style="letter-spacing: 0.1em">
-              Großartige Sicherheit
+              {{ $t('indexpage.safety') }}
             </div>
             <div class="text-h6 text-grey-2 q-mt-md">
-              <span class="text-weight-bolder">BatterySync</span> nutzt ein Zertifikat-System für
-              den sicheren Austausch von Daten.
+              <span class="text-weight-bolder">BatterySync</span> {{ $t('indexpage.safetyslogan') }}
             </div>
             <div class="text-body2 text-grey-4 q-mt-md" style="font-size: 18px">
-              Mit einem individuellen Zertifikat kommuniziert jedes Gerät sicher und verschlüsselt
-              mit den Servern. Niemand kommt an deine Daten, und keiner kann sie manipulieren.
+              {{ $t('indexpage.safetydetail1') }}
             </div>
             <div
               class="text-body2 text-grey-4 q-mt-md"
               style="font-size: 18px; margin-bottom: -50px"
             >
-              Jeder Austausch deiner Geräteinfos erfordert solch ein Zertifikat. Unsere Server
-              handeln mit deinen Geräten bei einer Registrierung ein einzigartiges Zertifikat aus.
+              {{ $t('indexpage.safetydetail2') }}
             </div>
           </div>
         </q-intersection>
@@ -427,22 +418,11 @@
       <h2>FAQ</h2>
       <q-intersection transition="scale" class="content-block" once>
         <div>
-          <h3>Warum <span class="text-gradient">BatterySync</span>?</h3>
+          <h3>
+            {{ $t('indexpage.faq-why-head') }} <span class="text-gradient">BatterySync</span>?
+          </h3>
           <p>
-            BatterySync ist ein Open-Source Projekt, was gegen die Einschränkungen der moderenen
-            Smartphone-Ökosysteme beitragen möchte. Mit BatterySync behälst du den Akku deiner
-            Geräte immer im Blick - über unsere Website, über Widgets auf deinem Startbildschirm,
-            über Erinnerungen per Benachrichtigung; Es spielt keine Rolle, welche Marken du kreuzt.
-          </p>
-        </div>
-      </q-intersection>
-      <q-separator dark inset />
-      <q-intersection transition="scale" class="content-block" once>
-        <div>
-          <h3>Kostet <span class="text-gradient">BatterySync</span> etwas?</h3>
-          <p>
-            BatterySync kann völlig kostenfrei genutzt werden. Es ist ein Open-Source Projekt, du
-            könntest sogar deine eigenen Server hosten!
+            {{ $t('indexpage.faq-why-content') }}
           </p>
         </div>
       </q-intersection>
@@ -450,47 +430,56 @@
       <q-intersection transition="scale" class="content-block" once>
         <div>
           <h3>
-            <span class="text-gradient">BatterySync</span> läuft im Hintergrund. Verbraucht das
-            nicht viel Akku?
+            {{ $t('indexpage.faq-cost-head-1') }} <span class="text-gradient">BatterySync</span>
+            {{ $t('indexpage.faq-cost-head-2') }}
           </h3>
           <p>
-            Zur Synchronisierung wird ein minimaler Service verwendet. Wenn du die App schließt,
-            läuft sie nicht weiter. Dieser Hintergrund-Service verbraucht bis zu 0.5% Akku am Tag.
+            {{ $t('indexpage.faq-cost-content') }}
           </p>
-        </div>
-      </q-intersection>
-      <q-separator dark inset />
-      <q-intersection transition="scale" class="content-block" once>
-        <div>
-          <h3>Sind meine Daten bei <span class="text-gradient">BatterySync</span> sicher?</h3>
-          <p>
-            Bei <span class="text-gradient">BatterySync</span> steht Privatsphäre im Fokus. Es
-            werden keine unnötigen Daten erhoben: Wir speichern lediglich den Akkuverlauf deiner
-            Geräte, um Graphen und Vorhersagen zu generieren. Wir können deine Passwört nicht sehen.
-            Temporär speichern wir deine Netwerk-Aktivitäten pseudonymisiert. Es handelt sich zu dem
-            um gemeinnützigen Open-Source Projekt; Wir werden deine Daten niemals verkaufen.
-          </p>
-        </div>
-      </q-intersection>
-      <q-separator dark inset />
-      <q-intersection transition="scale" class="content-block" once>
-        <div>
-          <h3>Wo speichert <span class="text-gradient">BatterySync</span> meine Daten?</h3>
-          <p>Deine Daten werden innerhalb der EU DSGVO-konform gespeichert.</p>
         </div>
       </q-intersection>
       <q-separator dark inset />
       <q-intersection transition="scale" class="content-block" once>
         <div>
           <h3>
-            Welche Betriebssysteme unterstützt <span class="text-gradient">BatterySync</span>?
+            <span class="text-gradient"> BatterySync </span> {{ $t('indexpage.faq-battery-head') }}
           </h3>
           <p>
-            Aktuell kannst du BatterySync für Android von unserer Website runterladen; Eine Version
-            für MacOS steht verfügbar, dennoch unsigniert. Du kannst den Sourcecode von unserem
-            GitHub herunterladen und die App selber kompilieren.
-            <br />Für Windows, Linux und andere Systeme ist bald ein Python-Script verfügbar - Dein
-            System muss Python und die psutil-Library unterstützen.
+            {{ $t('indexpage.faq-battery-content') }}
+          </p>
+        </div>
+      </q-intersection>
+      <q-separator dark inset />
+      <q-intersection transition="scale" class="content-block" once>
+        <div>
+          <h3>
+            {{ $t('indexpage.faq-security-head-1') }} <span class="text-gradient">BatterySync</span>
+            {{ $t('indexpage.faq-security-head-2') }}
+          </h3>
+          <p>
+            {{ $t('indexpage.faq-security-content') }}
+          </p>
+        </div>
+      </q-intersection>
+      <q-separator dark inset />
+      <q-intersection transition="scale" class="content-block" once>
+        <div>
+          <h3>
+            {{ $t('indexpage.faq-where-head-1') }} <span class="text-gradient">BatterySync</span>
+            {{ $t('indexpage.faq-where-head-2') }}
+          </h3>
+          <p>{{ $t('indexpage.faq-where-content') }}</p>
+        </div>
+      </q-intersection>
+      <q-separator dark inset />
+      <q-intersection transition="scale" class="content-block" once>
+        <div>
+          <h3>
+            {{ $t('indexpage.faq-os-head-1') }} <span class="text-gradient">BatterySync</span>
+            {{ $t('indexpage.faq-os-head-2') }}
+          </h3>
+          <p>
+            {{ $t('indexpage.faq-os-content') }}
           </p>
         </div>
       </q-intersection>
@@ -507,6 +496,9 @@ import RollingCounter from 'src/components/RollingCounter.vue'
 import PhoneWithNotification from 'src/components/PhoneWithNotification.vue'
 import AppleWidget from 'src/components/AppleWidget.vue'
 import SecureConnection from 'src/components/SecureConnection.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const lock = ref(false)
 
@@ -527,11 +519,11 @@ async function downloadApk() {
     })
 
     saveAs(response.data, 'batterysync-android.apk')
-    notif({ type: 'positive', message: 'Download abgeschlossen' })
+    notif({ type: 'positive', message: t('indexpage.download-success') })
 
     lock.value = false
   } catch {
-    notif({ type: 'positive', message: 'Download fehlgeschlagen' })
+    notif({ type: 'positive', message: t('indexpage.download-fail') })
     lock.value = false
   }
 }
@@ -545,11 +537,11 @@ async function downloadDmg() {
     })
 
     saveAs(response.data, 'batterysync-macos.dmg')
-    notif({ type: 'positive', message: 'Download abgeschlossen' })
+    notif({ type: 'positive', message: t('indexpage.download-success') })
 
     lock.value = false
   } catch {
-    notif({ type: 'positive', message: 'Download fehlgeschlagen' })
+    notif({ type: 'positive', message: t('indexpage.download-fail') })
     lock.value = false
   }
 }
@@ -614,40 +606,6 @@ function removeScroll() {
     behavior: 'smooth',
   })
 }
-
-/*
-import { onMounted, onUnmounted } from 'vue'
-
-function gradientShift() {
-  const scrollProgress = window.scrollY / (document.body.scrollHeight - window.innerHeight)
-  if (scrollProgress > 0.5) return
-
-  // Use HSL to smoothly change color hues based on scroll
-  const hue1 = Math.floor(175 + scrollProgress * 60)
-  const hue2 = Math.floor(214 + scrollProgress * 60)
-  const hue3 = Math.floor(128 + scrollProgress * 60)
-  const hue4 = Math.floor(268 + scrollProgress * 60)
-
-  document.getElementById('gradient-bg').style.backgroundImage = `
-    radial-gradient(16% 32% at 3% 53%, hsl(${hue1}, 71%, 34%) 0%, transparent 99%),
-    radial-gradient(70% 53% at 32% 89%, hsl(${hue2}, 70%, 50%) 0%, transparent 100%),
-    radial-gradient(42% 53% at 31% 73%, hsl(${hue3}, 70%, 50%) 7%, transparent 100%),
-    radial-gradient(18% 28% at 35% 87%, hsl(${hue3}, 70%, 50%) 7%, transparent 100%),
-    radial-gradient(31% 43% at 7% 98%, hsl(${hue3}, 70%, 50%) 24%, transparent 100%),
-    radial-gradient(35% 56% at 91% 74%, hsl(${hue1}, 70%, 50%) 9%, transparent 100%),
-    radial-gradient(27% 55% at 66% 88%, hsl(${hue4}, 70%, 50%) 0%, transparent 100%),
-    linear-gradient(125deg, #000000 1%, #000000 100%)
-  `
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', gradientShift)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', gradientShift)
-})
-  */
 </script>
 <style lang="scss" scoped>
 .main-container {

@@ -4,7 +4,7 @@
     <!--Overview-->
     <aside class="device-list" v-if="computedDevices.length > 0">
       <div class="favorites">
-        <h2>Favoriten</h2>
+        <h2>{{ $t('devices.favourites') }}</h2>
         <q-btn
           flat
           no-caps
@@ -19,7 +19,7 @@
       </div>
 
       <div class="list">
-        <h2>Geräte</h2>
+        <h2>{{ $t('devices.devices') }}</h2>
         <q-btn
           flat
           no-caps
@@ -52,14 +52,12 @@
             no-caps
             :class="{ 'active-favorite': device.favorite }"
             @click="changeFavorite(device)"
-            ><span class="cont">Favorit</span></q-btn
+            ><span class="cont">{{ $t('devices.favourite') }}</span></q-btn
           >
         </div>
 
         <div v-if="device.isLegacy">
-          <span class="text-orange"
-            >Legacy-Gerät: Dieses Gerät verwendet die veraltete App. Aktualisiere Zeitnah.</span
-          >
+          <span class="text-orange">{{ $t('devices.legacy') }}</span>
         </div>
 
         <q-separator dark style="margin-bottom: -10px" />
@@ -91,18 +89,18 @@
                         D ? `${D} d` : '',
                         H ? `${H} h` : '',
                         D < 1 ? `${M} m` : '',
-                        ' verbleiben',
+                        $t('devices.remaining'),
                       ]
                         .filter(Boolean)
                         .join(' ')
                     })()
                   : device.chargingStatus
-                    ? ' - lädt'
+                    ? ' - ' + $t('devices.charging')
                     : device.isPluggedIn
-                      ? ' - angeschlossen'
+                      ? ' - ' + $t('devices.plugged-in')
                       : device.battery === 0
-                        ? ' - Akku ist leer.'
-                        : ' - Analyse erfolgt...'
+                        ? ' - ' + $t('devices.battery-empty')
+                        : ' - ' + $t('devices.analyzing')
               }}
             </span>
           </h2>
@@ -128,31 +126,22 @@
         <div class="row items-center no-wrap">
           <div class="col">
             <div class="text-h6 flex" style="align-items: center; gap: 12px">
-              Akku-Gesundheit
+              {{ $t('devices.battery-health.head') }}
               <q-icon name="help_outline" size="xs" color="grey-7">
                 <q-tooltip style="font-size: 12px">
                   <div style="max-width: 350px">
-                    Dies ist kein Indikator für die Akkukapazität deines Geräts. <br />
-                    Der Score errechnet sich aus deinem Ladeverhalten und gibt dir 0 bis 100 Punkte.
-                    Es ist schädlich für den Akku, sich oft zwischen 0-15% und 85-100% aufzuhalten.
-                    <br />
-                    Vermeide dieses Verhalten für eine gute Bewertung. Wenn deine Bewertung
-                    schlechter ist als erwartet, verändere dein Nutzungsverhalten um die Lebensdauer
-                    deines Geräts zu maximieren.
+                    {{ $t('devices.battery-health.long') }}
                   </div>
                 </q-tooltip>
               </q-icon>
             </div>
             <div class="text-subtitle2 text-grey-5">
-              {{ device.healthStats.explanation.safeZonePercent }}% deiner Ladungen sind im
-              unschädlichen Bereich.
+              {{ device.healthStats.explanation.safeZonePercent }}%
+              {{ $t('devices.battery-health.info-1') }}
               <span style="color: #eee">{{
-                (device.healthStats.totalCharged / 100).toFixed(0) +
-                ((device.healthStats.totalCharged / 100).toFixed(0) == 1
-                  ? ' Akkuzyklus'
-                  : ' Akkuzyklen')
+                (device.healthStats.totalCharged / 100).toFixed(0)
               }}</span>
-              verbraucht.
+              {{ $t('devices.battery-health.info-2') }}
             </div>
           </div>
 
@@ -180,11 +169,11 @@
         <q-separator dark />
 
         <div class="get-notification">
-          <span>Erinnerung erhalten, wenn das Gerät in 2 Stunden leer ist?</span>
+          <span>{{ $t('devices.get-reminded') }}</span>
           <q-space />
           <q-btn-group rounded flat class="reminder-buttons">
             <q-btn
-              label="Aus"
+              :label="$t('devices.off')"
               no-caps
               class="off"
               :class="{ active: !device.hasOrderedNotification && !device.permanentNotification }"
@@ -193,7 +182,7 @@
             />
             <q-separator vertical />
             <q-btn
-              label="Ein Mal"
+              :label="$t('devices.once')"
               no-caps
               class="once"
               :class="{ active: device.hasOrderedNotification && !device.permanentNotification }"
@@ -202,7 +191,7 @@
             />
             <q-separator vertical />
             <q-btn
-              label="Immer"
+              :label="$t('devices.always')"
               no-caps
               class="permanent"
               :class="{ active: device.permanentNotification }"
@@ -213,21 +202,21 @@
         </div>
 
         <div class="day-graph">
-          <span>Heutiger Verbrauch</span>
+          <span>{{ $t('devices.usage-today') }}</span>
           <canvas :id="'day-graph-device-' + device.id" style="height: 100%; width: 100%"></canvas>
         </div>
 
         <div class="week-graph">
-          <span>Verbrauch der letzten 7 Tage</span>
+          <span>{{ $t('devices.usage-week') }}</span>
           <canvas :id="'week-graph-device-' + device.id" style="height: 100%; width: 100%"></canvas>
         </div>
 
         <div class="get-notification">
-          <span>Widget-Sichtbarkeit</span>
+          <span>{{ $t('devices.in-widget') }}</span>
           <q-space />
           <q-btn-group rounded flat class="reminder-buttons">
             <q-btn
-              label="Aus"
+              :label="$t('devices.off')"
               no-caps
               class="off"
               :class="{ active: !device.isShown }"
@@ -235,7 +224,7 @@
             />
             <q-separator vertical />
             <q-btn
-              label="An"
+              :label="$t('devices.on')"
               no-caps
               class="once"
               :class="{ active: device.isShown }"
@@ -247,7 +236,7 @@
         <div class="footer">
           <q-space />
           <q-btn
-            label="Gerät Umbennen"
+            :label="$t('devices.rename')"
             flat
             class="rename"
             no-caps
@@ -259,7 +248,7 @@
             "
           />
           <q-btn
-            label="Gerät löschen"
+            :label="$t('devices.delete')"
             flat
             class="delete"
             no-caps
@@ -274,7 +263,7 @@
       </div>
 
       <div class="no-devices" v-if="computedDevices.length < 1">
-        Du hast keine Geräte registriert.
+        {{ $t('devices.no-devices') }}
       </div>
     </div>
 
@@ -288,17 +277,15 @@
         :style="'--gradient-start: ' + '#ff000044' + ';--gradient-end:' + '#ff00008a'"
       >
         <div class="title">
-          <h1>{{ deleteDeviceWindow.data.name }} löschen</h1>
+          <h1>{{ deleteDeviceWindow.data.name }}{{ $t('devices.delete-device') }}</h1>
           <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
         </div>
         <div class="content">
           <span>
-            Dein Gerät wird hierdurch permanent gelöscht. Deine zugehörigen Nutzungsdaten sind dann
-            nicht mehr abrufbar und werden von unseren Servern gelöscht.
+            {{ $t('devices.delete-description') }}
           </span>
           <q-btn
-            label="Permanent löschen
-            "
+            :label="$t('devices.delete-confirm')"
             flat
             class="confirm-button"
             @click="deleteDevice(deleteDeviceWindow.data.id)"
@@ -318,22 +305,21 @@
         :style="'--gradient-start: ' + '#3e73b8' + ';--gradient-end:' + '#7cde89'"
       >
         <div class="title">
-          <h1>{{ renameDeviceWindow.data.name }} umbennen</h1>
+          <h1>{{ renameDeviceWindow.data.name }}{{ $t('devices.rename-device') }}</h1>
           <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
         </div>
         <div class="content">
-          <span> Vergib einen neuen Namen für dein Gerät: </span>
+          <span> {{ $t('devices.rename-description') }}</span>
           <q-input
             color="white"
             dark
             filled
             type="text"
-            label="Neuer Name"
+            :label="$t('devices.new-name')"
             v-model="renameDeviceWindow.text"
           />
           <q-btn
-            label="Absenden
-            "
+            :label="$t('devices.rename')"
             flat
             no-caps
             class="confirm-button"
@@ -562,7 +548,7 @@ async function setupDayGraph(id, device) {
         y: {
           min: 0,
           max: 100,
-          title: { display: false, text: 'Batteriestand (%)', color: '#fff' },
+          title: { display: false },
           ticks: {
             callback: (value) => (value % 50 === 0 ? value + '%' : ''),
             color: '#fff',
@@ -574,7 +560,7 @@ async function setupDayGraph(id, device) {
             padding: -60,
             z: 1,
           },
-          border: { display: false, color: '#fff' },
+          border: { display: false },
           position: 'right',
           offset: true,
         },
@@ -711,7 +697,7 @@ async function setupWeekGraph(id, device) {
           },
           min: Date.now() - 7 * 24 * 60 * 60 * 1000,
           max: Date.now(),
-          title: { display: false, text: 'Zeit', color: '#fff' },
+          title: { display: false },
           ticks: {
             display: false,
             maxTicksLimit: 0,
@@ -723,7 +709,7 @@ async function setupWeekGraph(id, device) {
         y: {
           min: 0,
           max: 100,
-          title: { display: false, text: 'Batteriestand (%)', color: '#fff' },
+          title: { display: false },
           ticks: {
             color: '#fff',
             display: false,
@@ -734,7 +720,7 @@ async function setupWeekGraph(id, device) {
             padding: -60,
             z: 1,
           },
-          border: { display: false, color: '#fff' },
+          border: { display: false },
           position: 'right',
           offset: true,
         },
@@ -801,10 +787,17 @@ function customTooltip(context) {
     <div>${value + '%'}</div>
   `
 
+  const min = (a, b) => (a < b ? a : b)
+
   // Positioning
   const canvasRect = chart.canvas.getBoundingClientRect()
+
   tooltipEl.style.opacity = 1
-  tooltipEl.style.left = canvasRect.left + window.pageXOffset + tooltip.caretX + 10 + 'px'
+  tooltipEl.style.left =
+    min(
+      canvasRect.left + window.pageXOffset + tooltip.caretX + 10,
+      window.innerWidth - tooltipEl.clientWidth - 16,
+    ) + 'px'
   tooltipEl.style.top = canvasRect.top + window.pageYOffset + tooltip.caretY + 10 + 'px'
 }
 
@@ -890,25 +883,15 @@ function colorMixHex(hex1, hex2, percent2) {
   }
 
   function scaleRGBValues({ r, g, b, a }, scalar) {
-    //console.log('Scaling ', { r, g, b, a }, 'by ', scalar)
     r *= scalar
     g *= scalar
     b *= scalar
     a *= scalar
 
-    //console.log('To: ', { r: Math.floor(r), g: Math.floor(g), b: Math.floor(b), a: Math.floor(a) })
     return { r: Math.floor(r), g: Math.floor(g), b: Math.floor(b), a: Math.floor(a) }
   }
 
   function addRGBA(rgb1, rgb2) {
-    /*
-    console.log('Adding ', rgb1, ' and ', rgb2, 'to', {
-      r: rgb1.r + rgb2.r,
-      g: rgb1.g + rgb2.g,
-      b: rgb1.b + rgb2.b,
-      a: rgb1.a + rgb2.a,
-    })
-      */
     return {
       r: rgb1.r + rgb2.r,
       g: rgb1.g + rgb2.g,

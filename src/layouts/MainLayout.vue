@@ -34,16 +34,16 @@
             label="Dashboard"
             class="nav-btn"
             :class="{ 'active-page': $route.name === 'dashboard' }"
-            to="dashboard"
+            :to="`/${$route.params.locale}/dashboard`"
           />
           <q-btn
             flat
             class="nav-btn"
             no-caps
             :class="{ 'active-page': $route.name === 'devices' }"
-            to="devices"
+            :to="`/${$route.params.locale}/devices`"
             v-if="isLoggedIn"
-            ><div class="header-btn-label">Meine Geräte</div>
+            ><div class="header-btn-label">{{ $t('mainlayout.my-devices') }}</div>
             <q-icon name="devices_other" class="header-btn-icon"
           /></q-btn>
           <q-btn
@@ -51,7 +51,7 @@
             class="nav-btn"
             no-caps
             :class="{ 'active-page': $route.name === 'issues' }"
-            to="issues"
+            :to="`/${$route.params.locale}/issues`"
             ><div class="header-btn-label">Community</div>
             <q-icon name="group" class="header-btn-icon"
           /></q-btn>
@@ -59,12 +59,19 @@
 
         <q-space />
 
-        <q-btn flat dense no-caps v-if="!isLoggedIn" class="login-button" to="login">
-          <span style="margin-right: 6px">Anmelden</span>
+        <q-btn
+          flat
+          dense
+          no-caps
+          v-if="!isLoggedIn"
+          class="login-button"
+          :to="`/${$route.params.locale}/login`"
+        >
+          <span style="margin-right: 6px">{{ $t('mainlayout.login') }}</span>
           <span class="profile-icon">?</span>
         </q-btn>
 
-        <q-btn flat dense v-else to="account">
+        <q-btn flat dense v-else :to="`/${$route.params.locale}/account`">
           <span class="profile-icon">{{ (computedUser.email || '?').at(0) }}</span>
         </q-btn>
       </q-toolbar>
@@ -83,9 +90,19 @@
     >
       <h2>© 2025 - {{ new Date().getUTCFullYear() }} by Jannik Klein</h2>
       <div>
-        <q-btn label="Feedback geben / Issues" no-caps flat to="issues" />
-        <q-btn label="Rechtliches" no-caps flat to="legal" />
-        <q-btn label="API Usage Insights" no-caps flat to="apiusage" />
+        <q-btn
+          :label="$t('mainlayout.feedback')"
+          no-caps
+          flat
+          :to="`/${$route.params.locale}/issues`"
+        />
+        <q-btn
+          :label="$t('mainlayout.legal')"
+          no-caps
+          flat
+          :to="`/${$route.params.locale}/legal`"
+        />
+        <q-btn label="API Usage Insights" no-caps flat :to="`/${$route.params.locale}/apiusage`" />
         <q-btn
           label="GitHub: MacOS Repository"
           no-caps
@@ -216,6 +233,37 @@ async function sendNotificationToUsers() {
     Notify.create({ message: 'Bitte fülle alle Felder aus', type: 'negative' })
   }
 }
+
+// ----------- meta for language handling ----------
+
+import { useMeta } from 'quasar'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+// This helper generates the full URL for a specific locale
+const getLocaleUrl = (locale) => {
+  const domain = 'https://batterysync.de'
+  // Replace the current locale in the path with the target locale
+  const path = route.path.replace(`/${route.params.locale}`, `/${locale}`)
+  return `${domain}${path}`
+}
+
+useMeta(() => {
+  const enUrl = getLocaleUrl('en')
+  const deUrl = getLocaleUrl('de')
+
+  return {
+    link: {
+      // 1. Link to the English version
+      en: { rel: 'alternate', hreflang: 'en', href: enUrl },
+      // 2. Link to the German version
+      de: { rel: 'alternate', hreflang: 'de', href: deUrl },
+      // 3. The "Default" version for everyone else (usually your main language)
+      x: { rel: 'alternate', hreflang: 'x-default', href: enUrl },
+    },
+  }
+})
 </script>
 
 <style lang="scss" scoped>
