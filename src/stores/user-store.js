@@ -42,7 +42,7 @@ export const useUserStore = defineStore('user', {
           return result.status
         }
       } catch (error) {
-        return error.response?.data || error.message
+        return error.response?.data || { title: 'Error', message: error.message }
       }
     },
     async register(email, password) {
@@ -62,7 +62,7 @@ export const useUserStore = defineStore('user', {
           return result.status
         }
       } catch (error) {
-        return error.response?.data || error.message
+        return error.response?.data || { title: 'Error', message: error.message }
       }
     },
     async auth(token) {
