@@ -138,6 +138,19 @@
           href="https://github.com/jannikklein47"
           target="_blank"
         />
+        <q-btn
+          :label="
+            $i18n.locale === 'en' ? 'Sprache auf Deutsch ändern' : 'Change Language to English'
+          "
+          no-caps
+          flat
+          @click="
+            () => {
+              if ($i18n.locale === 'en') $router.push({ params: { locale: 'de' } })
+              else $router.push({ params: { locale: 'en' } })
+            }
+          "
+        />
       </div>
     </div>
 
