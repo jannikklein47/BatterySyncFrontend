@@ -48,13 +48,14 @@ const routes = [
         component: () => import('pages/ProfilePage.vue'),
         name: 'account',
       },
+      {
+        path: ':catchAll(.*)*',
+        component: () => import('pages/ErrorNotFound.vue'),
+      },
     ],
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
   {
-    path: '/:catchAll(.*)*',
+    path: '/',
     component: () => import('pages/ErrorNotFound.vue'),
   },
 ]

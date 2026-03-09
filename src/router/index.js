@@ -9,6 +9,13 @@ import routes from './routes'
 import { useUserStore } from 'src/stores/user-store'
 import { i18n } from 'src/boot/i18n'
 
+function changeLanguage(locale) {
+  // Update the i18n locale to match the URL
+  if (i18n.global.locale.value !== locale) {
+    i18n.global.locale.value = locale
+  }
+}
+
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation;
@@ -39,7 +46,7 @@ export default defineRouter(function (/* { store, ssrContext } */) {
 
   Router.beforeEach(async (to, from) => {
     const auth = await userStore.auth(localStorage.getItem('accesstoken') || '_')
-    from
+
     if (to.name === 'login') {
       if (auth) return from
     }
@@ -47,25 +54,19 @@ export default defineRouter(function (/* { store, ssrContext } */) {
     let locale = to.params.locale
     const supportedLangs = ['de', 'en']
 
-    if (!locale) {
-      const browserLang = navigator.language.split('-')[0]
+    const browserLang = navigator.language.split('-')[0]
 
+    if (!locale) {
       locale = supportedLangs.includes(browserLang) ? browserLang : 'en'
     }
 
-    // Update the i18n locale to match the URL
-    if (i18n.global.locale.value !== locale) {
-      i18n.global.locale.value = locale
-    }
-
     if (!supportedLangs.includes(locale)) {
-      locale = 'en'
-      if (to.fullPath === '/') {
-        return '/' + locale
-      }
-      return { ...to, params: { locale } }
+      locale = supportedLangs.includes(browserLang) ? browserLang : 'en'
+      changeLanguage(locale)
+      return '/' + locale + to.fullPath
     }
 
+    changeLanguage(locale)
     if (!to.params.locale) {
       if (to.fullPath === '/') {
         return '/' + locale
