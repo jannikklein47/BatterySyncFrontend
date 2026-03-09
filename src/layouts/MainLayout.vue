@@ -277,6 +277,10 @@ useMeta(() => {
     },
   }
 })
+
+onMounted(() => {
+  document.querySelectorAll('link[rel="alternate"]').forEach((link) => link.remove())
+})
 </script>
 
 <style lang="scss" scoped>
