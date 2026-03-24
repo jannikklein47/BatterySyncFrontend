@@ -939,7 +939,7 @@ async function turnOnNotificationForever(id) {
 
 async function changeFavorite(device) {
   const set = !device.favorite
-  const result = await api.post('/device/favorite', { deviceId: device.id, set: set })
+  const result = await api.post('/device/favorite', { id: device.id, set: set })
 
   if (result.status === 200) {
     device.favorite = set
@@ -947,7 +947,7 @@ async function changeFavorite(device) {
 }
 
 async function deleteDevice(id) {
-  const result = await api.delete('/device?deviceId=' + id)
+  const result = await api.delete('/device?id=' + id)
 
   if (result.status === 200) {
     deleteDeviceWindow.value.show = false
