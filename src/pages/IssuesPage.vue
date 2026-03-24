@@ -316,6 +316,7 @@
           @click="addUpvote(issue)"
           class="positive"
           :class="{ active: issue.hasUpvoted }"
+          :disable="!isLoggedIn"
         />
         <span class="text-bold">{{ issue.score }}</span>
         <q-btn
@@ -326,6 +327,7 @@
           @click="addDownvote(issue)"
           class="negative"
           :class="{ active: issue.hasDownvoted }"
+          :disable="!isLoggedIn"
         />
       </div>
       <h2>
@@ -421,6 +423,7 @@
           no-caps
           rounded
           style="background-color: #fff2"
+          :disable="!isLoggedIn"
         />
         <div class="comment" v-for="comment in issue.comments" :key="comment.id">
           <div class="header">
@@ -698,6 +701,7 @@ const createCommentModel = ref({ show: false, issue: {}, data: {} })
 const isAdmin = computed(() => userStore.isAdmin)
 const userId = computed(() => userStore.userId)
 const computedUser = computed(() => userStore.user)
+const isLoggedIn = computed(() => userStore.loggedIn)
 
 const filterStatus = ref(0)
 
