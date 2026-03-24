@@ -939,7 +939,7 @@ async function turnOnNotificationForever(id) {
 
 async function changeFavorite(device) {
   const set = !device.favorite
-  const result = await api.post('/device/favorite', { deviceId: device.id, set: set })
+  const result = await api.post('/device/favorite', { id: device.id, set: set })
 
   if (result.status === 200) {
     device.favorite = set
