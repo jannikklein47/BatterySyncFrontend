@@ -151,73 +151,20 @@
             }
           "
         />
+        <q-btn label="Android-Download" no-caps flat to="/download" />
       </div>
     </div>
-
-    <q-dialog
-      v-model="createNotificationModel.show"
-      backdrop-filter="blur(10px)"
-      @before-hide="createNotificationModel.data = {}"
-      full-width
-    >
-      <div
-        class="recommendation-popup"
-        :style="'--gradient-start: ' + '#3e73b8' + ';--gradient-end:' + '#7cde89'"
-      >
-        <div class="title">
-          <h1>Benachrichtigung an Nutzer versenden</h1>
-          <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
-        </div>
-        <div class="content">
-          <q-input
-            color="white"
-            dark
-            filled
-            label="Titel"
-            v-model="createNotificationModel.data.title"
-          />
-          <q-input
-            color="white"
-            dark
-            filled
-            type="textarea"
-            label="Inhalt"
-            v-model="createNotificationModel.data.content"
-          />
-
-          <q-input
-            color="white"
-            dark
-            filled
-            label="Spezielle User"
-            v-model="createNotificationModel.data.users"
-          />
-
-          <q-btn
-            label="Versenden
-            "
-            flat
-            class="confirm-button"
-            @click="sendNotificationToUsers()"
-          />
-        </div>
-      </div>
-    </q-dialog>
   </q-layout>
 </template>
 
 <script setup>
 import { useUserStore } from 'src/stores/user-store'
-import { computed, onMounted, ref } from 'vue'
-import { api } from 'src/boot/axios'
-import { Notify } from 'quasar'
+import { computed, onMounted } from 'vue'
 
 const userStore = useUserStore()
 
 const computedUser = computed(() => userStore.user)
 const isLoggedIn = computed(() => userStore.loggedIn)
-
-const createNotificationModel = ref({ show: false, data: {} })
 
 onMounted(async () => {
   await userStore.checkAdmin()
@@ -230,22 +177,6 @@ onMounted(async () => {
     document.getElementById('loading-progress').style.height = '60%'
   }
 })
-
-async function sendNotificationToUsers() {
-  const data = createNotificationModel.value.data
-
-  if (data.title && data.content) {
-    const result = await api.post('/notification/new/custom', data)
-
-    if (result.status === 200) {
-      createNotificationModel.value.data = {}
-    } else {
-      Notify.create({ message: 'Ein Fehler ist aufgetreten', type: 'negative' })
-    }
-  } else {
-    Notify.create({ message: 'Bitte fülle alle Felder aus', type: 'negative' })
-  }
-}
 
 // ----------- meta for language handling ----------
 

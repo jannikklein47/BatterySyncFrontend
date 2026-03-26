@@ -163,6 +163,25 @@
               <q-icon name="chevron_right" color="grey-6" />
             </q-item-section>
           </q-item>
+
+          <q-item
+            clickable
+            v-ripple
+            class="q-py-md"
+            @click="createNotificationModel.show = true"
+            v-if="computedUser.data?.admin"
+          >
+            <q-item-section avatar>
+              <q-icon name="notification_add" color="white" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Benachrichtigung versenden</q-item-label>
+              <q-item-label caption class="text-grey-6">An beliebige Nutzer!</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-icon name="chevron_right" color="grey-6" />
+            </q-item-section>
+          </q-item>
         </q-list>
       </div>
 
@@ -306,11 +325,70 @@
         </div>
       </div>
     </q-dialog>
+
+    <q-dialog
+      v-model="createNotificationModel.show"
+      backdrop-filter="blur(10px)"
+      @before-hide="createNotificationModel.data = {}"
+      full-width
+    >
+      <div
+        class="recommendation-popup"
+        :style="'--gradient-start: ' + '#3e73b8' + ';--gradient-end:' + '#7cde89'"
+      >
+        <div class="title">
+          <h1>Benachrichtigung an Nutzer versenden</h1>
+          <q-btn v-close-popup icon="close" dense flat class="close-button" size="sm" />
+        </div>
+        <div class="content">
+          <q-input
+            color="white"
+            dark
+            filled
+            label="Titel"
+            v-model="createNotificationModel.data.title"
+          />
+          <q-input
+            color="white"
+            dark
+            filled
+            type="textarea"
+            label="Inhalt"
+            v-model="createNotificationModel.data.content"
+          />
+
+          <q-input
+            color="white"
+            dark
+            filled
+            type="textarea"
+            label="URL"
+            v-model="createNotificationModel.data.url"
+          />
+
+          <q-input
+            color="white"
+            dark
+            filled
+            label="Spezielle User"
+            v-model="createNotificationModel.data.users"
+          />
+
+          <q-btn
+            label="Versenden
+            "
+            flat
+            class="confirm-button"
+            @click="sendNotificationToUsers()"
+          />
+        </div>
+      </div>
+    </q-dialog>
   </q-page>
 </template>
 
 <script setup>
-import { useQuasar } from 'quasar'
+import { useQuasar, Notify } from 'quasar'
 import { api } from 'src/boot/axios'
 import { useDeviceStore } from 'src/stores/device-store'
 import { useUserStore } from 'src/stores/user-store'
@@ -319,7 +397,28 @@ import { useRouter } from 'vue-router'
 import { i18n } from 'src/boot/i18n'
 import { useI18n } from 'vue-i18n'
 
+const createNotificationModel = ref({ show: false, data: {} })
 const { t } = useI18n()
+const userStore = useUserStore()
+const deviceStore = useDeviceStore()
+const router = useRouter()
+const $q = useQuasar()
+
+async function sendNotificationToUsers() {
+  const data = createNotificationModel.value.data
+
+  if (data.title && data.content) {
+    const result = await api.post('/notification/new/custom', data)
+
+    if (result.status === 200) {
+      createNotificationModel.value.data = {}
+    } else {
+      Notify.create({ message: 'Ein Fehler ist aufgetreten', type: 'negative' })
+    }
+  } else {
+    Notify.create({ message: 'Bitte fülle alle Felder aus', type: 'negative' })
+  }
+}
 
 onMounted(async () => {
   const response = await api.get('/metrics/userStats')
@@ -340,11 +439,6 @@ onMounted(async () => {
     document.getElementById('loading-progress').style.height = '60%'
   }
 })
-
-const userStore = useUserStore()
-const deviceStore = useDeviceStore()
-const router = useRouter()
-const $q = useQuasar()
 
 const stats = reactive({
   totalSyncs: t('profile.loading'),
@@ -535,6 +629,10 @@ async function changePassword(password) {
     align-items: start;
     flex-direction: column;
     gap: 12px;
+
+    > label {
+      width: 100%;
+    }
 
     .confirm-button {
       margin-top: 12px;

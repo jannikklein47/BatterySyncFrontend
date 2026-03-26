@@ -1,9 +1,12 @@
 <template>
-  <q-page>
+  <q-page class="text-white">
     <q-input dark label="sql" v-model="input" />
     <q-input dark label="supercode" v-model="supercode" />
     <q-btn label="send" style="color: white" @click="send" />
-    <span>Result: {{ result }}</span>
+    <span class="text-white">Result:</span>
+    <div v-for="val in result[0]" :key="val">
+      {{ val }}
+    </div>
   </q-page>
 </template>
 
