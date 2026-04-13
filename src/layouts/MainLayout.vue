@@ -152,6 +152,7 @@
           "
         />
         <q-btn label="Android-Download" no-caps flat to="/download" />
+        <q-btn label="Changelog / App-Updates" no-caps flat to="/releases" />
       </div>
     </div>
   </q-layout>

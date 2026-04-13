@@ -182,6 +182,27 @@
               <q-icon name="chevron_right" color="grey-6" />
             </q-item-section>
           </q-item>
+
+          <q-item
+            clickable
+            v-ripple
+            class="q-py-md"
+            @click="$router.push('/update')"
+            v-if="computedUser.data?.admin"
+          >
+            <q-item-section avatar>
+              <q-icon name="notification_add" color="white" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Updates verwalten</q-item-label>
+              <q-item-label caption class="text-grey-6"
+                >Neues Update veröffentlichen, Versionen löschen, Historie ansehen</q-item-label
+              >
+            </q-item-section>
+            <q-item-section side>
+              <q-icon name="chevron_right" color="grey-6" />
+            </q-item-section>
+          </q-item>
         </q-list>
       </div>
 

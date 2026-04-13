@@ -54,7 +54,22 @@
             <q-space />
 
             <div class="actions">
-              <q-btn label="Download" class="btn" flat @click="downloadApk" :disable="lock" />
+              <q-btn
+                label="Changelog"
+                no-caps
+                flat
+                to="/releases"
+                style="background-color: #ffffff20"
+                rounded
+              />
+              <q-space />
+              <q-btn
+                label="Download"
+                class="btn"
+                flat
+                @click="downloadVersion(newestBuild)"
+                :disable="lock"
+              />
             </div>
           </div>
 
@@ -510,23 +525,7 @@ const targetValue = ref(
   counterStart.val + (new Date(Date.now()) - counterStart.date) * counterStart.growth,
 )
 
-async function downloadApk() {
-  const notif = Notify.create({ type: 'ongoing', message: 'Downloading...' })
-  lock.value = true
-  try {
-    const response = await api.get('/file/android', {
-      responseType: 'blob',
-    })
-
-    saveAs(response.data, 'batterysync-android.apk')
-    notif({ type: 'positive', message: t('indexpage.download-success') })
-
-    lock.value = false
-  } catch {
-    notif({ type: 'positive', message: t('indexpage.download-fail') })
-    lock.value = false
-  }
-}
+const newestBuild = ref('')
 
 async function downloadDmg() {
   const notif = Notify.create({ type: 'ongoing', message: 'Downloading...' })
@@ -587,6 +586,8 @@ onMounted(async () => {
   }
 
   startRolling()
+
+  getNewestBuild()
 })
 
 function addScroll() {
@@ -605,6 +606,22 @@ function removeScroll() {
     left: currScroll - distanceNeeded,
     behavior: 'smooth',
   })
+}
+
+async function getNewestBuild() {
+  try {
+    const response = await api.get('/appInfo/updates/android/all')
+    newestBuild.value = response.data[0].build
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const downloadVersion = (version) => {
+  // We point the browser directly to the download URL
+  // Replace with your actual base URL
+  const url = `https://batterysync.de:3000/appInfo/updates/download/${version}`
+  window.open(url, '_blank')
 }
 </script>
 <style lang="scss" scoped>

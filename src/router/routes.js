@@ -54,6 +54,11 @@ const routes = [
         name: 'download',
       },
       {
+        path: 'releases',
+        component: () => import('pages/ReleasePage.vue'),
+        name: 'releases',
+      },
+      {
         path: ':catchAll(.*)*',
         component: () => import('pages/ErrorNotFound.vue'),
       },

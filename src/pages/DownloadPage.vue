@@ -9,69 +9,47 @@
     </div>
 
     <div class="login">
-      <span class="text-subtitle2 text-grey-5 q-mb-md"
-        >Der Download startet automatisch. Falls das nicht funktioniert, klicke bitte hier:</span
-      >
+      <span class="text-subtitle2 text-grey-5 q-mb-md">{{ $t('download.message') }} </span>
       <q-btn
         class="submit-btn"
         label="Download"
         no-caps
         flat
-        @click="downloadApk"
-        :disable="lock"
+        @click="downloadVersion(newestBuild)"
       />
-      <span class="text-overline text-grey-5 q-mt-xl"
-        >Fortschritt: {{ Math.round(progress * 100) }}%</span
-      >
-      <q-linear-progress :value="progress" color="primary" class="q-mt-sm" animation-speed="200" />
     </div>
   </q-page>
 </template>
 <script setup>
-import { Notify } from 'quasar'
 import { onMounted, ref } from 'vue'
-import { saveAs } from 'file-saver' // npm install file-saver
 import { api } from 'src/boot/axios'
 
-import { useI18n } from 'vue-i18n'
+const newestBuild = ref('')
 
-const { t } = useI18n()
+const downloadVersion = (version) => {
+  // We point the browser directly to the download URL
+  // Replace with your actual base URL
+  const url = `https://batterysync.de:3000/appInfo/updates/download/${version}`
+  window.open(url, '_blank')
+}
 
-const progress = ref(0)
-
-const lock = ref(false)
-async function downloadApk() {
-  const notif = Notify.create({ type: 'ongoing', message: 'Downloading...' })
-  lock.value = true
+async function getNewestBuild() {
   try {
-    const response = await api.get('/file/android', {
-      responseType: 'blob',
-      onDownloadProgress: function (progressEvent) {
-        progress.value = progressEvent.loaded / progressEvent.total
-      },
-    })
-
-    saveAs(response.data, 'batterysync-android.apk')
-    notif({ type: 'positive', message: t('indexpage.download-success') })
-
-    lock.value = false
-  } catch {
-    notif({ type: 'positive', message: t('indexpage.download-fail') })
-    lock.value = false
+    const response = await api.get('/appInfo/updates/android/all')
+    newestBuild.value = response.data[0].build
+  } catch (error) {
+    console.error(error)
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   if (document.getElementById('loading-progress').style.height === '60%') {
     document.getElementById('loading-progress').style.height = '75%'
     setTimeout(() => (document.getElementById('loading-screen').style.opacity = '0'), 300)
   } else {
     document.getElementById('loading-progress').style.height = '60%'
   }
-  lock.value = true
-  setTimeout(() => {
-    downloadApk()
-  }, 1000)
+  await getNewestBuild()
 })
 </script>
 <style lang="scss" scoped>

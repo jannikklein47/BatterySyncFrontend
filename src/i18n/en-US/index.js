@@ -229,4 +229,7 @@ export default {
     'password-min-length': 'The password must be at least 8 characters long.',
     'username-min-length': 'The username must be at least 4 characters long.',
   },
+  download: {
+    message: 'Click here to download the latest version of the Android App',
+  },
 }
