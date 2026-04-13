@@ -44,7 +44,7 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .recommendation-popup {
   background-color: var(--main-bg-color);
   color: #fff;
