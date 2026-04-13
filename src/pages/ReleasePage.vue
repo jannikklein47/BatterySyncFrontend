@@ -66,16 +66,28 @@
           >
             Download
             <q-tooltip v-if="!computedUser.data?.admin" class="text-body2" style="width: 300px">
-              Bitte lade die neueste Version oben herunter. Wenn du ältere Versionen haben möchtest,
-              kontaktiere einen Administrator.
+              {{ $t('download.only-newest') }}
             </q-tooltip>
+          </q-chip>
+
+          <q-chip
+            clickable
+            outline
+            color="black"
+            icon="edit"
+            v-if="computedUser.data?.admin"
+            @click="editDialog = { show: true, release: JSON.parse(JSON.stringify(release)) }"
+          >
+            Edit
           </q-chip>
         </div>
 
         <q-separator class="q-mb-sm" />
 
         <div class="release-notes text-body1 text-grey-10">
-          <span v-for="line in release.notes?.split('\n')" :key="line"> {{ line }} <br /> </span>
+          <span v-for="line in release.notes?.split('\n')" :key="line + Math.random()">
+            {{ line }} <br />
+          </span>
         </div>
       </div>
     </div>
@@ -101,6 +113,29 @@
         <q-btn label="Delete entries" @click="deleteEntries" />
       </q-card-actions>
     </q-card>
+
+    <q-dialog v-model="editDialog.show">
+      <q-card style="min-width: 400px">
+        <q-card-section>
+          <div class="text-h6">Edit Release</div>
+        </q-card-section>
+
+        <q-card-section>
+          <q-input
+            v-model="editDialog.release.notes"
+            label="Release Notes"
+            type="textarea"
+            dense
+            outlined
+            autogrow
+          />
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn label="Save" color="primary" @click="saveRelease" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -119,6 +154,9 @@ const form = ref({ version: '', notes: '', file: null })
 const uploading = ref(false)
 const updates = ref([])
 const latestVersion = ref(null)
+
+const editDialog = ref({ show: false, release: null })
+
 // --- API Calls ---
 
 const fetchUpdates = async () => {
@@ -141,6 +179,20 @@ const deleteEntries = async () => {
     console.log(response.data)
   } catch (error) {
     console.error('Error deleting entries:', error)
+  }
+}
+
+const saveRelease = async () => {
+  try {
+    await api.patch(`/appInfo/updates/android/${editDialog.value.release.build}`, {
+      notes: editDialog.value.release.notes,
+    })
+    $q.notify({ color: 'positive', message: 'Release updated!' })
+    editDialog.value.show = false
+    await fetchUpdates()
+  } catch (err) {
+    console.error(err)
+    $q.notify({ color: 'negative', message: 'Failed to update release' })
   }
 }
 

@@ -233,5 +233,6 @@ export default {
   },
   download: {
     message: 'Klicke hier, um die aktuelle Version der Android-App herunterzuladen',
+    'only-newest': 'Bitte nutze den Button oben, um die neueste Version herunterzuladen.',
   },
 }

@@ -231,5 +231,6 @@ export default {
   },
   download: {
     message: 'Click here to download the latest version of the Android App',
+    'only-newest': 'Please use the button above to download the latest version.',
   },
 }
