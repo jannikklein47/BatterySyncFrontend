@@ -434,7 +434,8 @@
       <q-intersection transition="scale" class="content-block" once>
         <div>
           <h3>
-            {{ $t('indexpage.faq-why-head') }} <span class="text-gradient">BatterySync</span>?
+            {{ $t('indexpage.faq-why-head') }}
+            <span class="text-gradient">BatterySync</span>?
           </h3>
           <p>
             {{ $t('indexpage.faq-why-content') }}
@@ -490,8 +491,8 @@
       <q-intersection transition="scale" class="content-block" once>
         <div>
           <h3>
-            {{ $t('indexpage.faq-os-head-1') }} <span class="text-gradient">BatterySync</span>
-            {{ $t('indexpage.faq-os-head-2') }}
+            {{ $t('indexpage.faq-os-head-1') }} <span class="text-gradient">BatterySync</span
+            >{{ $t('indexpage.faq-os-head-2') }}
           </h3>
           <p>
             {{ $t('indexpage.faq-os-content') }}
