@@ -35,6 +35,7 @@
             class="nav-btn"
             :class="{ 'active-page': $route.name === 'dashboard' }"
             :to="`/${$route.params.locale}/dashboard`"
+            v-if="isLoggedIn"
           />
           <q-btn
             flat
