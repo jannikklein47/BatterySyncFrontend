@@ -274,7 +274,8 @@
     <div
       v-if="
         !loadingState &&
-        computedIssues.filter((iss) => iss['user.email'] !== computedUser.email).length > 0
+        computedIssues.filter((iss) => iss['user.email'] !== computedUser.email).length > 0 &&
+        isLoggedIn
       "
     >
       {{ $t('issues.other-issues') }} ({{
