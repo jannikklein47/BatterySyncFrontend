@@ -14,7 +14,7 @@ export default {
     wearos:
       'Mit der Android WearOS App stattest du deine Wearable mit dem BatterySync-Service aus, sodass du auch Akku-Insights für deine Uhr bekommst.',
 
-    viewmore: 'View More',
+    viewmore: 'Mehr Ansehen',
     syncs: 'Akku-Synchronisierungen',
     howitworks: "So funktioniert's:",
     installapp: 'App installieren',

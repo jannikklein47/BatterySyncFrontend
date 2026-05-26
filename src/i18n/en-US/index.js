@@ -87,7 +87,7 @@ export default {
     'battery-remaining': 'Time Remaining:',
     'charge-soon': 'Charge soon.',
     'charge-your': 'Charge your',
-    soon: 'soon.',
+    soon: 'soon',
     analyzing: 'Analyzing...',
     'remaining-2': 'remaining',
     'get-notified': 'Get Notified',
