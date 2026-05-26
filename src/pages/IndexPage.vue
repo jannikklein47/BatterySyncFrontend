@@ -174,32 +174,26 @@
         class="q-px-lg"
       >
         <div style="padding: 0 calc(50vw - 600px)">
-          <q-intersection transition="scale" class="content-block" once>
-            <div
-              class="text-h2 text-weight-bold phone-noti-headline text-white"
-              style="letter-spacing: 0.1em"
-            >
-              {{ $t('indexpage.neverempty-1') }}
-              <span class="text-warning text-weight-bolder">{{
-                $t('indexpage.neverempty-2')
-              }}</span>
-            </div>
-          </q-intersection>
+          <div
+            class="text-h2 text-weight-bold phone-noti-headline text-white"
+            style="letter-spacing: 0.1em"
+          >
+            {{ $t('indexpage.neverempty-1') }}
+            <span class="text-warning text-weight-bolder">{{ $t('indexpage.neverempty-2') }}</span>
+          </div>
 
           <div style="width: 100%; display: flex" class="phone-noti-section">
-            <q-intersection transition="scale" class="content-block" once>
-              <div style="max-width: 450px">
-                <div class="text-h6 text-grey-1" style="font-size: 24px">
-                  {{ $t('indexpage.getreminders') }}
-                </div>
-                <div class="text-body2 text-grey-3 q-mt-md" style="font-size: 18px">
-                  {{ $t('indexpage.getremindersdetail') }}
-                </div>
-                <div class="text-body2 text-grey-3 q-mt-md" style="font-size: 18px">
-                  {{ $t('indexpage.forgetdevice') }}
-                </div>
+            <div style="max-width: 450px">
+              <div class="text-h6 text-grey-1" style="font-size: 24px">
+                {{ $t('indexpage.getreminders') }}
               </div>
-            </q-intersection>
+              <div class="text-body2 text-grey-3 q-mt-md" style="font-size: 18px">
+                {{ $t('indexpage.getremindersdetail') }}
+              </div>
+              <div class="text-body2 text-grey-3 q-mt-md" style="font-size: 18px">
+                {{ $t('indexpage.forgetdevice') }}
+              </div>
+            </div>
             <div>
               <phone-with-notification style="top: -550px; left: 200px" class="phone-svg" />
             </div>
@@ -244,24 +238,21 @@
         "
         class="phone-widget-section"
       >
-        <q-intersection transition="scale" class="content-block" once>
-          <div style="max-width: 540px" class="q-pa-lg">
-            <div
-              class="text-h2 text-weight-bold text-white phone-widget-headline q-mb-md"
-              style="letter-spacing: 0.1em"
-            >
-              {{ $t('indexpage.alwaysvisible') }}
-            </div>
-            <div class="text-h6 text-grey-1">
-              {{ $t('indexpage.widgetdetail-1') }}
-              <span class="text-weight-bolder">BatterySync</span
-              >{{ $t('indexpage.widgetdetail-2') }}
-            </div>
-            <div class="text-body2 text-grey-3 q-mt-md" style="font-size: 18px">
-              {{ $t('indexpage.widgetversions') }}
-            </div>
+        <div style="max-width: 540px" class="q-pa-lg">
+          <div
+            class="text-h2 text-weight-bold text-white phone-widget-headline q-mb-md"
+            style="letter-spacing: 0.1em"
+          >
+            {{ $t('indexpage.alwaysvisible') }}
           </div>
-        </q-intersection>
+          <div class="text-h6 text-grey-1">
+            {{ $t('indexpage.widgetdetail-1') }}
+            <span class="text-weight-bolder">BatterySync</span>{{ $t('indexpage.widgetdetail-2') }}
+          </div>
+          <div class="text-body2 text-grey-3 q-mt-md" style="font-size: 18px">
+            {{ $t('indexpage.widgetversions') }}
+          </div>
+        </div>
 
         <div class="q-pa-lg">
           <apple-widget style="width: min(calc(100vw - 48px), 495px); height: fit-content" />
@@ -300,50 +291,42 @@
         top: -1px;
       "
     >
-      <q-intersection transition="scale" class="content-block" once>
-        <div class="text-h3 text-weight-regular text-center">
-          {{ $t('indexpage.allweek') }} <span class="text-weight-bold">24/7</span>
-        </div>
-      </q-intersection>
+      <div class="text-h3 text-weight-regular text-center">
+        {{ $t('indexpage.allweek') }} <span class="text-weight-bold">24/7</span>
+      </div>
 
-      <q-intersection transition="scale" class="content-block" once>
-        <p class="q-mt-md">{{ $t('indexpage.inbackground') }}</p>
-      </q-intersection>
+      <p class="q-mt-md">{{ $t('indexpage.inbackground') }}</p>
 
-      <q-intersection transition="scale" class="content-block" once>
-        <h2>{{ $t('indexpage.efficient') }}</h2>
-      </q-intersection>
+      <h2>{{ $t('indexpage.efficient') }}</h2>
 
-      <q-intersection transition="scale" class="content-block" once>
-        <div class="savings">
-          <p>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-            >
-              <path
-                d="M120-320v-320 320Zm40 80q-50 0-85-35t-35-85v-240q0-50 35-85t85-35h480v80H160q-17 0-28.5 11.5T120-600v240q0 17 11.5 28.5T160-320h480v80H160Zm560-80v-120H600v-80h120v-120h80v120h120v80H800v120h-80Z"
-              />
-            </svg>
-            {{ $t('indexpage.batteryperday') }}
-          </p>
-          <p>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-            >
-              <path
-                d="M480-120q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM254-346l-84-86q59-59 138.5-93.5T480-560q92 0 171.5 35T790-430l-84 84q-44-44-102-69t-124-25q-66 0-124 25t-102 69ZM84-516 0-600q92-94 215-147t265-53q142 0 265 53t215 147l-84 84q-77-77-178.5-120.5T480-680q-116 0-217.5 43.5T84-516Z"
-              />
-            </svg>
-            {{ $t('indexpage.datapermonth') }}
-          </p>
-        </div>
-      </q-intersection>
+      <div class="savings">
+        <p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+          >
+            <path
+              d="M120-320v-320 320Zm40 80q-50 0-85-35t-35-85v-240q0-50 35-85t85-35h480v80H160q-17 0-28.5 11.5T120-600v240q0 17 11.5 28.5T160-320h480v80H160Zm560-80v-120H600v-80h120v-120h80v120h120v80H800v120h-80Z"
+            />
+          </svg>
+          {{ $t('indexpage.batteryperday') }}
+        </p>
+        <p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+          >
+            <path
+              d="M480-120q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM254-346l-84-86q59-59 138.5-93.5T480-560q92 0 171.5 35T790-430l-84 84q-44-44-102-69t-124-25q-66 0-124 25t-102 69ZM84-516 0-600q92-94 215-147t265-53q142 0 265 53t215 147l-84 84q-77-77-178.5-120.5T480-680q-116 0-217.5 43.5T84-516Z"
+            />
+          </svg>
+          {{ $t('indexpage.datapermonth') }}
+        </p>
+      </div>
     </div>
 
     <svg
@@ -383,25 +366,20 @@
           gap: 48px;
         "
       >
-        <q-intersection transition="scale" class="content-block" once>
-          <div class="q-pa-lg">
-            <div class="text-h2 text-weight-bold text-white" style="letter-spacing: 0.1em">
-              {{ $t('indexpage.safety') }}
-            </div>
-            <div class="text-h6 text-grey-2 q-mt-md">
-              <span class="text-weight-bolder">BatterySync</span> {{ $t('indexpage.safetyslogan') }}
-            </div>
-            <div class="text-body2 text-grey-4 q-mt-md" style="font-size: 18px">
-              {{ $t('indexpage.safetydetail1') }}
-            </div>
-            <div
-              class="text-body2 text-grey-4 q-mt-md"
-              style="font-size: 18px; margin-bottom: -50px"
-            >
-              {{ $t('indexpage.safetydetail2') }}
-            </div>
+        <div class="q-pa-lg">
+          <div class="text-h2 text-weight-bold text-white" style="letter-spacing: 0.1em">
+            {{ $t('indexpage.safety') }}
           </div>
-        </q-intersection>
+          <div class="text-h6 text-grey-2 q-mt-md">
+            <span class="text-weight-bolder">BatterySync</span> {{ $t('indexpage.safetyslogan') }}
+          </div>
+          <div class="text-body2 text-grey-4 q-mt-md" style="font-size: 18px">
+            {{ $t('indexpage.safetydetail1') }}
+          </div>
+          <div class="text-body2 text-grey-4 q-mt-md" style="font-size: 18px; margin-bottom: -50px">
+            {{ $t('indexpage.safetydetail2') }}
+          </div>
+        </div>
 
         <div class="q-pa-lg">
           <secure-connection style="width: min(calc(100vw - 48px), 800px); height: fit-content" />
@@ -431,74 +409,73 @@
       <div class="bg-2" id="gradient-bg-asd"></div>
 
       <h2>FAQ</h2>
-      <q-intersection transition="scale" class="content-block" once>
-        <div>
-          <h3>
-            {{ $t('indexpage.faq-why-head') }}
-            <span class="text-gradient">BatterySync</span>?
-          </h3>
-          <p>
-            {{ $t('indexpage.faq-why-content') }}
-          </p>
-        </div>
-      </q-intersection>
+
+      <div>
+        <h3>
+          {{ $t('indexpage.faq-why-head') }}
+          <span class="text-gradient">BatterySync</span>?
+        </h3>
+        <p>
+          {{ $t('indexpage.faq-why-content') }}
+        </p>
+      </div>
+
       <q-separator dark inset />
-      <q-intersection transition="scale" class="content-block" once>
-        <div>
-          <h3>
-            {{ $t('indexpage.faq-cost-head-1') }} <span class="text-gradient">BatterySync</span>
-            {{ $t('indexpage.faq-cost-head-2') }}
-          </h3>
-          <p>
-            {{ $t('indexpage.faq-cost-content') }}
-          </p>
-        </div>
-      </q-intersection>
+
+      <div>
+        <h3>
+          {{ $t('indexpage.faq-cost-head-1') }} <span class="text-gradient">BatterySync</span>
+          {{ $t('indexpage.faq-cost-head-2') }}
+        </h3>
+        <p>
+          {{ $t('indexpage.faq-cost-content') }}
+        </p>
+      </div>
+
       <q-separator dark inset />
-      <q-intersection transition="scale" class="content-block" once>
-        <div>
-          <h3>
-            <span class="text-gradient"> BatterySync </span> {{ $t('indexpage.faq-battery-head') }}
-          </h3>
-          <p>
-            {{ $t('indexpage.faq-battery-content') }}
-          </p>
-        </div>
-      </q-intersection>
+
+      <div>
+        <h3>
+          <span class="text-gradient"> BatterySync </span> {{ $t('indexpage.faq-battery-head') }}
+        </h3>
+        <p>
+          {{ $t('indexpage.faq-battery-content') }}
+        </p>
+      </div>
+
       <q-separator dark inset />
-      <q-intersection transition="scale" class="content-block" once>
-        <div>
-          <h3>
-            {{ $t('indexpage.faq-security-head-1') }} <span class="text-gradient">BatterySync</span>
-            {{ $t('indexpage.faq-security-head-2') }}
-          </h3>
-          <p>
-            {{ $t('indexpage.faq-security-content') }}
-          </p>
-        </div>
-      </q-intersection>
+
+      <div>
+        <h3>
+          {{ $t('indexpage.faq-security-head-1') }} <span class="text-gradient">BatterySync</span>
+          {{ $t('indexpage.faq-security-head-2') }}
+        </h3>
+        <p>
+          {{ $t('indexpage.faq-security-content') }}
+        </p>
+      </div>
+
       <q-separator dark inset />
-      <q-intersection transition="scale" class="content-block" once>
-        <div>
-          <h3>
-            {{ $t('indexpage.faq-where-head-1') }} <span class="text-gradient">BatterySync</span>
-            {{ $t('indexpage.faq-where-head-2') }}
-          </h3>
-          <p>{{ $t('indexpage.faq-where-content') }}</p>
-        </div>
-      </q-intersection>
+
+      <div>
+        <h3>
+          {{ $t('indexpage.faq-where-head-1') }} <span class="text-gradient">BatterySync</span>
+          {{ $t('indexpage.faq-where-head-2') }}
+        </h3>
+        <p>{{ $t('indexpage.faq-where-content') }}</p>
+      </div>
+
       <q-separator dark inset />
-      <q-intersection transition="scale" class="content-block" once>
-        <div>
-          <h3>
-            {{ $t('indexpage.faq-os-head-1') }} <span class="text-gradient">BatterySync</span
-            >{{ $t('indexpage.faq-os-head-2') }}
-          </h3>
-          <p>
-            {{ $t('indexpage.faq-os-content') }}
-          </p>
-        </div>
-      </q-intersection>
+
+      <div>
+        <h3>
+          {{ $t('indexpage.faq-os-head-1') }} <span class="text-gradient">BatterySync</span
+          >{{ $t('indexpage.faq-os-head-2') }}
+        </h3>
+        <p>
+          {{ $t('indexpage.faq-os-content') }}
+        </p>
+      </div>
     </div>
   </q-page>
 </template>
