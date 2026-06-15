@@ -136,11 +136,9 @@
               </q-icon>
             </div>
             <div class="text-subtitle2 text-grey-5">
-              {{ device.healthStats.explanation.safeZonePercent }}%
+              {{ device.percentHealthyChargesCached }}%
               {{ $t('devices.battery-health.info-1') }}
-              <span style="color: #eee">{{
-                (device.healthStats.totalCharged / 100).toFixed(0)
-              }}</span>
+              <span style="color: #eee">{{ device.cyclesCached }}</span>
               {{ $t('devices.battery-health.info-2') }}
             </div>
           </div>
@@ -148,18 +146,18 @@
           <div class="col-auto">
             <q-circular-progress
               show-value
-              :value="device.healthStats.healthScore"
+              :value="device.batteryHealthScoreCached"
               size="50px"
               :color="
-                device.healthStats.healthScore > 80
+                device.batteryHealthScoreCached > 80
                   ? 'green'
-                  : device.healthStats.healthScore > 50
+                  : device.batteryHealthScoreCached > 50
                     ? 'orange'
                     : 'red'
               "
             >
               <div style="text-align: center">
-                {{ device.healthStats.healthScore }}<br />
+                {{ device.batteryHealthScoreCached }}<br />
                 <span style="color: #aaa; font-size: 10px">/100</span>
               </div>
             </q-circular-progress>
